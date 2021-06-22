@@ -1,0 +1,27 @@
+body {
+    font-family: sans-serif;
+    margin: 1em;
+}
+
+.logo {
+    width: 2.8rem; 
+    height: 2.8rem;
+}
+
+.pop {
+    width:30rem;
+    max-height:25rem;
+    overflow-y:auto;
+}
+
+.pop li {
+    font-size: 0.9rem;
+}
+
+.pop h4 {
+    font-size: 1rem;
+}
+
+.pop ul {
+	list-style-type: circle;
+}
