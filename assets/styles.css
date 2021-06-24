@@ -9,19 +9,43 @@ body {
 }
 
 .pop {
-    width:30rem;
+    width: 600px;
     max-height:25rem;
     overflow-y:auto;
 }
 
-.pop li {
+.pop-doc {
+    max-height:200px;
+    overflow-y:auto;
+}
+
+/* On screens that are 600px or less, set the background color to olive */
+@media screen and (max-width: 800px) {
+    .pop {
+        width:500px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .pop {
+        width:400px;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .pop {
+        width:250px;
+    }
+}
+
+.pop li, .pop-doc li {
     font-size: 0.9rem;
 }
 
-.pop h4 {
+.pop h4, .pop-doc h4 {
     font-size: 1rem;
 }
 
-.pop ul {
+.pop ul, .pop-doc ul {
 	list-style-type: circle;
 }

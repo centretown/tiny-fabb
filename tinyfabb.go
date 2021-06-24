@@ -25,21 +25,18 @@ func main() {
 	}
 
 	glog.Infoln(DefaultSettings())
-	// if !LocalSettings.Exists() {
-	// 	err := LocalSettings.Save()
-	// 	if err != nil {
-	// 		glog.Warningln(err)
-	// 	}
-	// }
 
 	router := mux.NewRouter()
 	// server static files from assets folder
 	router.PathPrefix("/static/").Handler(http.StripPrefix("/static/",
 		http.FileServer(http.Dir(LocalSettings.AssetsPath+"/"))))
 
-	controllers, ports, layout := data.Setup(LocalSettings.ControllerCount,
-		LocalSettings.AssetsPath)
-	webPage, err := web.NewPage(router, controllers, ports, layout)
+	controllers, ports, layout, documents := data.Setup(LocalSettings.ControllerCount,
+		LocalSettings.AssetsPath, LocalSettings.DocsSource)
+
+	glog.Infoln(documents.Sprint())
+
+	webPage, err := web.NewPage(router, controllers, ports, layout, documents)
 	if err != nil {
 		glog.Fatal(err)
 	}
