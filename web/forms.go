@@ -17,7 +17,7 @@ type Updated struct {
 }
 
 func (form *Form) FindDoc(code string) *docs.Doc {
-	return Documents[code]
+	return findDoc(code)
 }
 
 func (form *Form) GetUpdated() (updated []*Updated) {

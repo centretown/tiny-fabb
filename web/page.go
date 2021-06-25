@@ -11,6 +11,14 @@ import (
 
 var Documents docs.Docs
 
+func findDoc(code string) (doc *docs.Doc) {
+	doc, err := Documents.Find(code)
+	if err != nil {
+		doc = &docs.Doc{}
+	}
+	return
+}
+
 type Descriptor struct {
 	Title       string
 	Port        string
@@ -22,6 +30,7 @@ type Descriptor struct {
 type Controller interface {
 	Describe() (d *Descriptor)
 	ListViews() (vs []string)
+	Upload(w io.Writer, files []string) (err error)
 	List(w io.Writer, view string) (err error)
 	Edit(w io.Writer, view, key string) (err error)
 	Apply(view, key string, vals map[string][]string) ([]*Updated, error)

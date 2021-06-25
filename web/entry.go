@@ -29,7 +29,7 @@ func (ent *Entry) Documents() docs.Docs {
 	return Documents
 }
 func (ent *Entry) FindDoc(code string) *docs.Doc {
-	return Documents[code]
+	return findDoc(code)
 }
 
 func (ent *Entry) Value(v interface{}) (r interface{}) {

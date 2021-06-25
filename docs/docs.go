@@ -8,6 +8,7 @@ import (
 )
 
 type Doc struct {
+	Refer   string            `json:"refer"`
 	Title   string            `json:"title"`
 	Link    string            `json:"link"`
 	Href    string            `json:"href"`
@@ -70,6 +71,9 @@ func (docs Docs) Find(key string) (doc *Doc, err error) {
 	doc, ok := docs[key]
 	if !ok {
 		err = fmt.Errorf("Docs key '%s' not found", key)
+	}
+	if len(doc.Refer) > 0 {
+		return docs.Find(doc.Refer)
 	}
 	return
 }

@@ -17,14 +17,17 @@
     />
     <link rel="stylesheet" href="/static/styles.css" />
     <script src="/static/request.js"></script>
+    <style>
+      .sticky {
+        position: sticky;
+        top: 0;
+      }
+    </style>
   </head>
 
   <body class="w3-theme-l4">
-    <div id="heading" class="w3-row w3-theme-d1">
+    <div id="stickyHeader" class="w3-theme-d1 sticky">
       {{template "heading" .}}
-    </div>
-
-    <div class="w3-container">
       <select
         id="selected-controller"
         name="selected-controller"

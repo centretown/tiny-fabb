@@ -16,39 +16,31 @@ body {
 .content {
     display: flex;
     flex-flow: row wrap;
-    max-height: 29rem;
+    max-height: 30rem;
   }
   
-  .doc {
+.doc {
     overflow-y: auto;
-    max-height: 15rem;
+    max-height: 14rem;
     min-height: 5rem;
     margin: 1rem;
-  }
-  
-  .entries {
+}
+
+.entries {
     display: flex;
-    flex: 15rem;
-  }
-  
- .entries:nth-child(1) {
+    flex: 14rem;
     flex-flow: row wrap;
- }
-  
- .entries:nth-child(2) {
-    flex-flow: row wrap;
- }
-  
-  .doc li {
+}
+.doc li {
     font-size: 0.9rem;
-  }
-  
-  .doc h4 {
-    font-size: 1rem;
-  }
-  
-  .doc ul {
+}
+
+.doc h4 {
+    font-size: 0.9rem;
+}
+
+.doc ul {
     list-style-type: circle;
-  }
+}
   
   
