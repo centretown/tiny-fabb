@@ -34,8 +34,6 @@ func main() {
 	controllers, ports, layout, documents := data.Setup(LocalSettings.ControllerCount,
 		LocalSettings.AssetsPath, LocalSettings.DocsSource)
 
-	glog.Infoln(documents.Sprint())
-
 	webPage, err := web.NewPage(router, controllers, ports, layout, documents)
 	if err != nil {
 		glog.Fatal(err)
@@ -43,4 +41,5 @@ func main() {
 
 	glog.Infof("Web Server:%s Active", webPage.Title)
 	http.ListenAndServe(LocalSettings.WebPort, router)
+
 }

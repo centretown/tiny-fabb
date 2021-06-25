@@ -155,15 +155,15 @@
             {{range $i, $ent := $form.Entries}}
             <tr>
                 <td>
-                    <a
-                        class="w3-hover-theme"
+                    <a class="w3-hover-theme"
                         href="javascript:openEdit('{{$id}}');"
                         title="Edit current setting.">
-                    {{$ent.Label}}: {{$ent.Code}}</a>
+                        {{$ent.Code}}: {{$ent.Label}}
+                    </a>
                 </td>
-                {{$v := $ent.Value $form.Value}}
 
-                <td id="{{$ent.ID}}">{{$v}}
+                <td id="{{$ent.ID}}">
+                    {{$ent.Value $form.Value}}
                 </td>
             </tr>
             {{end}}
@@ -186,33 +186,20 @@
 {{end}}
 
 {{define "pop-doc"}}
-    <div id="pop-doc" class="w3-border w3-container pop-doc">
-        {{template "pop-detail" .}}
-    </div>
+    {{template "pop-detail" .}}
 {{end}}
 
-{{define "pop-down"}}
-    <div id="pop-down" class="w3-dropdown-content w3-border w3-container pop">
-        {{template "pop-detail" .}}
-    </div>
-{{end}}
-
-{{define "edit"}} {{$value := .Value}}
+{{define "edit"}} 
+    {{$value := .Value}}
     {{$first := index .Entries 0}}
     {{$doc := .FindDoc $first.Code}}
-    {{$base := .BaseUrl}}
-    <div class="w3-modal-content">
-        <header id="heading" class="w3-container w3-theme-d1">
-            <div class="w3-dropdown-click">
-                <button class="w3-btn w3-round w3-theme-l2 w3-margin"
-                    onclick="popDoc('pop-down')">{{$first.Label}}: {{$first.Code}}</button>
-                {{template "pop-down" $doc}}
-            </div>
-
-            <div class="w3-right">
-                <button class="w3-btn w3-round w3-left w3-theme-l2 w3-margin"
+    <div class="w3-modal-content w3-card">
+            <header class="w3-container w3-theme-d1 w3-padding-16">
+            <span>{{$first.Code}}: {{$first.Label}}</span>
+            <span class="w3-right">
+                <button class="w3-btn w3-round w3-left w3-theme-l2"
                     onclick="closeDialog()">x</button>
-            </div>
+            </span>
         </header>
 <br />
         <form
@@ -221,39 +208,42 @@
             method="post"
             action="/apply/{{$first.ID}}/">
 
-            <div class="w3-container">
-            {{range $id, $ent := .Entries}}
-                {{if ne $ent.Type "mask"}} 
-                    {{$f:=$ent.FormatInput $value $first}}
-                    <label>
-                        <input
-                            id="{{$f.ID}}"
-                            name="{{$f.Name}}"
-                            class="{{$f.Class}}"
-                            type="{{$f.Type}}"
+            <div class="w3-container content">
+                <div class="entries">
+                {{range $id, $ent := .Entries}}
+                    {{if ne $ent.Type "mask"}} 
+                        {{$f:=$ent.FormatInput $value $first}}
+                        <label class="w3-padding">
+                            <input
+                                id="{{$f.ID}}"
+                                name="{{$f.Name}}"
+                                class="{{$f.Class}}"
+                                type="{{$f.Type}}"
 
-                            {{if $f.HasChecked}}
-                                checked
-                            {{end}}
+                                {{if $f.HasChecked}}
+                                    checked
+                                {{end}}
 
-                            {{if $f.HasRange}}
-                                min="{{$ent.Min}}"
-                                max="{{$ent.Max}}"
-                            {{end}}
-                            
-                            {{if $f.HasStep}}
-                                step="{{$ent.Step}}"
-                            {{end}}
-                            value="{{$f.Value}}"/>
-                        {{$ent.Label}}
-                    </label>
-                    <p></p>
+                                {{if $f.HasRange}}
+                                    min="{{$ent.Min}}"
+                                    max="{{$ent.Max}}"
+                                {{end}}
+                                
+                                {{if $f.HasStep}}
+                                    step="{{$ent.Step}}"
+                                {{end}}
+                                value="{{$f.Value}}"/>
+                            {{$ent.Label}}
+                        </label>
+                        <p></p>
+                    {{end}}
                 {{end}}
-            {{end}}
+                </div>
+                <div class="doc w3-theme-l5 entries">
+                    {{template "pop-doc" $doc}}
+                </div>
             </div>
  
-            {{template "pop-doc" $doc}}
-    
             <footer class="w3-container w3-theme-d1">
                 <button
                     type="button"
