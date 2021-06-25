@@ -69,10 +69,7 @@
         </select>
 
         <label for="selected-icon" class="w3-margin-top">
-            Icon Color  "$133": {
-    "refer":"$130"
-  },
-
+            Icon Color
         </label>
         <select
             id="selected-icon"
