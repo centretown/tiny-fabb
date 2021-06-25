@@ -5,8 +5,11 @@ import (
 	"html/template"
 	"io"
 
+	"github.com/centretown/tiny-fabb/docs"
 	"github.com/gorilla/mux"
 )
+
+var Documents docs.Docs
 
 type Descriptor struct {
 	Title       string
@@ -39,6 +42,7 @@ type Page struct {
 	PowerOn      string
 	PowerOff     string
 	PowerButtons []string
+	Documents    docs.Docs
 
 	// layout *template.Template
 	// templates               map[string]*template.Template
@@ -47,7 +51,8 @@ type Page struct {
 func NewPage(router *mux.Router,
 	controllers []Controller,
 	ports []string,
-	layout *template.Template) (wp *Page, err error) {
+	layout *template.Template,
+	documents docs.Docs) (wp *Page, err error) {
 	if len(controllers) < 1 {
 		err = fmt.Errorf("no controllers")
 		return
@@ -73,7 +78,10 @@ func NewPage(router *mux.Router,
 		PowerButtons: power_buttons,
 		PowerOn:      "green",
 		PowerOff:     "gray",
+		Documents:    documents,
 	}
+
+	Documents = documents
 
 	wp.addRoutes(router, layout)
 	// wp.refreshLayout()

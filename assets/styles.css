@@ -8,20 +8,47 @@ body {
     height: 2.8rem;
 }
 
-.pop {
-    width:30rem;
-    max-height:25rem;
+.pop-doc {
+    max-height:9rem;
     overflow-y:auto;
 }
 
-.pop li {
+.content {
+    display: flex;
+    flex-flow: row wrap;
+    max-height: 29rem;
+  }
+  
+  .doc {
+    overflow-y: auto;
+    max-height: 15rem;
+    min-height: 5rem;
+    margin: 1rem;
+  }
+  
+  .entries {
+    display: flex;
+    flex: 15rem;
+  }
+  
+ .entries:nth-child(1) {
+    flex-flow: row wrap;
+ }
+  
+ .entries:nth-child(2) {
+    flex-flow: row wrap;
+ }
+  
+  .doc li {
     font-size: 0.9rem;
-}
-
-.pop h4 {
+  }
+  
+  .doc h4 {
     font-size: 1rem;
-}
-
-.pop ul {
-	list-style-type: circle;
-}
+  }
+  
+  .doc ul {
+    list-style-type: circle;
+  }
+  
+  

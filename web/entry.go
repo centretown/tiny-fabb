@@ -3,6 +3,7 @@ package web
 import (
 	"fmt"
 
+	"github.com/centretown/tiny-fabb/docs"
 	"github.com/golang/glog"
 )
 
@@ -23,6 +24,13 @@ type Entry struct {
 }
 
 type Entries []*Entry
+
+func (ent *Entry) Documents() docs.Docs {
+	return Documents
+}
+func (ent *Entry) FindDoc(code string) *docs.Doc {
+	return Documents[code]
+}
 
 func (ent *Entry) Value(v interface{}) (r interface{}) {
 	if ent.Val != nil {

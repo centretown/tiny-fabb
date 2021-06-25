@@ -1,5 +1,7 @@
 package web
 
+import "github.com/centretown/tiny-fabb/docs"
+
 type Form struct {
 	ID      WebId
 	Value   interface{}
@@ -12,6 +14,10 @@ type Forms map[WebId]*Form
 type Updated struct {
 	ID    string      `json:"id"`
 	Value interface{} `json:"value"`
+}
+
+func (form *Form) FindDoc(code string) *docs.Doc {
+	return Documents[code]
 }
 
 func (form *Form) GetUpdated() (updated []*Updated) {

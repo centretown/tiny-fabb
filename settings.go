@@ -49,6 +49,7 @@ var LocalSettings = &Settings{
 
 var (
 	LoadSettingsErr  error
+	SaveSettingsErr  error
 	SettingsDirName  = ".tiny_fabb"
 	SettingsFileName = "settings.json"
 )
@@ -93,10 +94,7 @@ func DefaultSettings() string {
 	_, err := os.Stat(settingsDir)
 	if err != nil {
 		glog.Warning(err)
-		err = os.Mkdir(settingsDir, 0755)
-		if err != nil {
-			glog.Warning(err)
-		}
+		SaveSettingsErr = os.Mkdir(settingsDir, 0755)
 	}
 	return path.Join(settingsDir, SettingsFileName)
 }

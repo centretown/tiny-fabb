@@ -1,4 +1,5 @@
 log
 scrape/output.txt
 scrape/grbl_test.json
+builddoc/builddoc
 tiny-fabb
