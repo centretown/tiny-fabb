@@ -1,150 +1,154 @@
 {{define "heading"}}
-    <div class="w3-container w3-padding">
-        {{$color := .PowerOff}}
-        {{if .Controller.Active}}
-            {{$color =.PowerOn}} 
-        {{end}}
-    
-        <span class="w3-left">
+<div class="w3-container w3-padding">
+    {{$color := .PowerOff}}
+    {{if .Controller.Active}}
+        {{$color =.PowerOn}} 
+    {{end}}
+
+    <span class="w3-left">
         <img
             src="/static/bug-{{.Icon}}.png"
             alt="bug"
             class="logo"
             onclick="openOptions()"/>
-        </span>
+    </span>
 
-        <span class="w3-right">
-            <img
-                src="/static/power-{{$color}}.png"
-                alt="power"
-                class="logo"/>
-        </span>
+    <span class="w3-right">
+        <img
+            src="/static/power-{{$color}}.png"
+            alt="power"
+            class="logo"/>
+    </span>
 
-        <div class="w3-center" style="font-size: 0.7rem">
-            {{.Controller.Title}}
-        </div>
+    <div class="w3-center" style="font-size: 0.7rem">
+        {{.Controller.Title}}
     </div>
+</div>
 {{end}}
 
 {{define "options"}}
-    {{$theme := .Theme}}
-    {{$icon := .Icon}} 
-    {{$on := .PowerOn}}
-    {{$off := .PowerOff}}
-    <div class="w3-modal-content">
-        <header id="heading" class="w3-container w3-theme-d1">
-            <h6>
-                <div class="w3-left">
-                    Options: apply and reload
-                </div>
-                <div
-                    class="w3-button w3-display-topright"
-                    onclick="closeOptions()">
-                    &times;
-                </div>
-            </h6>
-        </header>
+ 
+{{$theme := .Theme}}
+{{$icon := .Icon}} 
+{{$on := .PowerOn}}
+{{$off := .PowerOff}}
+<div class="w3-modal-content">
+    <header id="heading" class="w3-container w3-theme-d1">
+        <h6>
+            <div class="w3-left">
+                Options: apply and reload
+            </div>
+            <div
+                class="w3-button w3-display-topright"
+                onclick="closeOptions()">
+                &times;
+            </div>
+        </h6>
+    </header>
 
-        <form class="w3-container">
-            <label class="w3-margin-top" for="selected-theme">
-                Theme
-            </label>
-            <select
-                id="selected-theme"
-                name="selected-theme"
-                onchange=""
-                value="{{$theme}}"
-                class="w3-select w3-{{.Theme}}">
-            {{range $index, $element := .Themes}}
-                <option
-                    class="w3-{{$element}}"
-                    value="{{$element}}"
-                    {{if eq $element $theme}}
-                        selected
-                    {{end}}>
-                    {{$element}}
-                </option>
-            {{end}}
-            </select>
+    <form class="w3-container">
+        <label class="w3-margin-top" for="selected-theme">
+            Theme
+        </label>
+        <select
+            id="selected-theme"
+            name="selected-theme"
+            onchange=""
+            value="{{$theme}}"
+            class="w3-select w3-{{.Theme}}">
+        {{range $index, $element := .Themes}}
+            <option
+                class="w3-{{$element}}"
+                value="{{$element}}"
+                {{if eq $element $theme}}
+                    selected
+                {{end}}>
+                {{$element}}
+            </option>
+        {{end}}
+        </select>
 
-            <label for="selected-icon" class="w3-margin-top">
-                Icon Color
-            </label>
-            <select
-                id="selected-icon"
-                name="selected-icon"
-                onchange=""
-                value="{{$icon}}"
-                class="w3-select w3-{{$icon}}">
-            {{range $index, $element := .Icons}}
-                <option
-                    class="w3-{{$element}}"
-                    value="{{$element}}"
-                    {{if eq $element $icon}}
-                        selected
-                    {{end}}>
-                    {{$element}}
-                </option>
-            {{end}}
-            </select>
+        <label for="selected-icon" class="w3-margin-top">
+            Icon Color  "$133": {
+    "refer":"$130"
+  },
 
-            <label for="selected-on" class="w3-margin-top">
-                Power On Color
-            </label>
-            <select
-                id="selected-on"
-                name="selected-on"
-                onchange=""
-                value="{{$on}}"
-                class="w3-select w3-{{$on}}">
+        </label>
+        <select
+            id="selected-icon"
+            name="selected-icon"
+            onchange=""
+            value="{{$icon}}"
+            class="w3-select w3-{{$icon}}">
+        {{range $index, $element := .Icons}}
+            <option
+                class="w3-{{$element}}"
+                value="{{$element}}"
+                {{if eq $element $icon}}
+                    selected
+                {{end}}>
+                {{$element}}
+            </option>
+        {{end}}
+        </select>
+
+        <label for="selected-on" class="w3-margin-top">
+            Power On Color
+        </label>
+        <select
+            id="selected-on"
+            name="selected-on"
+            onchange=""
+            value="{{$on}}"
+            class="w3-select w3-{{$on}}">
 
             {{range $index, $element := .PowerButtons}}
-                <option
-                    class="w3-{{$element}}"
-                    value="{{$element}}"
-                    {{if eq $element $on}}
-                        selected   
-                    {{end}}>
-                    {{$element}}
-                </option>
-            {{end}}11
-            </select>
-
-            <label for="selected-off" class="w3-margin-top">
-                Power Off Color</label>
-            <select
-                id="selected-off"
-                name="selected-off"
-                onchange=""
-                value="{{$off}}"
-                class="w3-select w3-{{$off}}">
-            {{range $index, $element := .PowerButtons}}
-                <option
-                    class="w3-{{$element}}"
-                    value="{{$element}}"
-                    {{if eq $element $off}}
-                        selected
-                    {{end}}>
-                    {{$element}}
-                </option>
+            <option
+                class="w3-{{$element}}"
+                value="{{$element}}"
+                {{if eq $element $on}}
+                    selected   
+                {{end}}>
+                {{$element}}
+            </option>
             {{end}}
-            </select>
-        </form>
+        </select>
 
-        <footer class="w3-container w3-theme-d1">
-            <button
-                onclick="closeOptions()"
-                class="w3-btn w3-round w3-left w3-theme-d2 w3-margin">
-                Cancel
-            </button>
+        <label for="selected-off" class="w3-margin-top">
+            Power Off Color</label>
+        <select
+            id="selected-off"
+            name="selected-off"
+            onchange=""
+            value="{{$off}}"
+            class="w3-select w3-{{$off}}">
+            {{range $index, $element := .PowerButtons}}
+            <option
+                class="w3-{{$element}}"
+                value="{{$element}}"
+                {{if eq $element $off}}
+                    selected
+                {{end}}>
+                {{$element}}
+            </option>
+            {{end}}
+        </select>
+    </form>
 
-            <button
-                onclick="applyOptions()"
-                class="w3-btn w3-round w3-right w3-theme-d2 w3-margin">
-                Apply
-            </button>
-        </footer>
-    </div>
+    <footer class="w3-container w3-theme-d1">
+        <button
+            onclick="closeOptions()"
+            class="w3-btn w3-round w3-left w3-theme-d2 w3-margin">
+            Cancel
+        </button>
+
+        <button
+            onclick="applyOptions()"
+            class="w3-btn w3-round w3-right w3-theme-d2 w3-margin">
+            Apply
+        </button>
+    </footer>
+</div>
 {{end}}
 
 

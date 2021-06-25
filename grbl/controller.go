@@ -55,6 +55,10 @@ func (gctl *Controller) ListViews() []string {
 	return []string{"Settings", "Commands", "Status"}
 }
 
+func (gctl *Controller) Upload(w io.Writer, files []string) (err error) {
+	return
+}
+
 func (gctl *Controller) List(w io.Writer, viewName string) (err error) {
 	tmpl, err := gctl.getTemplate("list")
 	if err != nil {
