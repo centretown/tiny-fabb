@@ -10,6 +10,10 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0"
     />
+    <link
+      rel="stylesheet"
+      href="/static/font/bootstrap-icons.css"
+    />
     <link rel="stylesheet" href="/static/w3/w3.css" />
     <link
       rel="stylesheet"
@@ -22,11 +26,20 @@
         position: sticky;
         top: 0;
       }
+      a i {
+        font-size: 2rem;
+        color: cornflowerblue;
+      }
+      button i {
+        font-size: 2rem;
+        color: wheat;
+      }
     </style>
   </head>
 
   <body class="w3-theme-l4">
     <div id="stickyHeader" class="w3-theme-d1 sticky">
+      {{template "menu-left"}}{{template "menu-right"}}
       {{template "heading" .}}
       <select
         id="selected-controller"

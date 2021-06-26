@@ -13,7 +13,10 @@ import (
 
 func Setup(count int, assets, docsSource string) (controllers []web.Controller, ports []string, layout *template.Template, documents docs.Docs) {
 	layout = template.Must(
-		template.ParseFiles(assets+"/layout.html", assets+"/layout.tmplt"))
+		template.ParseFiles(
+			assets+"/layout.html",
+			assets+"/layout.tmplt",
+			assets+"/entry.tmplt"))
 
 	ports = serialio.ListSerial()
 	glog.Infoln(ports)

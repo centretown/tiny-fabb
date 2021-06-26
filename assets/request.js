@@ -101,11 +101,27 @@ function applyOptions() {
     closeOptions();
 }
 
-function popDoc(doc) {
+function pop(doc) {
     let x = document.getElementById(doc);
     if (x.className.indexOf("w3-show") == -1) {
       x.className += " w3-show";
     } else { 
       x.className = x.className.replace(" w3-show", "");
     }
+}
+
+function openLeftMenu() {
+    document.getElementById("leftMenu").style.display = "block";
+}
+  
+function closeLeftMenu() {
+    document.getElementById("leftMenu").style.display = "none";
+}
+  
+function openRightMenu() {
+    document.getElementById("rightMenu").style.display = "block";
+}
+  
+function closeRightMenu() {
+    document.getElementById("rightMenu").style.display = "none";
 }
