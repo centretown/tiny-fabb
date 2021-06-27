@@ -110,18 +110,12 @@ function pop(doc) {
     }
 }
 
-function openLeftMenu() {
-    document.getElementById("leftMenu").style.display = "block";
+function openMenu(id) {
+    let x = document.getElementById(id);
+    x.className += " w3-show";
 }
   
-function closeLeftMenu() {
-    document.getElementById("leftMenu").style.display = "none";
-}
-  
-function openRightMenu() {
-    document.getElementById("rightMenu").style.display = "block";
-}
-  
-function closeRightMenu() {
-    document.getElementById("rightMenu").style.display = "none";
+function closeMenu(id) {
+    let x = document.getElementById(id);
+    x.className = x.className.replace(" w3-show", "");
 }

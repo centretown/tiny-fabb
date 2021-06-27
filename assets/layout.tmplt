@@ -8,7 +8,6 @@
   <a href="#" class="w3-bar-item w3-button">Link 3</a>
 </div>
 {{end}}
-      }
 
 {{define "menu-right"}}
 <div class="w3-sidebar w3-bar-block w3-card w3-animate-right w3-theme-d3" style="display:none;right:0;" id="rightMenu">
@@ -45,13 +44,41 @@
 {{end}}
 
 {{define "heading"}}
-<div class="w3-container w3-padding">
-  <button class="w3-button w3-left" onclick="openLeftMenu()">
-    <i class="bi bi-menu-button"></i>
-  </button>
-  <button class="w3-button w3-right" onclick="openRightMenu()">
-    <i class="bi bi-person"></i>
-  </button>
+<div class="w3-bar w3-border w3-theme-d4">
+    <div class="w3-dropdown-hover w3-left w3-theme-d4">
+        <button class="w3-button">
+            <i class="bi bi-menu-button"></i>
+        </button>
+        <div id="menu-left" class="w3-dropdown-content w3-bar-block w3-border w3-theme-d4">
+            <button class="w3-bar-item w3-button" onclick="openOptions()">
+                <i class="bi bi-sliders"></i>
+                <label>Options</label>
+            </button>
+            <a href="#" class="w3-bar-item w3-button">
+                <i class="bi bi-upload"></i>
+                <label>Upload</label>
+            </a>
+            <a href="#" class="w3-bar-item w3-button">
+                <i class="bi bi-alarm"></i>
+                <label>Alarms</label>
+            </a>
+        </div>
+    </div>
+    <div class="w3-dropdown-hover w3-right">
+        <button class="w3-button">
+            <i class="bi bi-person"></i>
+        </button>
+        <div id="menu-right" class="w3-dropdown-content w3-bar-block w3-border w3-theme-d4" style="right:0">
+            <a href="#" class="w3-bar-item w3-button">
+                <i class="bi bi-box-arrow-in-left"></i>
+                <label>Sign In</label>
+            </a>
+            <a href="#" class="w3-bar-item w3-button">
+                <i class="bi bi-shield-lock"></i>
+                <label>Lock</label>
+            </a>
+        </div>
+    </div>
 </div>
 {{end}}
 
