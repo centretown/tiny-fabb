@@ -33,7 +33,7 @@ type Settings struct {
 var LocalSettings = &Settings{
 	Help: SettingsHelp{
 		DataSource:      "location of data folder",
-		DocsSource:      "location of documentation files",
+		DocsSource:      "location of documentation file",
 		WebPort:         "web server port",
 		UDPPort:         "udp port",
 		ControllerCount: "number of controllers to allocate",
@@ -58,6 +58,8 @@ func init() {
 	LoadSettingsErr = LocalSettings.Load()
 	flag.StringVar(&LocalSettings.DataSource, "datasource",
 		LocalSettings.DataSource, LocalSettings.Help.DataSource)
+	flag.StringVar(&LocalSettings.DocsSource, "docsource",
+		LocalSettings.DocsSource, LocalSettings.Help.DocsSource)
 	flag.StringVar(&LocalSettings.WebPort, "webport",
 		LocalSettings.WebPort, LocalSettings.Help.WebPort)
 	flag.StringVar(&LocalSettings.UDPPort, "udpport",
