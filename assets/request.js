@@ -101,11 +101,21 @@ function applyOptions() {
     closeOptions();
 }
 
-function popDoc(doc) {
+function pop(doc) {
     let x = document.getElementById(doc);
     if (x.className.indexOf("w3-show") == -1) {
       x.className += " w3-show";
     } else { 
       x.className = x.className.replace(" w3-show", "");
     }
+}
+
+function openMenu(id) {
+    let x = document.getElementById(id);
+    x.className += " w3-show";
+}
+  
+function closeMenu(id) {
+    let x = document.getElementById(id);
+    x.className = x.className.replace(" w3-show", "");
 }
