@@ -1,55 +1,74 @@
-{{define "menu-left"}}
-<div class="w3-sidebar w3-bar-block w3-card w3-animate-left w3-theme-d3" style="display:none" id="leftMenu">
-  <button onclick="closeLeftMenu()" class="w3-bar-item w3-button w3-large">&#9776;</button>
-  <a href="javascript:closeLeftMenu();openOptions();" class="w3-bar-item w3-button">Options</a>
-  <a href="#" class="w3-bar-item w3-button">
-    <i class="bi-alarm"></i>
-  </a>
-  <a href="#" class="w3-bar-item w3-button">Link 3</a>
+{{define "select-bar"}}
+<div class="w3-bar w3-theme-d4 w3-border">
+    <select
+        id="selected-controller"
+        name="selected-controller"
+        class="w3-select w3-theme-d4 w3-bar-item"
+        onchange="selectController();">
+
+        {{range $index, $element := .Controllers}}
+            <option value="{{$index}}">
+            {{.Title}} {{.Port}}
+            </option>
+        {{end}}
+    </select>
 </div>
 {{end}}
 
-{{define "menu-right"}}
-<div class="w3-sidebar w3-bar-block w3-card w3-animate-right w3-theme-d3" style="display:none;right:0;" id="rightMenu">
-  <button onclick="closeRightMenu()" class="w3-bar-item w3-button w3-large">&#9776;</button>
-  <a href="#" class="w3-bar-item w3-button">
-    <i class="fa fa-search w3-white"></i>
-  </a>
-  <a href="#" class="w3-bar-item w3-button">Link 2</a>
-  <a href="#" class="w3-bar-item w3-button">Link 3</a>
-</div>
-{{end}}
-
-{{define "nothin"}}
-    <div
-      class="w3-sidebar w3-bar-block w3-theme-d3 w3-xxlarge"
-      style="width: 70px"
+{{define "button-bar"}}
+<div id="button-bar" class="w3-bar w3-border w3-theme-d4">
+    <button
+        href="#" 
+        class="w3-bar-item w3-button"
+        title="Upload"
     >
-      <a href="#" class="w3-bar-item w3-button w3-white"
-        ><i class="fa fa-home"></i
-      ></a>
-      <a href="#" class="w3-bar-item w3-button"
-        ><i class="fa fa-search"></i
-      ></a>
-      <a href="#" class="w3-bar-item w3-button"
-        ><i class="fa fa-envelope"></i
-      ></a>
-      <a href="#" class="w3-bar-item w3-button"
-        ><i class="fa fa-globe"></i
-      ></a>
-      <a href="#" class="w3-bar-item w3-button"
-        ><i class="fa fa-trash"></i
-      ></a>
+        <i class="bi bi-upload"></i>
+    </button>
+    <div class="radio-toolbar w3-bar-item w3-right">
+       <input 
+            type="radio" 
+            id="radio-status" 
+            name="radio-view" 
+            value="status"
+            title="Status"
+            onchange="selectView(value)">
+        <label for="radio-status">
+            <i class="bi bi-question-circle"></i>
+        </label>
+
+       <input 
+            type="radio" 
+            id="radio-commands" 
+            name="radio-view" 
+            value="commands"
+            title="Commands"
+           onchange="selectView(value)">
+        <label for="radio-commands">
+            <i class="bi bi-command"></i>
+        </label>
+
+        <input 
+            type="radio" 
+            id="radio-settings" 
+            name="radio-view" 
+            value="settings"
+            onchange="selectView(value)"
+            title="Settings"
+            checked>
+        <label for="radio-settings">
+            <i class="bi bi-gear"></i>
+        </label>
     </div>
+</div>
 {{end}}
 
-{{define "heading"}}
-<div class="w3-bar w3-border w3-theme-d4">
-    <div class="w3-dropdown-hover w3-left w3-theme-d4">
-        <button class="w3-button">
+{{define "app-bar"}}
+<div id="app-bar" class="w3-bar w3-border w3-theme-d4 w3-border">
+    <div class="w3-dropdown-hover w3-left w3-theme-d4 w3-bar-item">
+        <button class="w3-button app-icon">
             <i class="bi bi-menu-button"></i>
         </button>
-        <div id="menu-left" class="w3-dropdown-content w3-bar-block w3-border w3-theme-d4">
+        <div id="menu-left" class="w3-dropdown-content w3-bar-block w3-border w3-theme-d3">
             <button class="w3-bar-item w3-button" onclick="openOptions()">
                 <i class="bi bi-sliders"></i>
                 <label>Options</label>
@@ -64,11 +83,11 @@
             </a>
         </div>
     </div>
-    <div class="w3-dropdown-hover w3-right">
-        <button class="w3-button">
+    <div class="w3-dropdown-hover w3-right w3-bar-item w3-theme-d4">
+        <button class="w3-button app-icon">
             <i class="bi bi-person"></i>
         </button>
-        <div id="menu-right" class="w3-dropdown-content w3-bar-block w3-border w3-theme-d4" style="right:0">
+        <div id="menu-right" class="w3-dropdown-content w3-bar-block w3-border w3-theme-d3" style="right:0">
             <a href="#" class="w3-bar-item w3-button">
                 <i class="bi bi-box-arrow-in-left"></i>
                 <label>Sign In</label>
@@ -85,9 +104,6 @@
 {{define "options"}}
  
 {{$theme := .Theme}}
-{{$icon := .Icon}} 
-{{$on := .PowerOn}}
-{{$off := .PowerOff}}
 <div class="w3-modal-content">
     <header id="heading" class="w3-container w3-theme-l1">
         <h6>
@@ -105,7 +121,7 @@
     <form class="w3-container">
         <label class="w3-margin-top" for="selected-theme">
             Theme
-        </label>{{template "menu-left"}}
+        </label>
         <select
             id="selected-theme"
             name="selected-theme"
@@ -123,72 +139,9 @@
             </option>
         {{end}}
         </select>
-
-        <label for="selected-icon" class="w3-margin-top">
-            Icon Color
-        </label>
-        <select
-            id="selected-icon"
-            name="selected-icon"
-            onchange=""
-            value="{{$icon}}"
-            class="w3-select w3-{{$icon}}">
-        {{range $index, $element := .Icons}}
-            <option
-                class="w3-{{$element}}"
-                value="{{$element}}"
-                {{if eq $element $icon}}
-                    selected
-                {{end}}>
-                {{$element}}
-            </option>
-        {{end}}
-        </select>
-
-        <label for="selected-on" class="w3-margin-top">
-            Power On Color
-        </label>
-        <select
-            id="selected-on"
-            name="selected-on"
-            onchange=""
-            value="{{$on}}"
-            class="w3-select w3-{{$on}}">
-
-            {{range $index, $element := .PowerButtons}}
-            <option
-                class="w3-{{$element}}"
-                value="{{$element}}"
-                {{if eq $element $on}}
-                    selected   
-                {{end}}>
-                {{$element}}
-            </option>
-            {{end}}
-        </select>
-
-        <label for="selected-off" class="w3-margin-top">
-            Power Off Color</label>
-        <select
-            id="selected-off"
-            name="selected-off"
-            onchange=""
-            value="{{$off}}"
-            class="w3-select w3-{{$off}}">
-            {{range $index, $element := .PowerButtons}}
-            <option
-                class="w3-{{$element}}"
-                value="{{$element}}"
-                {{if eq $element $off}}
-                    selected
-                {{end}}>
-                {{$element}}
-            </option>
-            {{end}}
-        </select>
     </form>
 
-    <footer class="w3-container w3-theme-d1">
+    <footer class="w3-container w3-theme-d4">
         <button
             onclick="closeOptions()"
             class="w3-btn w3-round w3-left w3-theme-d2 w3-margin">
@@ -201,35 +154,5 @@
             Apply
         </button>
     </footer>
-</div>
-{{end}}
-
-
-
-{{define "heading-old"}}
-<div class="w3-container w3-padding">
-    {{$color := .PowerOff}}
-    {{if .Controller.Active}}
-        {{$color =.PowerOn}} 
-    {{end}}
-
-    <span class="w3-left">
-        <img
-            src="/static/bug-{{.Icon}}.png"
-            alt="bug"
-            class="logo"
-            onclick="openOptions()"/>
-    </span>
-
-    <span class="w3-right">
-        <img
-            src="/static/power-{{$color}}.png"
-            alt="power"
-            class="logo"/>
-    </span>
-
-    <div class="w3-center" style="font-size: 0.7rem">
-        {{.Controller.Title}}
-    </div>
 </div>
 {{end}}

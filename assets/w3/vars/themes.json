@@ -1,0 +1,1742 @@
+{
+  "w3-theme-amber.css": [
+    {
+      "name": "w3-l5",
+      "color": "#000",
+      "backGroundColor": "#fffbf0",
+      "style": "w3-theme-l5"
+    },
+    {
+      "name": "w3-l4",
+      "color": "#000",
+      "backGroundColor": "#fff3cd",
+      "style": "w3-theme-l4"
+    },
+    {
+      "name": "w3-l3",
+      "color": "#000",
+      "backGroundColor": "#ffe69b",
+      "style": "w3-theme-l3"
+    },
+    {
+      "name": "w3-l2",
+      "color": "#000",
+      "backGroundColor": "#ffda69",
+      "style": "w3-theme-l2"
+    },
+    {
+      "name": "w3-l1",
+      "color": "#000",
+      "backGroundColor": "#ffcd37",
+      "style": "w3-theme-l1"
+    },
+    {
+      "name": "w3-d1",
+      "color": "#000",
+      "backGroundColor": "#eab000",
+      "style": "w3-theme-d1"
+    },
+    {
+      "name": "w3-d2",
+      "color": "#fff",
+      "backGroundColor": "#d09c00",
+      "style": "w3-theme-d2"
+    },
+    {
+      "name": "w3-d3",
+      "color": "#fff",
+      "backGroundColor": "#b68900",
+      "style": "w3-theme-d3"
+    },
+    {
+      "name": "w3-d4",
+      "color": "#fff",
+      "backGroundColor": "#9c7500",
+      "style": "w3-theme-d4"
+    },
+    {
+      "name": "w3-d5",
+      "color": "#fff",
+      "backGroundColor": "#826200",
+      "style": "w3-theme-d5"
+    },
+    {
+      "name": "w3-light",
+      "color": "#000",
+      "backGroundColor": "#fffbf0",
+      "style": "w3-theme-light"
+    },
+    {
+      "name": "w3-dark",
+      "color": "#fff",
+      "backGroundColor": "#826200",
+      "style": "w3-theme-dark"
+    },
+    {
+      "name": "w3-action",
+      "color": "#fff",
+      "backGroundColor": "#826200",
+      "style": "w3-theme-action"
+    },
+    {
+      "name": "w3",
+      "color": "#000",
+      "backGroundColor": "#ffc107",
+      "style": "w3-theme"
+    },
+    {
+      "name": "w3-text",
+      "color": "#ffc107",
+      "backGroundColor": "",
+      "style": "w3-text-theme"
+    },
+    {
+      "name": "w3-border",
+      "color": "#ffc107",
+      "backGroundColor": "",
+      "style": "w3-border-theme"
+    },
+    {
+      "name": "w3-hover",
+      "color": "#000",
+      "backGroundColor": "#ffc107",
+      "style": "w3-hover-theme:hover"
+    },
+    {
+      "name": "w3-hover-text",
+      "color": "#ffc107",
+      "backGroundColor": "",
+      "style": "w3-hover-text-theme:hover"
+    },
+    {
+      "name": "w3-hover-border",
+      "color": "#ffc107",
+      "backGroundColor": "",
+      "style": "w3-hover-border-theme:hover"
+    }
+  ],
+  "w3-theme-black.css": [
+    {
+      "name": "w3-l5",
+      "color": "#000",
+      "backGroundColor": "#f0f0f0",
+      "style": "w3-theme-l5"
+    },
+    {
+      "name": "w3-l4",
+      "color": "#000",
+      "backGroundColor": "#cccccc",
+      "style": "w3-theme-l4"
+    },
+    {
+      "name": "w3-l3",
+      "color": "#fff",
+      "backGroundColor": "#999999",
+      "style": "w3-theme-l3"
+    },
+    {
+      "name": "w3-l2",
+      "color": "#fff",
+      "backGroundColor": "#666666",
+      "style": "w3-theme-l2"
+    },
+    {
+      "name": "w3-l1",
+      "color": "#fff",
+      "backGroundColor": "#333333",
+      "style": "w3-theme-l1"
+    },
+    {
+      "name": "w3-d1",
+      "color": "#fff",
+      "backGroundColor": "#000000",
+      "style": "w3-theme-d1"
+    },
+    {
+      "name": "w3-d2",
+      "color": "#fff",
+      "backGroundColor": "#000000",
+      "style": "w3-theme-d2"
+    },
+    {
+      "name": "w3-d3",
+      "color": "#fff",
+      "backGroundColor": "#000000",
+      "style": "w3-theme-d3"
+    },
+    {
+      "name": "w3-d4",
+      "color": "#fff",
+      "backGroundColor": "#000000",
+      "style": "w3-theme-d4"
+    },
+    {
+      "name": "w3-d5",
+      "color": "#fff",
+      "backGroundColor": "#000000",
+      "style": "w3-theme-d5"
+    },
+    {
+      "name": "w3-light",
+      "color": "#000",
+      "backGroundColor": "#f0f0f0",
+      "style": "w3-theme-light"
+    },
+    {
+      "name": "w3-dark",
+      "color": "#fff",
+      "backGroundColor": "#000000",
+      "style": "w3-theme-dark"
+    },
+    {
+      "name": "w3-action",
+      "color": "#fff",
+      "backGroundColor": "#000000",
+      "style": "w3-theme-action"
+    },
+    {
+      "name": "w3",
+      "color": "#fff",
+      "backGroundColor": "#000000",
+      "style": "w3-theme"
+    },
+    {
+      "name": "w3-text",
+      "color": "#000000",
+      "backGroundColor": "",
+      "style": "w3-text-theme"
+    },
+    {
+      "name": "w3-border",
+      "color": "#000000",
+      "backGroundColor": "",
+      "style": "w3-border-theme"
+    },
+    {
+      "name": "w3-hover",
+      "color": "#fff",
+      "backGroundColor": "#000000",
+      "style": "w3-hover-theme:hover"
+    },
+    {
+      "name": "w3-hover-text",
+      "color": "#000000",
+      "backGroundColor": "",
+      "style": "w3-hover-text-theme:hover"
+    },
+    {
+      "name": "w3-hover-border",
+      "color": "#000000",
+      "backGroundColor": "",
+      "style": "w3-hover-border-theme:hover"
+    }
+  ],
+  "w3-theme-blue-grey.css": [
+    {
+      "name": "w3-l5",
+      "color": "#000",
+      "backGroundColor": "#f5f7f8",
+      "style": "w3-theme-l5"
+    },
+    {
+      "name": "w3-l4",
+      "color": "#000",
+      "backGroundColor": "#dfe5e8",
+      "style": "w3-theme-l4"
+    },
+    {
+      "name": "w3-l3",
+      "color": "#000",
+      "backGroundColor": "#becbd2",
+      "style": "w3-theme-l3"
+    },
+    {
+      "name": "w3-l2",
+      "color": "#000",
+      "backGroundColor": "#9eb1bb",
+      "style": "w3-theme-l2"
+    },
+    {
+      "name": "w3-l1",
+      "color": "#fff",
+      "backGroundColor": "#7d97a5",
+      "style": "w3-theme-l1"
+    },
+    {
+      "name": "w3-d1",
+      "color": "#fff",
+      "backGroundColor": "#57707d",
+      "style": "w3-theme-d1"
+    },
+    {
+      "name": "w3-d2",
+      "color": "#fff",
+      "backGroundColor": "#4d636f",
+      "style": "w3-theme-d2"
+    },
+    {
+      "name": "w3-d3",
+      "color": "#fff",
+      "backGroundColor": "#435761",
+      "style": "w3-theme-d3"
+    },
+    {
+      "name": "w3-d4",
+      "color": "#fff",
+      "backGroundColor": "#3a4b53",
+      "style": "w3-theme-d4"
+    },
+    {
+      "name": "w3-d5",
+      "color": "#fff",
+      "backGroundColor": "#303e45",
+      "style": "w3-theme-d5"
+    },
+    {
+      "name": "w3-light",
+      "color": "#000",
+      "backGroundColor": "#f5f7f8",
+      "style": "w3-theme-light"
+    },
+    {
+      "name": "w3-dark",
+      "color": "#fff",
+      "backGroundColor": "#303e45",
+      "style": "w3-theme-dark"
+    },
+    {
+      "name": "w3-action",
+      "color": "#fff",
+      "backGroundColor": "#303e45",
+      "style": "w3-theme-action"
+    },
+    {
+      "name": "w3",
+      "color": "#fff",
+      "backGroundColor": "#607d8b",
+      "style": "w3-theme"
+    },
+    {
+      "name": "w3-text",
+      "color": "#607d8b",
+      "backGroundColor": "",
+      "style": "w3-text-theme"
+    },
+    {
+      "name": "w3-border",
+      "color": "#607d8b",
+      "backGroundColor": "",
+      "style": "w3-border-theme"
+    },
+    {
+      "name": "w3-hover",
+      "color": "#fff",
+      "backGroundColor": "#607d8b",
+      "style": "w3-hover-theme:hover"
+    },
+    {
+      "name": "w3-hover-text",
+      "color": "#607d8b",
+      "backGroundColor": "",
+      "style": "w3-hover-text-theme:hover"
+    },
+    {
+      "name": "w3-hover-border",
+      "color": "#607d8b",
+      "backGroundColor": "",
+      "style": "w3-hover-border-theme:hover"
+    }
+  ],
+  "w3-theme-blue.css": [
+    {
+      "name": "w3-l5",
+      "color": "#000",
+      "backGroundColor": "#f2f9fe",
+      "style": "w3-theme-l5"
+    },
+    {
+      "name": "w3-l4",
+      "color": "#000",
+      "backGroundColor": "#d2eafd",
+      "style": "w3-theme-l4"
+    },
+    {
+      "name": "w3-l3",
+      "color": "#000",
+      "backGroundColor": "#a6d4fa",
+      "style": "w3-theme-l3"
+    },
+    {
+      "name": "w3-l2",
+      "color": "#000",
+      "backGroundColor": "#79bff8",
+      "style": "w3-theme-l2"
+    },
+    {
+      "name": "w3-l1",
+      "color": "#fff",
+      "backGroundColor": "#4daaf6",
+      "style": "w3-theme-l1"
+    },
+    {
+      "name": "w3-d1",
+      "color": "#fff",
+      "backGroundColor": "#0c87eb",
+      "style": "w3-theme-d1"
+    },
+    {
+      "name": "w3-d2",
+      "color": "#fff",
+      "backGroundColor": "#0b78d1",
+      "style": "w3-theme-d2"
+    },
+    {
+      "name": "w3-d3",
+      "color": "#fff",
+      "backGroundColor": "#0a69b7",
+      "style": "w3-theme-d3"
+    },
+    {
+      "name": "w3-d4",
+      "color": "#fff",
+      "backGroundColor": "#085a9d",
+      "style": "w3-theme-d4"
+    },
+    {
+      "name": "w3-d5",
+      "color": "#fff",
+      "backGroundColor": "#074b83",
+      "style": "w3-theme-d5"
+    },
+    {
+      "name": "w3-light",
+      "color": "#000",
+      "backGroundColor": "#f2f9fe",
+      "style": "w3-theme-light"
+    },
+    {
+      "name": "w3-dark",
+      "color": "#fff",
+      "backGroundColor": "#074b83",
+      "style": "w3-theme-dark"
+    },
+    {
+      "name": "w3-action",
+      "color": "#fff",
+      "backGroundColor": "#074b83",
+      "style": "w3-theme-action"
+    },
+    {
+      "name": "w3",
+      "color": "#fff",
+      "backGroundColor": "#2196f3",
+      "style": "w3-theme"
+    },
+    {
+      "name": "w3-text",
+      "color": "#2196f3",
+      "backGroundColor": "",
+      "style": "w3-text-theme"
+    },
+    {
+      "name": "w3-border",
+      "color": "#2196f3",
+      "backGroundColor": "",
+      "style": "w3-border-theme"
+    },
+    {
+      "name": "w3-hover",
+      "color": "#fff",
+      "backGroundColor": "#2196f3",
+      "style": "w3-hover-theme:hover"
+    },
+    {
+      "name": "w3-hover-text",
+      "color": "#2196f3",
+      "backGroundColor": "",
+      "style": "w3-hover-text-theme:hover"
+    },
+    {
+      "name": "w3-hover-border",
+      "color": "#2196f3",
+      "backGroundColor": "",
+      "style": "w3-hover-border-theme:hover"
+    }
+  ],
+  "w3-theme-brown.css": [
+    {
+      "name": "w3-l5",
+      "color": "#000",
+      "backGroundColor": "#f8f4f3",
+      "style": "w3-theme-l5"
+    },
+    {
+      "name": "w3-l4",
+      "color": "#000",
+      "backGroundColor": "#e7dcd7",
+      "style": "w3-theme-l4"
+    },
+    {
+      "name": "w3-l3",
+      "color": "#000",
+      "backGroundColor": "#d0b8b0",
+      "style": "w3-theme-l3"
+    },
+    {
+      "name": "w3-l2",
+      "color": "#fff",
+      "backGroundColor": "#b89588",
+      "style": "w3-theme-l2"
+    },
+    {
+      "name": "w3-l1",
+      "color": "#fff",
+      "backGroundColor": "#a07261",
+      "style": "w3-theme-l1"
+    },
+    {
+      "name": "w3-d1",
+      "color": "#fff",
+      "backGroundColor": "#6d4d41",
+      "style": "w3-theme-d1"
+    },
+    {
+      "name": "w3-d2",
+      "color": "#fff",
+      "backGroundColor": "#61443a",
+      "style": "w3-theme-d2"
+    },
+    {
+      "name": "w3-d3",
+      "color": "#fff",
+      "backGroundColor": "#553c33",
+      "style": "w3-theme-d3"
+    },
+    {
+      "name": "w3-d4",
+      "color": "#fff",
+      "backGroundColor": "#49332c",
+      "style": "w3-theme-d4"
+    },
+    {
+      "name": "w3-d5",
+      "color": "#fff",
+      "backGroundColor": "#3d2b24",
+      "style": "w3-theme-d5"
+    },
+    {
+      "name": "w3-light",
+      "color": "#000",
+      "backGroundColor": "#f8f4f3",
+      "style": "w3-theme-light"
+    },
+    {
+      "name": "w3-dark",
+      "color": "#fff",
+      "backGroundColor": "#3d2b24",
+      "style": "w3-theme-dark"
+    },
+    {
+      "name": "w3-action",
+      "color": "#fff",
+      "backGroundColor": "#3d2b24",
+      "style": "w3-theme-action"
+    },
+    {
+      "name": "w3",
+      "color": "#fff",
+      "backGroundColor": "#795548",
+      "style": "w3-theme"
+    },
+    {
+      "name": "w3-text",
+      "color": "#795548",
+      "backGroundColor": "",
+      "style": "w3-text-theme"
+    },
+    {
+      "name": "w3-border",
+      "color": "#795548",
+      "backGroundColor": "",
+      "style": "w3-border-theme"
+    },
+    {
+      "name": "w3-hover",
+      "color": "#fff",
+      "backGroundColor": "#795548",
+      "style": "w3-hover-theme:hover"
+    },
+    {
+      "name": "w3-hover-text",
+      "color": "#795548",
+      "backGroundColor": "",
+      "style": "w3-hover-text-theme:hover"
+    },
+    {
+      "name": "w3-hover-border",
+      "color": "#795548",
+      "backGroundColor": "",
+      "style": "w3-hover-border-theme:hover"
+    }
+  ],
+  "w3-theme-cyan.css": [
+    {
+      "name": "w3-l5",
+      "color": "#000",
+      "backGroundColor": "#edfdff",
+      "style": "w3-theme-l5"
+    },
+    {
+      "name": "w3-l4",
+      "color": "#000",
+      "backGroundColor": "#c4f8ff",
+      "style": "w3-theme-l4"
+    },
+    {
+      "name": "w3-l3",
+      "color": "#000",
+      "backGroundColor": "#89f1ff",
+      "style": "w3-theme-l3"
+    },
+    {
+      "name": "w3-l2",
+      "color": "#000",
+      "backGroundColor": "#4eeaff",
+      "style": "w3-theme-l2"
+    },
+    {
+      "name": "w3-l1",
+      "color": "#000",
+      "backGroundColor": "#12e3ff",
+      "style": "w3-theme-l1"
+    },
+    {
+      "name": "w3-d1",
+      "color": "#fff",
+      "backGroundColor": "#00aac1",
+      "style": "w3-theme-d1"
+    },
+    {
+      "name": "w3-d2",
+      "color": "#fff",
+      "backGroundColor": "#0097ab",
+      "style": "w3-theme-d2"
+    },
+    {
+      "name": "w3-d3",
+      "color": "#fff",
+      "backGroundColor": "#008496",
+      "style": "w3-theme-d3"
+    },
+    {
+      "name": "w3-d4",
+      "color": "#fff",
+      "backGroundColor": "#007281",
+      "style": "w3-theme-d4"
+    },
+    {
+      "name": "w3-d5",
+      "color": "#fff",
+      "backGroundColor": "#005f6b",
+      "style": "w3-theme-d5"
+    },
+    {
+      "name": "w3-light",
+      "color": "#000",
+      "backGroundColor": "#edfdff",
+      "style": "w3-theme-light"
+    },
+    {
+      "name": "w3-dark",
+      "color": "#fff",
+      "backGroundColor": "#005f6b",
+      "style": "w3-theme-dark"
+    },
+    {
+      "name": "w3-action",
+      "color": "#fff",
+      "backGroundColor": "#005f6b",
+      "style": "w3-theme-action"
+    },
+    {
+      "name": "w3",
+      "color": "#fff",
+      "backGroundColor": "#00bcd4",
+      "style": "w3-theme"
+    },
+    {
+      "name": "w3-text",
+      "color": "#00bcd4",
+      "backGroundColor": "",
+      "style": "w3-text-theme"
+    },
+    {
+      "name": "w3-border",
+      "color": "#00bcd4",
+      "backGroundColor": "",
+      "style": "w3-border-theme"
+    },
+    {
+      "name": "w3-hover",
+      "color": "#fff",
+      "backGroundColor": "#00bcd4",
+      "style": "w3-hover-theme:hover"
+    },
+    {
+      "name": "w3-hover-text",
+      "color": "#00bcd4",
+      "backGroundColor": "",
+      "style": "w3-hover-text-theme:hover"
+    },
+    {
+      "name": "w3-hover-border",
+      "color": "#00bcd4",
+      "backGroundColor": "",
+      "style": "w3-hover-border-theme:hover"
+    }
+  ],
+  "w3-theme-dark-grey.css": [
+    {
+      "name": "w3-l5",
+      "color": "#000",
+      "backGroundColor": "#f6f6f6",
+      "style": "w3-theme-l5"
+    },
+    {
+      "name": "w3-l4",
+      "color": "#000",
+      "backGroundColor": "#dfdfdf",
+      "style": "w3-theme-l4"
+    },
+    {
+      "name": "w3-l3",
+      "color": "#000",
+      "backGroundColor": "#c0c0c0",
+      "style": "w3-theme-l3"
+    },
+    {
+      "name": "w3-l2",
+      "color": "#fff",
+      "backGroundColor": "#a0a0a0",
+      "style": "w3-theme-l2"
+    },
+    {
+      "name": "w3-l1",
+      "color": "#fff",
+      "backGroundColor": "#818181",
+      "style": "w3-theme-l1"
+    },
+    {
+      "name": "w3-d1",
+      "color": "#fff",
+      "backGroundColor": "#575757",
+      "style": "w3-theme-d1"
+    },
+    {
+      "name": "w3-d2",
+      "color": "#fff",
+      "backGroundColor": "#4e4e4e",
+      "style": "w3-theme-d2"
+    },
+    {
+      "name": "w3-d3",
+      "color": "#fff",
+      "backGroundColor": "#444444",
+      "style": "w3-theme-d3"
+    },
+    {
+      "name": "w3-d4",
+      "color": "#fff",
+      "backGroundColor": "#3a3a3a",
+      "style": "w3-theme-d4"
+    },
+    {
+      "name": "w3-d5",
+      "color": "#fff",
+      "backGroundColor": "#303030",
+      "style": "w3-theme-d5"
+    },
+    {
+      "name": "w3-light",
+      "color": "#000",
+      "backGroundColor": "#f6f6f6",
+      "style": "w3-theme-light"
+    },
+    {
+      "name": "w3-dark",
+      "color": "#fff",
+      "backGroundColor": "#303030",
+      "style": "w3-theme-dark"
+    },
+    {
+      "name": "w3-action",
+      "color": "#fff",
+      "backGroundColor": "#303030",
+      "style": "w3-theme-action"
+    },
+    {
+      "name": "w3",
+      "color": "#fff",
+      "backGroundColor": "#616161",
+      "style": "w3-theme"
+    },
+    {
+      "name": "w3-text",
+      "color": "#616161",
+      "backGroundColor": "",
+      "style": "w3-text-theme"
+    },
+    {
+      "name": "w3-border",
+      "color": "#616161",
+      "backGroundColor": "",
+      "style": "w3-border-theme"
+    },
+    {
+      "name": "w3-hover",
+      "color": "#fff",
+      "backGroundColor": "#616161",
+      "style": "w3-hover-theme:hover"
+    },
+    {
+      "name": "w3-hover-text",
+      "color": "#616161",
+      "backGroundColor": "",
+      "style": "w3-hover-text-theme:hover"
+    },
+    {
+      "name": "w3-hover-border",
+      "color": "#616161",
+      "backGroundColor": "",
+      "style": "w3-hover-border-theme:hover"
+    }
+  ],
+  "w3-theme-deep-purple.css": [
+    {
+      "name": "w3-l5",
+      "color": "#000",
+      "backGroundColor": "#f6f3fb",
+      "style": "w3-theme-l5"
+    },
+    {
+      "name": "w3-l4",
+      "color": "#000",
+      "backGroundColor": "#e0d6f2",
+      "style": "w3-theme-l4"
+    },
+    {
+      "name": "w3-l3",
+      "color": "#000",
+      "backGroundColor": "#c1ade5",
+      "style": "w3-theme-l3"
+    },
+    {
+      "name": "w3-l2",
+      "color": "#fff",
+      "backGroundColor": "#a384d8",
+      "style": "w3-theme-l2"
+    },
+    {
+      "name": "w3-l1",
+      "color": "#fff",
+      "backGroundColor": "#845bcb",
+      "style": "w3-theme-l1"
+    },
+    {
+      "name": "w3-d1",
+      "color": "#fff",
+      "backGroundColor": "#5d34a4",
+      "style": "w3-theme-d1"
+    },
+    {
+      "name": "w3-d2",
+      "color": "#fff",
+      "backGroundColor": "#532e92",
+      "style": "w3-theme-d2"
+    },
+    {
+      "name": "w3-d3",
+      "color": "#fff",
+      "backGroundColor": "#482880",
+      "style": "w3-theme-d3"
+    },
+    {
+      "name": "w3-d4",
+      "color": "#fff",
+      "backGroundColor": "#3e236d",
+      "style": "w3-theme-d4"
+    },
+    {
+      "name": "w3-d5",
+      "color": "#fff",
+      "backGroundColor": "#341d5b",
+      "style": "w3-theme-d5"
+    },
+    {
+      "name": "w3-light",
+      "color": "#000",
+      "backGroundColor": "#f6f3fb",
+      "style": "w3-theme-light"
+    },
+    {
+      "name": "w3-dark",
+      "color": "#fff",
+      "backGroundColor": "#341d5b",
+      "style": "w3-theme-dark"
+    },
+    {
+      "name": "w3-action",
+      "color": "#fff",
+      "backGroundColor": "#341d5b",
+      "style": "w3-theme-action"
+    },
+    {
+      "name": "w3",
+      "color": "#fff",
+      "backGroundColor": "#673ab7",
+      "style": "w3-theme"
+    },
+    {
+      "name": "w3-text",
+      "color": "#673ab7",
+      "backGroundColor": "",
+      "style": "w3-text-theme"
+    },
+    {
+      "name": "w3-border",
+      "color": "#673ab7",
+      "backGroundColor": "",
+      "style": "w3-border-theme"
+    },
+    {
+      "name": "w3-hover",
+      "color": "#fff",
+      "backGroundColor": "#673ab7",
+      "style": "w3-hover-theme:hover"
+    },
+    {
+      "name": "w3-hover-text",
+      "color": "#673ab7",
+      "backGroundColor": "",
+      "style": "w3-hover-text-theme:hover"
+    },
+    {
+      "name": "w3-hover-border",
+      "color": "#673ab7",
+      "backGroundColor": "",
+      "style": "w3-hover-border-theme:hover"
+    }
+  ],
+  "w3-theme-green.css": [
+    {
+      "name": "w3-l5",
+      "color": "#000",
+      "backGroundColor": "#f4faf4",
+      "style": "w3-theme-l5"
+    },
+    {
+      "name": "w3-l4",
+      "color": "#000",
+      "backGroundColor": "#dbefdc",
+      "style": "w3-theme-l4"
+    },
+    {
+      "name": "w3-l3",
+      "color": "#000",
+      "backGroundColor": "#b7dfb8",
+      "style": "w3-theme-l3"
+    },
+    {
+      "name": "w3-l2",
+      "color": "#000",
+      "backGroundColor": "#93cf95",
+      "style": "w3-theme-l2"
+    },
+    {
+      "name": "w3-l1",
+      "color": "#fff",
+      "backGroundColor": "#6ec071",
+      "style": "w3-theme-l1"
+    },
+    {
+      "name": "w3-d1",
+      "color": "#fff",
+      "backGroundColor": "#459c48",
+      "style": "w3-theme-d1"
+    },
+    {
+      "name": "w3-d2",
+      "color": "#fff",
+      "backGroundColor": "#3d8b40",
+      "style": "w3-theme-d2"
+    },
+    {
+      "name": "w3-d3",
+      "color": "#fff",
+      "backGroundColor": "#357a38",
+      "style": "w3-theme-d3"
+    },
+    {
+      "name": "w3-d4",
+      "color": "#fff",
+      "backGroundColor": "#2e6830",
+      "style": "w3-theme-d4"
+    },
+    {
+      "name": "w3-d5",
+      "color": "#fff",
+      "backGroundColor": "#265728",
+      "style": "w3-theme-d5"
+    },
+    {
+      "name": "w3-light",
+      "color": "#000",
+      "backGroundColor": "#f4faf4",
+      "style": "w3-theme-light"
+    },
+    {
+      "name": "w3-dark",
+      "color": "#fff",
+      "backGroundColor": "#265728",
+      "style": "w3-theme-dark"
+    },
+    {
+      "name": "w3-action",
+      "color": "#fff",
+      "backGroundColor": "#265728",
+      "style": "w3-theme-action"
+    },
+    {
+      "name": "w3",
+      "color": "#fff",
+      "backGroundColor": "#4caf50",
+      "style": "w3-theme"
+    },
+    {
+      "name": "w3-text",
+      "color": "#4caf50",
+      "backGroundColor": "",
+      "style": "w3-text-theme"
+    },
+    {
+      "name": "w3-border",
+      "color": "#4caf50",
+      "backGroundColor": "",
+      "style": "w3-border-theme"
+    },
+    {
+      "name": "w3-hover",
+      "color": "#fff",
+      "backGroundColor": "#4caf50",
+      "style": "w3-hover-theme:hover"
+    },
+    {
+      "name": "w3-hover-text",
+      "color": "#4caf50",
+      "backGroundColor": "",
+      "style": "w3-hover-text-theme:hover"
+    },
+    {
+      "name": "w3-hover-border",
+      "color": "#4caf50",
+      "backGroundColor": "",
+      "style": "w3-hover-border-theme:hover"
+    }
+  ],
+  "w3-theme-grey.css": [
+    {
+      "name": "w3-l5",
+      "color": "#000",
+      "backGroundColor": "#f9f9f9",
+      "style": "w3-theme-l5"
+    },
+    {
+      "name": "w3-l4",
+      "color": "#000",
+      "backGroundColor": "#ececec",
+      "style": "w3-theme-l4"
+    },
+    {
+      "name": "w3-l3",
+      "color": "#000",
+      "backGroundColor": "#d8d8d8",
+      "style": "w3-theme-l3"
+    },
+    {
+      "name": "w3-l2",
+      "color": "#000",
+      "backGroundColor": "#c5c5c5",
+      "style": "w3-theme-l2"
+    },
+    {
+      "name": "w3-l1",
+      "color": "#000",
+      "backGroundColor": "#b1b1b1",
+      "style": "w3-theme-l1"
+    },
+    {
+      "name": "w3-d1",
+      "color": "#fff",
+      "backGroundColor": "#8e8e8e",
+      "style": "w3-theme-d1"
+    },
+    {
+      "name": "w3-d2",
+      "color": "#fff",
+      "backGroundColor": "#7e7e7e",
+      "style": "w3-theme-d2"
+    },
+    {
+      "name": "w3-d3",
+      "color": "#fff",
+      "backGroundColor": "#6f6f6f",
+      "style": "w3-theme-d3"
+    },
+    {
+      "name": "w3-d4",
+      "color": "#fff",
+      "backGroundColor": "#5f5f5f",
+      "style": "w3-theme-d4"
+    },
+    {
+      "name": "w3-d5",
+      "color": "#fff",
+      "backGroundColor": "#4f4f4f",
+      "style": "w3-theme-d5"
+    },
+    {
+      "name": "w3-light",
+      "color": "#000",
+      "backGroundColor": "#f9f9f9",
+      "style": "w3-theme-light"
+    },
+    {
+      "name": "w3-dark",
+      "color": "#fff",
+      "backGroundColor": "#4f4f4f",
+      "style": "w3-theme-dark"
+    },
+    {
+      "name": "w3-action",
+      "color": "#fff",
+      "backGroundColor": "#4f4f4f",
+      "style": "w3-theme-action"
+    },
+    {
+      "name": "w3",
+      "color": "#fff",
+      "backGroundColor": "#9e9e9e",
+      "style": "w3-theme"
+    },
+    {
+      "name": "w3-text",
+      "color": "#9e9e9e",
+      "backGroundColor": "",
+      "style": "w3-text-theme"
+    },
+    {
+      "name": "w3-border",
+      "color": "#9e9e9e",
+      "backGroundColor": "",
+      "style": "w3-border-theme"
+    },
+    {
+      "name": "w3-hover",
+      "color": "#fff",
+      "backGroundColor": "#9e9e9e",
+      "style": "w3-hover-theme:hover"
+    },
+    {
+      "name": "w3-hover-text",
+      "color": "#9e9e9e",
+      "backGroundColor": "",
+      "style": "w3-hover-text-theme:hover"
+    },
+    {
+      "name": "w3-hover-border",
+      "color": "#9e9e9e",
+      "backGroundColor": "",
+      "style": "w3-hover-border-theme:hover"
+    }
+  ],
+  "w3-theme-indigo.css": [
+    {
+      "name": "w3-l5",
+      "color": "#000",
+      "backGroundColor": "#f3f4fb",
+      "style": "w3-theme-l5"
+    },
+    {
+      "name": "w3-l4",
+      "color": "#000",
+      "backGroundColor": "#d8dcf1",
+      "style": "w3-theme-l4"
+    },
+    {
+      "name": "w3-l3",
+      "color": "#000",
+      "backGroundColor": "#b1b8e3",
+      "style": "w3-theme-l3"
+    },
+    {
+      "name": "w3-l2",
+      "color": "#fff",
+      "backGroundColor": "#8995d6",
+      "style": "w3-theme-l2"
+    },
+    {
+      "name": "w3-l1",
+      "color": "#fff",
+      "backGroundColor": "#6271c8",
+      "style": "w3-theme-l1"
+    },
+    {
+      "name": "w3-d1",
+      "color": "#fff",
+      "backGroundColor": "#3949a3",
+      "style": "w3-theme-d1"
+    },
+    {
+      "name": "w3-d2",
+      "color": "#fff",
+      "backGroundColor": "#334191",
+      "style": "w3-theme-d2"
+    },
+    {
+      "name": "w3-d3",
+      "color": "#fff",
+      "backGroundColor": "#2d397f",
+      "style": "w3-theme-d3"
+    },
+    {
+      "name": "w3-d4",
+      "color": "#fff",
+      "backGroundColor": "#26316d",
+      "style": "w3-theme-d4"
+    },
+    {
+      "name": "w3-d5",
+      "color": "#fff",
+      "backGroundColor": "#20295b",
+      "style": "w3-theme-d5"
+    },
+    {
+      "name": "w3-light",
+      "color": "#000",
+      "backGroundColor": "#f3f4fb",
+      "style": "w3-theme-light"
+    },
+    {
+      "name": "w3-dark",
+      "color": "#fff",
+      "backGroundColor": "#20295b",
+      "style": "w3-theme-dark"
+    },
+    {
+      "name": "w3-action",
+      "color": "#fff",
+      "backGroundColor": "#20295b",
+      "style": "w3-theme-action"
+    },
+    {
+      "name": "w3",
+      "color": "#fff",
+      "backGroundColor": "#3f51b5",
+      "style": "w3-theme"
+    },
+    {
+      "name": "w3-text",
+      "color": "#3f51b5",
+      "backGroundColor": "",
+      "style": "w3-text-theme"
+    },
+    {
+      "name": "w3-border",
+      "color": "#3f51b5",
+      "backGroundColor": "",
+      "style": "w3-border-theme"
+    },
+    {
+      "name": "w3-hover",
+      "color": "#fff",
+      "backGroundColor": "#3f51b5",
+      "style": "w3-hover-theme:hover"
+    },
+    {
+      "name": "w3-hover-text",
+      "color": "#3f51b5",
+      "backGroundColor": "",
+      "style": "w3-hover-text-theme:hover"
+    },
+    {
+      "name": "w3-hover-border",
+      "color": "#3f51b5",
+      "backGroundColor": "",
+      "style": "w3-hover-border-theme:hover"
+    }
+  ],
+  "w3-theme-khaki.css": [
+    {
+      "name": "w3-l5",
+      "color": "#000",
+      "backGroundColor": "#fefef8",
+      "style": "w3-theme-l5"
+    },
+    {
+      "name": "w3-l4",
+      "color": "#000",
+      "backGroundColor": "#fcfae8",
+      "style": "w3-theme-l4"
+    },
+    {
+      "name": "w3-l3",
+      "color": "#000",
+      "backGroundColor": "#f9f5d2",
+      "style": "w3-theme-l3"
+    },
+    {
+      "name": "w3-l2",
+      "color": "#000",
+      "backGroundColor": "#f6f0bb",
+      "style": "w3-theme-l2"
+    },
+    {
+      "name": "w3-l1",
+      "color": "#000",
+      "backGroundColor": "#f3eba5",
+      "style": "w3-theme-l1"
+    },
+    {
+      "name": "w3-d1",
+      "color": "#000",
+      "backGroundColor": "#ecdf6c",
+      "style": "w3-theme-d1"
+    },
+    {
+      "name": "w3-d2",
+      "color": "#000",
+      "backGroundColor": "#e8d84a",
+      "style": "w3-theme-d2"
+    },
+    {
+      "name": "w3-d3",
+      "color": "#000",
+      "backGroundColor": "#e3d029",
+      "style": "w3-theme-d3"
+    },
+    {
+      "name": "w3-d4",
+      "color": "#000",
+      "backGroundColor": "#cbb91a",
+      "style": "w3-theme-d4"
+    },
+    {
+      "name": "w3-d5",
+      "color": "#fff",
+      "backGroundColor": "#a99b16",
+      "style": "w3-theme-d5"
+    },
+    {
+      "name": "w3-light",
+      "color": "#000",
+      "backGroundColor": "#fefef8",
+      "style": "w3-theme-light"
+    },
+    {
+      "name": "w3-dark",
+      "color": "#fff",
+      "backGroundColor": "#a99b16",
+      "style": "w3-theme-dark"
+    },
+    {
+      "name": "w3-action",
+      "color": "#fff",
+      "backGroundColor": "#a99b16",
+      "style": "w3-theme-action"
+    },
+    {
+      "name": "w3",
+      "color": "#000",
+      "backGroundColor": "#f0e68c",
+      "style": "w3-theme"
+    },
+    {
+      "name": "w3-text",
+      "color": "#f0e68c",
+      "backGroundColor": "",
+      "style": "w3-text-theme"
+    },
+    {
+      "name": "w3-border",
+      "color": "#f0e68c",
+      "backGroundColor": "",
+      "style": "w3-border-theme"
+    },
+    {
+      "name": "w3-hover",
+      "color": "#000",
+      "backGroundColor": "#f0e68c",
+      "style": "w3-hover-theme:hover"
+    },
+    {
+      "name": "w3-hover-text",
+      "color": "#f0e68c",
+      "backGroundColor": "",
+      "style": "w3-hover-text-theme:hover"
+    },
+    {
+      "name": "w3-hover-border",
+      "color": "#f0e68c",
+      "backGroundColor": "",
+      "style": "w3-hover-border-theme:hover"
+    }
+  ],
+  "w3-theme-light-blue.css": [
+    {
+      "name": "w3-l5",
+      "color": "#000",
+      "backGroundColor": "#f8fcfe",
+      "style": "w3-theme-l5"
+    },
+    {
+      "name": "w3-l4",
+      "color": "#000",
+      "backGroundColor": "#e7f5fb",
+      "style": "w3-theme-l4"
+    },
+    {
+      "name": "w3-l3",
+      "color": "#000",
+      "backGroundColor": "#d0ecf7",
+      "style": "w3-theme-l3"
+    },
+    {
+      "name": "w3-l2",
+      "color": "#000",
+      "backGroundColor": "#b8e2f3",
+      "style": "w3-theme-l2"
+    },
+    {
+      "name": "w3-l1",
+      "color": "#000",
+      "backGroundColor": "#a1d9ef",
+      "style": "w3-theme-l1"
+    },
+    {
+      "name": "w3-d1",
+      "color": "#000",
+      "backGroundColor": "#69c2e6",
+      "style": "w3-theme-d1"
+    },
+    {
+      "name": "w3-d2",
+      "color": "#fff",
+      "backGroundColor": "#4ab6e0",
+      "style": "w3-theme-d2"
+    },
+    {
+      "name": "w3-d3",
+      "color": "#fff",
+      "backGroundColor": "#2aa9db",
+      "style": "w3-theme-d3"
+    },
+    {
+      "name": "w3-d4",
+      "color": "#fff",
+      "backGroundColor": "#2092bf",
+      "style": "w3-theme-d4"
+    },
+    {
+      "name": "w3-d5",
+      "color": "#fff",
+      "backGroundColor": "#1b7a9f",
+      "style": "w3-theme-d5"
+    },
+    {
+      "name": "w3-light",
+      "color": "#000",
+      "backGroundColor": "#f8fcfe",
+      "style": "w3-theme-light"
+    },
+    {
+      "name": "w3-dark",
+      "color": "#fff",
+      "backGroundColor": "#1b7a9f",
+      "style": "w3-theme-dark"
+    },
+    {
+      "name": "w3-action",
+      "color": "#fff",
+      "backGroundColor": "#1b7a9f",
+      "style": "w3-theme-action"
+    },
+    {
+      "name": "w3",
+      "color": "#000",
+      "backGroundColor": "#87ceeb",
+      "style": "w3-theme"
+    },
+    {
+      "name": "w3-text",
+      "color": "#87ceeb",
+      "backGroundColor": "",
+      "style": "w3-text-theme"
+    },
+    {
+      "name": "w3-border",
+      "color": "#87ceeb",
+      "backGroundColor": "",
+      "style": "w3-border-theme"
+    },
+    {
+      "name": "w3-hover",
+      "color": "#000",
+      "backGroundColor": "#87ceeb",
+      "style": "w3-hover-theme:hover"
+    },
+    {
+      "name": "w3-hover-text",
+      "color": "#87ceeb",
+      "backGroundColor": "",
+      "style": "w3-hover-text-theme:hover"
+    },
+    {
+      "name": "w3-hover-border",
+      "color": "#87ceeb",
+      "backGroundColor": "",
+      "style": "w3-hover-border-theme:hover"
+    }
+  ],
+  "w3-theme-orange.css": [
+    {
+      "name": "w3-l5",
+      "color": "#000",
+      "backGroundColor": "#fff9f0",
+      "style": "w3-theme-l5"
+    },
+    {
+      "name": "w3-l4",
+      "color": "#000",
+      "backGroundColor": "#ffebcc",
+      "style": "w3-theme-l4"
+    },
+    {
+      "name": "w3-l3",
+      "color": "#000",
+      "backGroundColor": "#ffd699",
+      "style": "w3-theme-l3"
+    },
+    {
+      "name": "w3-l2",
+      "color": "#000",
+      "backGroundColor": "#ffc266",
+      "style": "w3-theme-l2"
+    },
+    {
+      "name": "w3-l1",
+      "color": "#000",
+      "backGroundColor": "#ffad33",
+      "style": "w3-theme-l1"
+    },
+    {
+      "name": "w3-d1",
+      "color": "#fff",
+      "backGroundColor": "#e68a00",
+      "style": "w3-theme-d1"
+    },
+    {
+      "name": "w3-d2",
+      "color": "#fff",
+      "backGroundColor": "#cc7a00",
+      "style": "w3-theme-d2"
+    },
+    {
+      "name": "w3-d3",
+      "color": "#fff",
+      "backGroundColor": "#b36b00",
+      "style": "w3-theme-d3"
+    },
+    {
+      "name": "w3-d4",
+      "color": "#fff",
+      "backGroundColor": "#995c00",
+      "style": "w3-theme-d4"
+    },
+    {
+      "name": "w3-d5",
+      "color": "#fff",
+      "backGroundColor": "#804d00",
+      "style": "w3-theme-d5"
+    },
+    {
+      "name": "w3-light",
+      "color": "#000",
+      "backGroundColor": "#fff9f0",
+      "style": "w3-theme-light"
+    },
+    {
+      "name": "w3-dark",
+      "color": "#fff",
+      "backGroundColor": "#804d00",
+      "style": "w3-theme-dark"
+    },
+    {
+      "name": "w3-action",
+      "color": "#fff",
+      "backGroundColor": "#804d00",
+      "style": "w3-theme-action"
+    },
+    {
+      "name": "w3",
+      "color": "#000",
+      "backGroundColor": "#ff9800",
+      "style": "w3-theme"
+    },
+    {
+      "name": "w3-text",
+      "color": "#ff9800",
+      "backGroundColor": "",
+      "style": "w3-text-theme"
+    },
+    {
+      "name": "w3-border",
+      "color": "#ff9800",
+      "backGroundColor": "",
+      "style": "w3-border-theme"
+    },
+    {
+      "name": "w3-hover",
+      "color": "#000",
+      "backGroundColor": "#ff9800",
+      "style": "w3-hover-theme:hover"
+    },
+    {
+      "name": "w3-hover-text",
+      "color": "#ff9800",
+      "backGroundColor": "",
+      "style": "w3-hover-text-theme:hover"
+    },
+    {
+      "name": "w3-hover-border",
+      "color": "#ff9800",
+      "backGroundColor": "",
+      "style": "w3-hover-border-theme:hover"
+    }
+  ],
+  "w3-theme-red.css": [
+    {
+      "name": "w3-l5",
+      "color": "#000",
+      "backGroundColor": "#fef4f3",
+      "style": "w3-theme-l5"
+    },
+    {
+      "name": "w3-l4",
+      "color": "#000",
+      "backGroundColor": "#fdd9d6",
+      "style": "w3-theme-l4"
+    },
+    {
+      "name": "w3-l3",
+      "color": "#000",
+      "backGroundColor": "#fbb3ae",
+      "style": "w3-theme-l3"
+    },
+    {
+      "name": "w3-l2",
+      "color": "#000",
+      "backGroundColor": "#f98d85",
+      "style": "w3-theme-l2"
+    },
+    {
+      "name": "w3-l1",
+      "color": "#fff",
+      "backGroundColor": "#f6665c",
+      "style": "w3-theme-l1"
+    },
+    {
+      "name": "w3-d1",
+      "color": "#fff",
+      "backGroundColor": "#f32617",
+      "style": "w3-theme-d1"
+    },
+    {
+      "name": "w3-d2",
+      "color": "#fff",
+      "backGroundColor": "#e11a0c",
+      "style": "w3-theme-d2"
+    },
+    {
+      "name": "w3-d3",
+      "color": "#fff",
+      "backGroundColor": "#c5170a",
+      "style": "w3-theme-d3"
+    },
+    {
+      "name": "w3-d4",
+      "color": "#fff",
+      "backGroundColor": "#a91409",
+      "style": "w3-theme-d4"
+    },
+    {
+      "name": "w3-d5",
+      "color": "#fff",
+      "backGroundColor": "#8d1007",
+      "style": "w3-theme-d5"
+    },
+    {
+      "name": "w3-light",
+      "color": "#000",
+      "backGroundColor": "#fef4f3",
+      "style": "w3-theme-light"
+    },
+    {
+      "name": "w3-dark",
+      "color": "#fff",
+      "backGroundColor": "#8d1007",
+      "style": "w3-theme-dark"
+    },
+    {
+      "name": "w3-action",
+      "color": "#fff",
+      "backGroundColor": "#8d1007",
+      "style": "w3-theme-action"
+    },
+    {
+      "name": "w3",
+      "color": "#fff",
+      "backGroundColor": "#f44336",
+      "style": "w3-theme"
+    },
+    {
+      "name": "w3-text",
+      "color": "#f44336",
+      "backGroundColor": "",
+      "style": "w3-text-theme"
+    },
+    {
+      "name": "w3-border",
+      "color": "#f44336",
+      "backGroundColor": "",
+      "style": "w3-border-theme"
+    },
+    {
+      "name": "w3-hover",
+      "color": "#fff",
+      "backGroundColor": "#f44336",
+      "style": "w3-hover-theme:hover"
+    },
+    {
+      "name": "w3-hover-text",
+      "color": "#f44336",
+      "backGroundColor": "",
+      "style": "w3-hover-text-theme:hover"
+    },
+    {
+      "name": "w3-hover-border",
+      "color": "#f44336",
+      "backGroundColor": "",
+      "style": "w3-hover-border-theme:hover"
+    }
+  ]
+}

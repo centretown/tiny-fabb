@@ -92,12 +92,13 @@ function closeOptions() {
 
 function applyOptions() {
     let theme = document.getElementById("selected-theme").value;
-    let bug = document.getElementById("selected-icon").value;
-    console.log(theme, bug);
     let init = {
         credentials: "include"
     };
-    fetch("/options/"+theme+"/"+bug+"/", init);
+    fetch("/options/"+theme+"/", init)
+    .catch(error => {
+        console.error('Error:', error);
+    });
     closeOptions();
 }
 
