@@ -24,11 +24,9 @@ func (wp *Page) addRoutes(router *mux.Router, layout *template.Template) {
 			layout.Execute(w, wp)
 		})
 
-	router.HandleFunc("/options/{theme}/{bug}/",
+	router.HandleFunc("/options/{theme}/",
 		func(w http.ResponseWriter, r *http.Request) {
 			wp.Theme = getRequestString(r, "theme")
-			wp.Icon = getRequestString(r, "bug")
-			fmt.Println(r.RequestURI, wp.Theme, wp.Icon)
 			layout.Execute(w, wp)
 		})
 

@@ -12,7 +12,6 @@ import (
 	"github.com/golang/glog"
 )
 
-// Controller are defined as $nnn=value
 type Controller struct {
 	Title    string       `json:"title"`
 	Active   bool         `json:"active"`
@@ -27,7 +26,6 @@ type Controller struct {
 	layout *template.Template
 }
 
-// NewController returns a newly minted GRBL controller
 func NewController(layout *template.Template) (gctl *Controller) {
 	gctl = &Controller{
 		layout: layout,
@@ -129,7 +127,6 @@ func isTerminated(result string) (terminated bool, err error) {
 		err = fmt.Errorf("%s", result)
 		var errcode uint
 		count, _ := fmt.Sscanf(result, "error:%d", &errcode)
-		fmt.Println(count, errcode)
 		if count == 1 {
 			s, ok := GrblErrors[errcode]
 			if ok {
@@ -160,7 +157,7 @@ func (gctl *Controller) Query(view string, key string) (err error) {
 	if err != nil {
 		return err
 	}
-	// fmt.Println(results)
+
 	for _, result := range results {
 		done, err = isTerminated(result)
 		if err != nil {
@@ -193,7 +190,6 @@ func (gctl *Controller) Query(view string, key string) (err error) {
 	}
 
 	if view == "commands" {
-		// fmt.Println(val)
 		form.Value = &val
 	}
 	return
@@ -293,135 +289,3 @@ func (gctl *Controller) ActivateController() (err error) {
 	err = gctl.Query("settings", idSettings.String())
 	return
 }
-
-// func DeactivateController(g *grbl.GrblController) (err error) {
-// 	if !g.Active {
-// 		err = fmt.Errorf("%s not active", g.Title)
-// 		return
-// 	}
-
-// 	g.Bus.Done <- true
-// 	time.Sleep(time.Millisecond)
-// 	g.Active = false
-
-// 	return
-// }
-
-// func (gctl *Controller) scanInfo(s string) (err error) {
-
-// 	const (
-// 		ver = "[VER:"
-// 		opt = "[OPT:"
-// 		sfx = "]"
-// 	)
-
-// 	fmt.Println("scanInfo", s)
-// 	if strings.HasPrefix(s, ver) {
-// 		s = strings.TrimPrefix(s, ver)
-// 		gctl.BuildVer = strings.TrimSuffix(s, sfx)
-// 	} else if strings.HasPrefix(s, opt) {
-// 		s = strings.TrimPrefix(s, opt)
-// 		gctl.BuildOpt = strings.TrimSuffix(s, sfx)
-// 	}
-// 	return
-// }
-
-// func (gctl *Controller) UpdateSetting(src map[string][]string) (err error) {
-// 	fmt.Println(src)
-// 	var key GrblId
-// 	for k, values := range src {
-// 		for _, value := range values {
-// 			fmt.Println(k, value)
-// 			fmt.Sscanf(k, "%d", &key)
-// 			setting, ok := gctl.Settings[key]
-// 			if !ok {
-// 				err = fmt.Errorf("key not found: %d", key)
-// 				return
-// 			}
-// 			err = settingctl.Update(value)
-// 			if err != nil {
-// 				return
-// 			}
-// 			topic := fmt.Sprintf("$%d=%s", key, value)
-// 			fmt.Println(topic)
-// 			// gctl.Capture(topic)
-// 		}
-// 	}
-
-// 	return
-// }
-
-// func (gctl *Controller) scanSetting(s string) (err error) {
-// 	var (
-// 		key   GrblId
-// 		count int
-// 	)
-// 	count, err = fmt.Sscanf(s, "$%d=", &key)
-// 	if err != nil {
-// 		return
-// 	}
-
-// 	if count != 1 {
-// 		err = fmt.Errorf("scanSetting invalid count: %d", count)
-// 		return
-// 	}
-
-// 	setting, ok := gctl.Settings[key]
-// 	if ok {
-// 		v := gctl.Values[key]
-// 		_, err = fmt.Sscanf(s, "$%d=%v", &key, v)
-// 	}
-// 	return
-// }
-
-// // SettingValue -
-// func (gctl *Controller) SettingValue(key int) (s string) {
-// 	v := gctl.Settings[key].Value
-// 	switch t := v.(type) {
-// 	case *uint:
-// 		s = fmt.Sprintf("%d", *t)
-// 	case *float32:
-// 		s = fmt.Sprintf("%f", *t)
-// 	case *bool:
-// 		s = fmt.Sprintf("%v", *t)
-// 	}
-// 	return
-// }
-
-// // SettingValues -
-// // func (gctl *Controller) SettingValues() (s []string) {
-// // 	s = make([]string, len(ordered))
-// // 	for j, i := range ordered {
-// // 		s[j] = fmt.Sprintf("($%d) %s = %s",
-// // 			i, settingEntries[j].Label, gctl.SettingValue(i))
-// // 	}
-// // 	return
-// // }
-
-// // Capture -
-// func (gctl *Controller) Capture(topic GrblId) {
-// 	c, ok := commandEntries[topic]
-// 	if ok {
-// 		gctl.Bus.Out <- monitor.SerReq{Topic: c.Code, Immediate: c.Type == "immediate"}
-// 	} else {
-// 		gctl.Bus.Out <- monitor.SerReq{Topic: c.Code}
-// 	}
-
-// 	for {
-// 		select {
-// 		case s := <-gctl.Bus.In:
-// 			s = strings.TrimSpace(s)
-// 			if strings.HasPrefix(s, "ok") {
-// 				return
-// 			}
-
-// 			if strings.HasPrefix(s, "error") {
-// 				glogctl.Warningln(s)
-// 				return
-// 			}
-// 			c.Scan(g, s)
-// 		default:
-// 			time.Sleep(time.Millisecond)
-// 		}
-// 	}
-// }

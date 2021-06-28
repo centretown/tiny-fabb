@@ -19,50 +19,18 @@
       rel="stylesheet"
       href="/static/w3/w3-theme-{{.Theme}}.css"
     />
+    <link
+      rel="stylesheet"
+      href="/static/w3/vars/w3-theme-{{.Theme}}.css"
+    />
     <link rel="stylesheet" href="/static/styles.css" />
     <script src="/static/request.js"></script>
-    <style>
-      .sticky {
-        position: sticky;
-        top: 0;
-      }
-      .w3-dropdown-hover i {
-        font-size: 2rem;
-        color: cornflowerblue;
-      }
-      .w3-dropdown-content i {
-        font-size: 1.5rem;
-        color: tomato;
-      }
-    </style>
   </head>
 
-  <body class="w3-theme-l4">
-    <div id="stickyHeader" class="w3-theme-d1 sticky">
-      {{template "heading" .}}
-      <select
-        id="selected-controller"
-        name="selected-controller"
-        class="w3-select w3-theme-l5 w3-margin-top"
-        onchange="selectController();"
-      >
-        {{range $index, $element := .Controllers}}
-        <option value="{{$index}}">
-          {{.Title}}: {{.Port}}
-        </option>
-        {{end}}
-      </select>
-
-      <select
-        id="selected-view"
-        name="selected-view"
-        class="w3-select w3-theme-l5 w3-margin-top"
-        onchange="selectView(value);"
-      >
-        <option value="/status/">Status</option>
-        <option value="/commands/">Commands</option>
-        <option value="/settings/" selected>Settings</option>
-      </select>
+  <body class="w3-theme-d5">
+    <div id="stickyHeader" class="sticky">
+      {{template "app-bar" .}} {{template "select-bar" .}}
+      {{template "button-bar" .}}
     </div>
     <div
       id="details"
@@ -77,3 +45,47 @@
     selectView("settings");
   </script>
 </html>
+<style>
+  .sticky {
+    position: sticky;
+    top: 0;
+  }
+  i {
+    font-size: 1.5rem;
+    color: var(--w3);
+  }
+  .app-icon > i {
+    font-size: 2.25rem;
+    color: var(--w3);
+  }
+
+  /* .radio-toolbar {
+    margin: 10px;
+  } */
+
+  .radio-toolbar input[type="radio"] {
+    opacity: 0;
+    position: fixed;
+    width: 0;
+  }
+
+  .radio-toolbar label {
+    display: inline-block;
+    background-color: inherit;
+    color: inherit;
+    padding: 4px 4px;
+  }
+
+  .radio-toolbar label:hover {
+    color: var(--w3-l1);
+    background-color: var(--w3-l1-bg);
+  }
+
+  /* .radio-toolbar input[type="radio"]:focus + label {
+    border: 2px dashed #444;
+  } */
+
+  .radio-toolbar input[type="radio"]:checked + label {
+    background-color: var(--w3-l1-bg);
+  }
+</style>

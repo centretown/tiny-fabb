@@ -102,18 +102,21 @@ func TestRead(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		layout.ExecuteTemplate(os.Stdout, "pop-doc", doc)
+		err = layout.ExecuteTemplate(os.Stdout, "pop-doc", doc)
+		if err != nil {
+			t.Fatal(err)
+		}
 	}
 
-	// findAndLayout("G0")
-	// findAndLayout("G1")
-	// findAndLayout("G99")
-	// findAndLayout("G4")
-	// findAndLayout("M101")
-	// findAndLayout("$$")
-	// findAndLayout("$111")
-	// findAndLayout("G55")
-	// findAndLayout("G3")
+	findAndLayout("G0")
+	findAndLayout("G1")
+	findAndLayout("G99")
+	findAndLayout("G4")
+	findAndLayout("M101")
+	findAndLayout("$$")
+	findAndLayout("$111")
+	findAndLayout("G55")
+	findAndLayout("G3")
 	findAndLayout("G28")
 	findAndLayout("G29")
 
