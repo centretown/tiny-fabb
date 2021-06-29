@@ -1,4 +1,5 @@
 <html>
+  {{$wp:=.}}
   <head>
     <meta
       http-equiv="Cache-Control"
@@ -15,16 +16,6 @@
       href="/static/font/bootstrap-icons.css"
     />
     <link rel="stylesheet" href="/static/w3/w3.css" />
-    <link
-      rel="stylesheet"
-      href="/static/w3/w3-theme-{{.Theme}}.css"
-    />
-    <link
-      rel="stylesheet"
-      href="/static/w3/vars/w3-theme-{{.Theme}}.css"
-    />
-    <link rel="stylesheet" href="/static/styles.css" />
-    <script src="/static/request.js"></script>
   </head>
 
   <body class="w3-theme-d5">
@@ -34,58 +25,386 @@
     </div>
     <div
       id="details"
-      class="w3-container w3-theme-l4 w3-margin-top"
+      class="w3-container w3-theme-d3 w3-margin-top"
     ></div>
-    <div id="dialog" class="w3-modal w3-card w3-theme-l4"></div>
-    <div id="options" class="w3-modal w3-card w3-theme-l4">
+    <div id="dialog" class="w3-modal w3-card w3-theme-d5"></div>
+    <div id="options" class="w3-modal w3-card w3-theme-d5">
       {{template "options" .}}
     </div>
   </body>
-  <script defer>
+
+  <!-- script -->
+
+  <script>
+    var details = document.getElementById("details");
+    var currentView = "settings";
+
+    function selectView(view) {
+      currentView = view;
+      let i = document.getElementById(
+        "selected-controller"
+      ).value;
+      getSection("/list/" + currentView + "/", "details");
+    }
+
+    function selectController() {
+      let i = document.getElementById(
+        "selected-controller"
+      ).value;
+      w3 - theme - d4;
+      console.log("selected controller", i);
+      fetch("/controller/" + i + "/")
+        .then((response) => {
+          getSection("/list/" + currentView + "/", "details");
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    }
+
+    function getSection(section, id) {
+      fetch(section)
+        .then((response) => response.text())
+        .then((text) => {
+          document.getElementById(id).innerHTML = text;
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    }
+
+    function submitForm(frm) {
+      let init = {
+        method: "POST",
+        body: new URLSearchParams(new FormData(frm)).toString(),
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        credentials: "include",
+      };
+
+      fetch(frm.action, init)
+        .then((response) => response.text())
+        .then((text) => {
+          if (text.includes("error")) {
+            alert(text);
+            return;
+          }
+          let obj = JSON.parse(text);
+          obj.forEach((e) => {
+            document.getElementById(e.id).innerHTML = e.value;
+          });
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    }
+
+    function openEdit(key) {
+      fetch("/edit/" + currentView + "/" + key + "/")
+        .then((response) => response.text())
+        .then((text) => {
+          let dlg = document.getElementById("dialog");
+          dlg.innerHTML = text;
+          let frm = document.getElementById("settings-form");
+
+          frm.addEventListener(
+            "submit",
+            function (event) {
+              event.preventDefault();
+              dlg.style.display = "none";
+              submitForm(frm);
+            },
+            false
+          );
+
+          dlg.style.display = "block";
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    }
+
+    function closeDialog() {
+      document.getElementById("dialog").style.display = "none";
+    }
+
+    function pop(doc) {
+      let x = document.getElementById(doc);
+      if (x.className.indexOf("w3-show") == -1) {
+        x.className += " w3-show";
+      } else {
+        x.className = x.className.replace(" w3-show", "");
+      }
+    }
+
+    function openMenu(id) {
+      let x = document.getElementById(id);
+      x.className += " w3-show";
+    }
+
+    function closeMenu(id) {
+      let x = document.getElementById(id);
+      x.className = x.className.replace(" w3-show", "");
+    }
+
+    function openOptions() {
+      document.getElementById("options").style.display =
+        "block";
+    }
+
+    function closeOptions() {
+      document.getElementById("options").style.display = "none";
+    }
+
+    function applyOptions() {
+      let theme =
+        document.getElementById("selected-theme").value;
+      let init = { credentials: "include" };
+
+      fetch("/options/" + theme + "/", init)
+        .then((response) => response.text())
+        .then((text) => {
+          if (text.includes("error")) {
+            alert(text);
+            return;
+          }
+          let x = document.getElementById("dynamic-colors");
+          x.innerHTML = text;
+          storeTheme();
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+      closeOptions();
+    }
+
+    function setDynamic(s) {
+      let x = document.getElementById("dynamic-colors");
+      x.innerHTML = s;
+    }
+
+    function storeTheme() {
+      let theme = document.getElementById("dynamic-colors");
+      localStorage.theme = theme.innerHTML;
+    }
+
+    function loadPreferences() {
+      let theme = localStorage.theme;
+      if (theme) {
+        setDynamic(theme);
+      } else {
+        storeTheme();
+      }
+    }
+  </script>
+
+  <!-- CSS -->
+
+  <!-- dynamic color variables and styles -->
+
+  <style id="dynamic-colors">
+    :root {
+      --w3-l5: #000;
+      --w3-l5-bg: #f5f7f8;
+      --w3-l4: #000;
+      --w3-l4-bg: #dfe5e8;
+      --w3-l3: #000;
+      --w3-l3-bg: #becbd2;
+      --w3-l2: #000;
+      --w3-l2-bg: #9eb1bb;
+      --w3-l1: #fff;
+      --w3-l1-bg: #7d97a5;
+      --w3-d1: #fff;
+      --w3-d1-bg: #57707d;
+      --w3-d2: #fff;
+      --w3-d2-bg: #4d636f;
+      --w3-d3: #fff;
+      --w3-d3-bg: #435761;
+      --w3-d4: #fff;
+      --w3-d4-bg: #3a4b53;
+      --w3-d5: #fff;
+      --w3-d5-bg: #303e45;
+      --w3-light: #000;
+      --w3-light-bg: #f5f7f8;
+      --w3-dark: #fff;
+      --w3-dark-bg: #303e45;
+      --w3-action: #fff;
+      --w3-action-bg: #303e45;
+      --w3: #fff;
+      --w3-bg: #607d8b;
+      --w3-text: #607d8b;
+      --w3-border: #607d8b;
+      --w3-hover: #fff;
+      --w3-hover-bg: #607d8b;
+      --w3-hover-text: #607d8b;
+      --w3-hover-border: #607d8b;
+    }
+  </style>
+
+  <style id="themes">
+    .w3-theme-l5 {
+      color: var(--w3-l5) !important;
+      background-color: var(--w3-l5-bg) !important;
+    }
+    .w3-theme-l4 {
+      color: var(--w3-l4) !important;
+      background-color: var(--w3-l4-bg) !important;
+    }
+    .w3-theme-l3 {
+      color: var(--w3-l3) !important;
+      background-color: var(--w3-l3-bg) !important;
+    }
+    .w3-theme-l2 {
+      color: var(--w3-l2) !important;
+      background-color: var(--w3-l2-bg) !important;
+    }
+    .w3-theme-l1 {
+      color: var(--w3-l1) !important;
+      background-color: var(--w3-l1-bg) !important;
+    }
+    .w3-theme-d1 {
+      color: var(--w3-d1) !important;
+      background-color: var(--w3-d1-bg) !important;
+    }
+    .w3-theme-d2 {
+      color: var(--w3-d2) !important;
+      background-color: var(--w3-d2-bg) !important;
+    }
+    .w3-theme-d3 {
+      color: var(--w3-d3) !important;
+      background-color: var(--w3-d3-bg) !important;
+    }
+    .w3-theme-d4 {
+      color: var(--w3-d4) !important;
+      background-color: var(--w3-d4-bg) !important;
+    }
+    .w3-theme-d5 {
+      color: var(--w3-d5) !important;
+      background-color: var(--w3-d5-bg) !important;
+    }
+
+    .w3-theme-light {
+      color: var(--w3-light) !important;
+      background-color: var(--w3-light-bg) !important;
+    }
+    .w3-theme-dark {
+      color: var(--w3-dark) !important;
+      background-color: var(--w3-dark-bg) !important;
+    }
+    .w3-theme-action {
+      color: var(--w3-action) !important;
+      background-color: var(--w3-action-bg) !important;
+    }
+
+    .w3-theme {
+      color: var(--w3) !important;
+      background-color: var(--w3-bg) !important;
+    }
+    .w3-text-theme {
+      color: var(--w3-text) !important;
+    }
+
+    .w3-border-theme {
+      border-color: var(--w3-border) !important;
+    }
+    .w3-hover-theme:hover {
+      color: var(--w3-hover) !important;
+      background-color: var(--w3-hover-bg) !important;
+    }
+    .w3-hover-text-theme:hover {
+      color: var(--w3-hover-text) !important;
+    }
+    .w3-hover-border-theme:hover {
+      border-color: var(--w3-hover-border) !important;
+    }
+  </style>
+
+  <style>
+    .pop-doc {
+      max-height: 9rem;
+      overflow-y: auto;
+    }
+
+    .content {
+      display: flex;
+      flex-flow: row wrap;
+      max-height: 30rem;
+    }
+
+    .doc {
+      overflow-y: auto;
+      max-height: 14rem;
+      min-height: 5rem;
+      margin: 1rem;
+    }
+
+    .entries {
+      display: flex;
+      flex: 14rem;
+      flex-flow: row wrap;
+      align-items: flex-start;
+    }
+    .doc li {
+      font-size: 1rem;
+    }
+
+    .doc h4 {
+      font-size: 1.1rem;
+      font-weight: bold;
+    }
+
+    .doc ul {
+      list-style-type: circle;
+    }
+
+    .sticky {
+      position: sticky;
+      top: 0;
+    }
+    i {
+      font-size: 1.5rem;
+      color: var(--w3);
+    }
+    .app-icon > i {
+      font-size: 2.25rem;
+      color: var(--w3);
+    }
+
+    .radio-toolbar input[type="radio"] {
+      opacity: 0;
+      position: fixed;
+      width: 0;
+    }
+
+    .radio-toolbar label {
+      display: inline-block;
+      background-color: inherit;
+      color: inherit;
+      padding: 4px 4px;
+    }
+
+    .radio-toolbar label:hover {
+      color: var(--w3-l1);
+      background-color: var(--w3-l1-bg);
+    }
+
+    .radio-toolbar input[type="radio"]:checked + label {
+      background-color: var(--w3-l1-bg);
+    }
+
+    tr:nth-child(even) {
+      color: var(--w3-l3);
+      background-color: var(--w3-l3-bg);
+    }
+    tr:nth-child(odd) {
+      color: var(--w3-l4);
+      background-color: var(--w3-l4-bg);
+    }
+  </style>
+
+  <script id="deferred" defer>
+    loadPreferences();
     selectView("settings");
   </script>
 </html>
-<style>
-  .sticky {
-    position: sticky;
-    top: 0;
-  }
-  i {
-    font-size: 1.5rem;
-    color: var(--w3);
-  }
-  .app-icon > i {
-    font-size: 2.25rem;
-    color: var(--w3);
-  }
-
-  /* .radio-toolbar {
-    margin: 10px;
-  } */
-
-  .radio-toolbar input[type="radio"] {
-    opacity: 0;
-    position: fixed;
-    width: 0;
-  }
-
-  .radio-toolbar label {
-    display: inline-block;
-    background-color: inherit;
-    color: inherit;
-    padding: 4px 4px;
-  }
-
-  .radio-toolbar label:hover {
-    color: var(--w3-l1);
-    background-color: var(--w3-l1-bg);
-  }
-
-  /* .radio-toolbar input[type="radio"]:focus + label {
-    border: 2px dashed #444;
-  } */
-
-  .radio-toolbar input[type="radio"]:checked + label {
-    background-color: var(--w3-l1-bg);
-  }
-</style>

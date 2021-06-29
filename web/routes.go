@@ -7,6 +7,7 @@ import (
 	"io"
 	"net/http"
 
+	"github.com/centretown/tiny-fabb/forms"
 	"github.com/golang/glog"
 	"github.com/gorilla/mux"
 )
@@ -26,8 +27,13 @@ func (wp *Page) addRoutes(router *mux.Router, layout *template.Template) {
 
 	router.HandleFunc("/options/{theme}/",
 		func(w http.ResponseWriter, r *http.Request) {
-			wp.Theme = getRequestString(r, "theme")
-			layout.Execute(w, wp)
+			var ok bool
+			theme := getRequestString(r, "theme")
+			wp.Theme, ok = wp.Themes[theme]
+			if ok {
+				s := wp.Theme.MakeCSS()
+				w.Write([]byte(s))
+			}
 		})
 
 	router.HandleFunc("/list/{view}/",
@@ -58,7 +64,7 @@ func (wp *Page) addRoutes(router *mux.Router, layout *template.Template) {
 	router.HandleFunc("/apply/{key}/",
 		func(w http.ResponseWriter, r *http.Request) {
 			var (
-				updated []*Updated
+				updated []*forms.Updated
 				pkg     []byte
 			)
 			key := getRequestString(r, "key")

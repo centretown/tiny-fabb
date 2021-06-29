@@ -7,7 +7,7 @@ import (
 	"sort"
 	"testing"
 
-	"github.com/centretown/tiny-fabb/web"
+	"github.com/centretown/tiny-fabb/forms"
 )
 
 func testWeb(t *testing.T) {
@@ -28,7 +28,7 @@ func testWeb(t *testing.T) {
 	}
 
 	settings := gctl.views["settings"]
-	var ids web.WebIds = make(web.WebIds, 0, len(settings))
+	var ids forms.WebIds = make(forms.WebIds, 0, len(settings))
 	for id, _ := range settings { //NOLINT
 		ids = append(ids, id)
 	}
@@ -45,7 +45,7 @@ func testWeb(t *testing.T) {
 	}
 
 	for _, id := range ids {
-		err = gctl.Edit(os.Stdout, "settings", web.WebId(id).String())
+		err = gctl.Edit(os.Stdout, "settings", forms.WebId(id).String())
 		if err != nil {
 			t.Fatal(err)
 		}

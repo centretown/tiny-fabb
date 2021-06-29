@@ -1,9 +1,11 @@
 package grbl
 
-import "github.com/centretown/tiny-fabb/web"
+import (
+	"github.com/centretown/tiny-fabb/forms"
+)
 
 const (
-	Parameters web.WebId = iota
+	Parameters forms.WebId = iota
 	Motion
 	PlaneSelection
 	Diameter
@@ -24,11 +26,11 @@ const (
 )
 
 type Group struct {
-	ID    web.WebId
+	ID    forms.WebId
 	Label string
 }
 
-var Groups = map[web.WebId]*web.Entry{
+var Groups = map[forms.WebId]*forms.Entry{
 	Motion: {
 		ID:    Motion.String(),
 		Label: "Motion ('Group 1')",
@@ -100,7 +102,7 @@ var Groups = map[web.WebId]*web.Entry{
 }
 
 type GCode struct {
-	Group      *web.Entry
+	Group      *forms.Entry
 	Code       string
 	Label      string
 	Notes      string

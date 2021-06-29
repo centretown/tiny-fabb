@@ -5,6 +5,8 @@ import (
 	"net/http"
 
 	"github.com/centretown/tiny-fabb/data"
+	"github.com/centretown/tiny-fabb/forms"
+	"github.com/centretown/tiny-fabb/theme"
 	"github.com/centretown/tiny-fabb/web"
 	"github.com/golang/glog"
 
@@ -34,7 +36,15 @@ func main() {
 	controllers, ports, layout, documents := data.Setup(LocalSettings.ControllerCount,
 		LocalSettings.AssetsPath, LocalSettings.DocsSource)
 
-	webPage, err := web.NewPage(router, controllers, ports, layout, documents)
+	forms.InitDocuments(documents)
+
+	themes := make(theme.Themes)
+	err := themes.ReadJSON(LocalSettings.DataSource + "/themes.json")
+	if err != nil {
+		return
+	}
+
+	webPage, err := web.NewPage(router, controllers, ports, layout, themes)
 	if err != nil {
 		glog.Fatal(err)
 	}

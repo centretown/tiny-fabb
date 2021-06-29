@@ -3,10 +3,10 @@ package grbl
 import (
 	"fmt"
 
-	"github.com/centretown/tiny-fabb/web"
+	"github.com/centretown/tiny-fabb/forms"
 )
 
-var commandEntries = map[web.WebId]web.Entries{
+var commandEntries = map[forms.WebId]forms.Entries{
 	idSettings: {
 		{
 			ID:    idSettings.String(),
@@ -104,9 +104,9 @@ var (
 	axis = []string{"X", "Y", "Z", "A", "B", "C"}
 )
 
-func axisMasks(id web.WebId, code string, label string, url string) (entries []*web.Entry) {
-	entries = make([]*web.Entry, axisEntryCount)
-	entries[0] = &web.Entry{
+func axisMasks(id forms.WebId, code string, label string, url string) (entries []*forms.Entry) {
+	entries = make([]*forms.Entry, axisEntryCount)
+	entries[0] = &forms.Entry{
 		ID:    id.String(),
 		Code:  code,
 		Label: label,
@@ -120,18 +120,18 @@ func axisMasks(id web.WebId, code string, label string, url string) (entries []*
 	return
 }
 
-func axisMask(id web.WebId, index int, url string) (ent *web.Entry) {
+func axisMask(id forms.WebId, index int, url string) (ent *forms.Entry) {
 	var mask uint = 1 << (index - 1)
-	ent = &web.Entry{
+	ent = &forms.Entry{
 		ID:    id.Index(index),
 		Label: "Invert " + axis[index-1],
 		Type:  "checkbox",
 		URL:   url,
 		Val: func(v interface{}) interface{} {
-			return web.Mask(v, mask)
+			return forms.Mask(v, mask)
 		},
 		Scan: func(s string, v interface{}) (err error) {
-			err = web.UnMasks(v, mask, s)
+			err = forms.UnMasks(v, mask, s)
 			return
 		},
 	}
@@ -139,7 +139,7 @@ func axisMask(id web.WebId, index int, url string) (ent *web.Entry) {
 }
 
 // setting formatting hints
-var settingEntries = map[web.WebId]web.Entries{
+var settingEntries = map[forms.WebId]forms.Entries{
 	idStepPulse: {
 		{
 			ID:    idStepPulse.String(),
@@ -196,7 +196,7 @@ var settingEntries = map[web.WebId]web.Entries{
 			Scan: func(s string, v interface{}) (err error) {
 				var choice int
 				fmt.Sscan(s, &choice)
-				err = web.UnMask(v, 1, choice == 1)
+				err = forms.UnMask(v, 1, choice == 1)
 				return
 			},
 		},
@@ -207,7 +207,7 @@ var settingEntries = map[web.WebId]web.Entries{
 			URL:   "#10---status-report-mask",
 			Item:  0,
 			Val: func(v interface{}) (r interface{}) {
-				r = !web.Mask(v, 1)
+				r = !forms.Mask(v, 1)
 				return
 			},
 		},
@@ -218,21 +218,21 @@ var settingEntries = map[web.WebId]web.Entries{
 			URL:   "#10---status-report-mask",
 			Item:  1,
 			Val: func(v interface{}) (r interface{}) {
-				r = web.Mask(v, 1)
+				r = forms.Mask(v, 1)
 				return
 			},
 		},
 		{
 			ID:    idStatusReportMask.Index(3),
-			Label: "Data planner, Serial RX available data",
+			Label: "RX Buffer Status",
 			Type:  "checkbox",
 			URL:   "#10---status-report-mask",
 			Val: func(v interface{}) (r interface{}) {
-				r = web.Mask(v, 2)
+				r = forms.Mask(v, 2)
 				return
 			},
 			Scan: func(s string, v interface{}) (err error) {
-				err = web.UnMasks(v, 2, s)
+				err = forms.UnMasks(v, 2, s)
 				return
 			},
 		},

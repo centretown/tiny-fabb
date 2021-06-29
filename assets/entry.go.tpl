@@ -1,12 +1,11 @@
 {{define "list"}}
-    <div class="w3-responsive w3-border">
-        <table class="w3-table w3-striped w3-theme-l4">
+    <div class="w3-responsive">
+        <table class="w3-table">
         {{range $id, $form := .}}
             {{range $i, $ent := $form.Entries}}
             <tr>
                 <td>
-                    <a class=""
-                        href="javascript:openEdit('{{$id}}');"
+                    <a href="javascript:openEdit('{{$id}}');"
                         title="Edit current setting.">
                         {{$ent.Code}}: {{$ent.Label}}
                     </a>
@@ -43,22 +42,22 @@
     {{$value := .Value}}
     {{$first := index .Entries 0}}
     {{$doc := .FindDoc $first.Code}}
-    <div class="w3-modal-content">
-            <header class="w3-container w3-theme-d1 w3-padding-16">
-            <span>{{$first.Code}}: {{$first.Label}}</span>
-            <span class="w3-right">
-                <button class="w3-btn w3-round w3-left w3-theme-l2"
-                    onclick="closeDialog()">x</button>
-            </span>
-        </header>
-<br />
+    <div class="w3-modal-content w3-theme-d5">
         <form
+            class="w3-container"
             id="settings-form"
             name="settings-form"
             method="post"
             action="/apply/{{$first.ID}}/">
 
-            <div class="w3-container content">
+            <header class="w3-container w3-theme-l1 w3-padding-16">
+                <h5 style="display:inline-block">{{$first.Code}}: {{$first.Label}}</h5>
+                <span class="w3-right">
+                    <button class="w3-btn w3-round w3-left w3-theme-d5"
+                        onclick="closeDialog()">x</button>
+                </span>
+            </header>
+            <div class="content w3-theme-l3">
                 <div class="entries">
                 {{range $id, $ent := .Entries}}
                     {{if ne $ent.Type "mask"}} 
@@ -89,21 +88,20 @@
                     {{end}}
                 {{end}}
                 </div>
-                <div class="doc w3-theme-l5 entries">
+                <div class="entries doc w3-theme-l5">
                     {{template "pop-doc" $doc}}
                 </div>
             </div>
- 
-            <footer class="w3-container w3-theme-d1">
+             <footer class="w3-container w3-theme-l1">
                 <button
                     type="button"
                     onclick="closeDialog()"
-                    class="w3-btn w3-round w3-left w3-theme-l2 w3-margin">
+                    class="w3-btn w3-round w3-left w3-margin w3-theme-d5">
                     Cancel
                 </button>
                 <button
                     type="submit"
-                    class="w3-btn w3-round w3-right w3-theme-l2 w3-margin">
+                    class="w3-btn w3-round w3-right w3-margin w3-theme-d5">
                     Apply
                 </button>
             </footer>

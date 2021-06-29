@@ -1,4 +1,4 @@
-package web
+package forms
 
 import (
 	"fmt"
@@ -26,8 +26,9 @@ type Entry struct {
 type Entries []*Entry
 
 func (ent *Entry) Documents() docs.Docs {
-	return Documents
+	return Documents()
 }
+
 func (ent *Entry) FindDoc(code string) *docs.Doc {
 	return findDoc(code)
 }
@@ -91,7 +92,7 @@ func (ent *Entry) FormatInput(value interface{}, first *Entry) (f *InputFormat) 
 	switch ent.Type {
 	case "text":
 	case "checkbox":
-		f.Class = "w3-" + ent.Type
+		f.Class = "w3-check"
 		f.HasChecked = ent.Checked(eval)
 		f.Value = "true"
 	case "radio":

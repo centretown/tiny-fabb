@@ -1,6 +1,6 @@
 package grbl
 
-import "github.com/centretown/tiny-fabb/web"
+import "github.com/centretown/tiny-fabb/forms"
 
 const (
 	settingsBaseURL = "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"
@@ -9,8 +9,8 @@ const (
 	commandsURL     = "#grbl-commands"
 )
 
-func (g *Controller) bindSettings() (forms web.Forms) {
-	forms = web.Forms{
+func (g *Controller) bindSettings() (frms forms.Forms) {
+	frms = forms.Forms{
 		idStepPulse: {
 			ID:      idStepPulse,
 			Value:   &g.Settings.StepPulse,
@@ -247,14 +247,14 @@ func (g *Controller) bindSettings() (forms web.Forms) {
 			Value:   g.Commands.Settings,
 		},
 	}
-	for _, form := range forms {
+	for _, form := range frms {
 		form.BaseUrl = settingsBaseURL
 	}
 	return
 }
 
-func (g *Controller) bindCommands() (forms web.Forms) {
-	forms = web.Forms{
+func (g *Controller) bindCommands() (frms forms.Forms) {
+	frms = forms.Forms{
 		idParameters: {
 			ID:      idParameters,
 			Entries: commandEntries[idParameters],
@@ -311,7 +311,7 @@ func (g *Controller) bindCommands() (forms web.Forms) {
 			Value:   g.Commands.ClearRestore,
 		},
 	}
-	for _, form := range forms {
+	for _, form := range frms {
 		form.BaseUrl = commandsBaseURL
 	}
 	return
