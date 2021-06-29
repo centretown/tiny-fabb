@@ -7,8 +7,8 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/centretown/tiny-fabb/forms"
 	"github.com/centretown/tiny-fabb/serialio"
-	"github.com/centretown/tiny-fabb/web"
 )
 
 func testMonitor(t *testing.T) {
@@ -22,7 +22,7 @@ func testMonitor(t *testing.T) {
 	displayResults := func(results []string, err error) error {
 		for _, result := range results {
 			var (
-				key web.WebId
+				key forms.WebId
 				val string
 			)
 

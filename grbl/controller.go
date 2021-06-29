@@ -6,6 +6,7 @@ import (
 	"io"
 	"strings"
 
+	"github.com/centretown/tiny-fabb/forms"
 	"github.com/centretown/tiny-fabb/monitor"
 	"github.com/centretown/tiny-fabb/serialio"
 	"github.com/centretown/tiny-fabb/web"
@@ -21,7 +22,7 @@ type Controller struct {
 	Settings GrblSettings `json:"settings"`
 	Commands GrblCommands `json:"commands"`
 
-	views  map[string]web.Forms
+	views  map[string]forms.Forms
 	bus    *monitor.Bus
 	layout *template.Template
 }
@@ -31,7 +32,7 @@ func NewController(layout *template.Template) (gctl *Controller) {
 		layout: layout,
 	}
 
-	gctl.views = make(map[string]web.Forms)
+	gctl.views = make(map[string]forms.Forms)
 	gctl.views["settings"] = gctl.bindSettings()
 	gctl.views["commands"] = gctl.bindCommands()
 
@@ -85,7 +86,7 @@ func (gctl *Controller) Edit(w io.Writer, viewName, key string) (err error) {
 	return
 }
 
-func (gctl *Controller) Apply(viewName, key string, vals map[string][]string) (updated []*web.Updated, err error) {
+func (gctl *Controller) Apply(viewName, key string, vals map[string][]string) (updated []*forms.Updated, err error) {
 	form, err := gctl.getForm(viewName, key)
 	if err != nil {
 		return
@@ -139,10 +140,10 @@ func isTerminated(result string) (terminated bool, err error) {
 
 func (gctl *Controller) Query(view string, key string) (err error) {
 	var (
-		id      web.WebId
+		id      forms.WebId
 		val     string
-		form    *web.Form
-		ent     *web.Entry
+		form    *forms.Form
+		ent     *forms.Entry
 		results []string
 		done    bool
 	)
@@ -195,9 +196,9 @@ func (gctl *Controller) Query(view string, key string) (err error) {
 	return
 }
 
-func (gctl *Controller) Update(form *web.Form) (err error) {
+func (gctl *Controller) Update(form *forms.Form) (err error) {
 	var (
-		ent  *web.Entry
+		ent  *forms.Entry
 		val  interface{}
 		code string
 	)
@@ -245,7 +246,7 @@ func (gctl *Controller) getTemplate(tmplName string) (tmpl *template.Template, e
 	return
 }
 
-func (gctl *Controller) getView(viewName string) (view web.Forms, err error) {
+func (gctl *Controller) getView(viewName string) (view forms.Forms, err error) {
 	view = gctl.views[viewName]
 	if view == nil {
 		err = fmt.Errorf("view '%s' not found", viewName)
@@ -253,13 +254,13 @@ func (gctl *Controller) getView(viewName string) (view web.Forms, err error) {
 	return
 }
 
-func (gctl *Controller) getForm(viewName, key string) (form *web.Form, err error) {
+func (gctl *Controller) getForm(viewName, key string) (form *forms.Form, err error) {
 	view, err := gctl.getView(viewName)
 	if err != nil {
 		return
 	}
 
-	id := web.ToWebId(key)
+	id := forms.ToWebId(key)
 	form, ok := view[id]
 	if !ok {
 		err = fmt.Errorf("form '%s:%s' not found", viewName, key)

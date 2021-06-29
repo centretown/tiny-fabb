@@ -1,6 +1,24 @@
-package web
+package forms
 
 import "github.com/centretown/tiny-fabb/docs"
+
+var documents docs.Docs
+
+func InitDocuments(init docs.Docs) {
+	documents = init
+}
+
+func Documents() docs.Docs {
+	return documents
+}
+
+func findDoc(code string) (doc *docs.Doc) {
+	doc, err := documents.Find(code)
+	if err != nil {
+		doc = &docs.Doc{}
+	}
+	return
+}
 
 type Form struct {
 	ID      WebId
