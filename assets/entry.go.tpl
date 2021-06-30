@@ -1,6 +1,6 @@
 {{define "list"}}
     <div class="w3-responsive">
-        <table class="w3-table">
+        <table class="w3-table" style="margin-top:.5rem">
         {{range $id, $form := .}}
             {{range $i, $ent := $form.Entries}}
             <tr>

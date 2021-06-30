@@ -23,10 +23,7 @@
       {{template "app-bar" .}} {{template "select-bar" .}}
       {{template "button-bar" .}}
     </div>
-    <div
-      id="details"
-      class="w3-container w3-theme-d3 w3-margin-top"
-    ></div>
+    <div id="details" class="w3-container w3-theme-d3"></div>
     <div id="dialog" class="w3-modal w3-card w3-theme-d5"></div>
     <div id="options" class="w3-modal w3-card w3-theme-d5">
       {{template "options" .}}
@@ -321,6 +318,10 @@
   </style>
 
   <style>
+    body {
+      margin: 0.5em;
+    }
+
     .pop-doc {
       max-height: 9rem;
       overflow-y: auto;
