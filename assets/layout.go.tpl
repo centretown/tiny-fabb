@@ -33,7 +33,7 @@
             title="Status"
             onchange="selectView(value)">
         <label for="radio-status">
-            <i class="bi bi-question-circle"></i>
+            <i class="bi bi-list-check"></i>
         </label>
 
        <input 

@@ -73,7 +73,7 @@ var themeCSS = `
 .w3-border-theme {border-color:var(--w3-border) !important}
 .w3-hover-theme:hover {color:var(--w3-hover) !important; background-color:var(--w3-hover-bg) !important}
 .w3-hover-text-theme:hover {color:var(--w3-hover-text) !important}
-.w3-hover-border-theme:hover {border-color:ar(--w3-hover-border) !important}
+.w3-hover-border-theme:hover {border-color:var(--w3-hover-border) !important}
 `
 
 func MakeThemeCSS() string {
@@ -82,10 +82,11 @@ func MakeThemeCSS() string {
 
 func (theme Theme) MakeCSS() (s string) {
 	s = ":root {\n"
-	for _, col := range theme {
-		s += fmt.Sprintf("  --%s: %s;\n", col.Name, col.Color)
-		if len(col.BackGroundColor) > 0 {
-			s += fmt.Sprintf("  --%s-bg: %s;\n", col.Name, col.BackGroundColor)
+	for _, item := range theme {
+		s += fmt.Sprintf("  --%s: %s;\n", item.Name, item.Color)
+		if len(item.BackGroundColor) > 0 {
+			s += fmt.Sprintf("  --%s-bg: %s;\n",
+				item.Name, item.BackGroundColor)
 		}
 	}
 	s += "}\n"
