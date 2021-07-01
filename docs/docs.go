@@ -32,7 +32,7 @@ func NewDocs() (docs Docs) {
 func (docs Docs) WriteFile(fileName string) (err error) {
 	b, err := json.MarshalIndent(docs, "", "  ")
 	if err == nil {
-		err = ioutil.WriteFile(fileName, b, 0642)
+		err = ioutil.WriteFile(fileName, b, 0640)
 	}
 	return
 }

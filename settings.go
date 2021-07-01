@@ -7,8 +7,6 @@ import (
 	"os"
 	"os/user"
 	"path"
-
-	"github.com/golang/glog"
 )
 
 type SettingsHelp struct {
@@ -76,7 +74,7 @@ func (s *Settings) Save() (err error) {
 	if err != nil {
 		return
 	}
-	err = ioutil.WriteFile(DefaultSettings(), byts, 0642)
+	err = ioutil.WriteFile(DefaultSettings(), byts, 0640)
 	return
 }
 
@@ -95,7 +93,6 @@ func DefaultSettings() string {
 	settingsDir := path.Join(usr.HomeDir, SettingsDirName)
 	_, err := os.Stat(settingsDir)
 	if err != nil {
-		glog.Warning(err)
 		SaveSettingsErr = os.Mkdir(settingsDir, 0755)
 	}
 	return path.Join(settingsDir, SettingsFileName)

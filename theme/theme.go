@@ -27,7 +27,7 @@ func (themes Themes) WriteJSON(fname string) (err error) {
 		return
 	}
 
-	err = ioutil.WriteFile(fname, b, 0642)
+	err = ioutil.WriteFile(fname, b, 0640)
 	if err != nil {
 		glog.Error(err)
 		return
@@ -96,7 +96,7 @@ func (theme Theme) MakeCSS() (s string) {
 func (theme Theme) WriteCSS(fname string) (err error) {
 	s := theme.MakeCSS()
 
-	err = ioutil.WriteFile("vars/"+fname, []byte(s), 0642)
+	err = ioutil.WriteFile("vars/"+fname, []byte(s), 0640)
 	if err != nil {
 		glog.Error(err)
 		return
