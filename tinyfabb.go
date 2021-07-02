@@ -29,14 +29,14 @@ func main() {
 	glog.Infoln(DefaultSettings())
 
 	router := mux.NewRouter()
-	// server static files from assets folder
+	// serve static files from assets folder
 	router.PathPrefix("/static/").Handler(http.StripPrefix("/static/",
 		http.FileServer(http.Dir(LocalSettings.AssetsPath+"/"))))
 
 	controllers, ports, layout, documents := data.Setup(LocalSettings.ControllerCount,
 		LocalSettings.AssetsPath, LocalSettings.DocsSource)
 
-	forms.InitDocuments(documents)
+	forms.UseDocuments(documents)
 
 	themes := make(theme.Themes)
 	err := themes.ReadJSON(LocalSettings.DataSource + "/themes.json")
@@ -50,6 +50,9 @@ func main() {
 	}
 
 	glog.Infof("Web Server:%s Active", webPage.Title)
-	http.ListenAndServe(LocalSettings.WebPort, router)
+	err = http.ListenAndServe(LocalSettings.WebPort, router)
+	if err != nil {
+		glog.Errorln(err)
+	}
 
 }

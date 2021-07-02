@@ -4,7 +4,7 @@ import "github.com/centretown/tiny-fabb/docs"
 
 var documents docs.Docs
 
-func InitDocuments(init docs.Docs) {
+func UseDocuments(init docs.Docs) {
 	documents = init
 }
 

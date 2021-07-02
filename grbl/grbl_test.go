@@ -66,7 +66,7 @@ func TestQuery(t *testing.T) {
 	ports := serialio.ListSerial()
 	t.Log(ports)
 
-	layout := template.Must(template.ParseFiles("../assets/layout.test"))
+	layout := template.Must(template.ParseFiles("../assets/test.go.tpl"))
 	gctl := NewController(layout)
 	gctl.Title = "GRBL ESP32a"
 	gctl.Port = "/dev/ttyUSB1"
