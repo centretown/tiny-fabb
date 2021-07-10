@@ -41,7 +41,7 @@ func main() {
 	themes := make(theme.Themes)
 	err := themes.ReadJSON(LocalSettings.DataSource + "/themes.json")
 	if err != nil {
-		return
+		glog.Fatal(err)
 	}
 
 	webPage, err := web.NewPage(router, controllers, ports, layout, themes)
@@ -52,7 +52,7 @@ func main() {
 	glog.Infof("Web Server:%s Active", webPage.Title)
 	err = http.ListenAndServe(LocalSettings.WebPort, router)
 	if err != nil {
-		glog.Errorln(err)
+		glog.Fatal(err)
 	}
 
 }

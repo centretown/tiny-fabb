@@ -4,6 +4,8 @@ import (
 	"bufio"
 	"io"
 	"time"
+
+	"github.com/golang/glog"
 )
 
 // MonitorIO -
@@ -14,20 +16,38 @@ type MonitorIO interface {
 
 // Monitor I/O via Bus
 func Monitor(mio MonitorIO, bus *Bus) {
-
-	rdr, wrt, err := mio.Open()
-	if err != nil {
-		bus.Err <- err
-		return
-	}
-
-	defer mio.Close()
-
 	var (
-		bufReader = bufio.NewReaderSize(rdr, 256)
-		bufWriter = bufio.NewWriterSize(wrt, 64)
+		bufReader *bufio.Reader
+		bufWriter *bufio.Writer
 		line      []byte
+		err       error
+		isopen    bool
+
+		open = func() {
+			rdr, wrt, err := mio.Open()
+			if err == nil {
+				bufReader = bufio.NewReaderSize(rdr, 256)
+				bufWriter = bufio.NewWriterSize(wrt, 64)
+				isopen = true
+			} else {
+				bus.Err <- err
+			}
+		}
+
+		close = func() {
+			if isopen {
+				err = mio.Close()
+				if err != nil {
+					bus.Err <- err
+				}
+			}
+
+		}
 	)
+
+	open()
+
+	defer close()
 
 	for {
 		select {
@@ -42,7 +62,15 @@ func Monitor(mio MonitorIO, bus *Bus) {
 			}
 			if err != nil {
 				bus.Err <- err
-				// glog.Warningln(err)
+				glog.Warningln(err)
+			}
+		case operation := <-bus.Operation:
+			switch operation {
+			case Open:
+				open()
+			case Close:
+				close()
+			default:
 			}
 
 		default:

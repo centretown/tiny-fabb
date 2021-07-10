@@ -13,8 +13,9 @@ import (
 
 // SerialIO supports the MonitorIO interface for serial ports
 type SerialIO struct {
-	Name string
-	port *serial.Port
+	Name   string
+	port   *serial.Port
+	opened bool
 }
 
 var (
@@ -47,6 +48,8 @@ func (sio *SerialIO) Open() (rdr io.Reader, wrt io.Writer, err error) {
 		return
 	}
 	rdr, wrt = sio.port, sio.port
+	sio.opened = true
+	availableSerialIO[sio.Name] = sio
 	return
 }
 

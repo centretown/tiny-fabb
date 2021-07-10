@@ -38,7 +38,7 @@ func Setup(count int, assets, docsSource string) (controllers []web.Controller, 
 
 	documents, err := docs.LoadDocuments(docsSource)
 	if err != nil {
-		glog.Error(err)
+		glog.Errorln(err)
 	}
 	return
 }

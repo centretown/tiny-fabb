@@ -39,6 +39,27 @@ func NewController(layout *template.Template) (gctl *Controller) {
 	return
 }
 
+func (gctl *Controller) ActivateController() (err error) {
+	if gctl.Active {
+		err = fmt.Errorf("%s already active", gctl.Title)
+		return
+	}
+
+	var sio *serialio.SerialIO
+	sio, err = serialio.GetSerialIO(gctl.Port)
+	if err != nil {
+		return
+	}
+
+	gctl.bus = monitor.NewBus()
+	go monitor.Monitor(sio, gctl.bus)
+	gctl.Active = true
+	glog.Infof("Monitoring %v: %v...\n", gctl.Title, gctl.Port)
+
+	err = gctl.Query("settings", idSettings.String())
+	return
+}
+
 func (gctl *Controller) Describe() *web.Descriptor {
 	d := &web.Descriptor{
 		Title:       gctl.Title,
@@ -267,26 +288,5 @@ func (gctl *Controller) getForm(viewName, key string) (form *forms.Form, err err
 		return
 	}
 
-	return
-}
-
-func (gctl *Controller) ActivateController() (err error) {
-	if gctl.Active {
-		err = fmt.Errorf("%s already active", gctl.Title)
-		return
-	}
-
-	var sio *serialio.SerialIO
-	sio, err = serialio.GetSerialIO(gctl.Port)
-	if err != nil {
-		return
-	}
-
-	gctl.bus = monitor.NewBus()
-	go monitor.Monitor(sio, gctl.bus)
-	gctl.Active = true
-	glog.Infof("Monitoring %v: %v...\n", gctl.Title, gctl.Port)
-
-	err = gctl.Query("settings", idSettings.String())
 	return
 }

@@ -1,7 +1,9 @@
 package monitor
 
 import (
+	"fmt"
 	"testing"
+	"time"
 
 	"github.com/centretown/tiny-fabb/serialio"
 )
@@ -45,4 +47,11 @@ func capture(t *testing.T, bus *Bus) {
 	displayResults(bus.Capture("$C", terminators...))
 	displayResults(bus.Capture("$", terminators...))
 	displayResults(bus.Capture("", terminators...))
+
+	fmt.Println("5 seconds")
+	time.Sleep(time.Second * 5)
+
+	// bus.Operation <- Close
+	displayResults(bus.Capture("$$", terminators...))
+
 }
