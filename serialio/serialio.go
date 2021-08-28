@@ -3,9 +3,6 @@ package serialio
 import (
 	"fmt"
 	"io"
-	"io/ioutil"
-	"os"
-	"strings"
 	"time"
 
 	"github.com/tarm/serial"
