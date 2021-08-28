@@ -10,21 +10,23 @@ import (
 
 // MonitorIO -
 type MonitorIO interface {
-	Open() (rdr io.Reader, wrt io.Writer, err error)
-	Close() (err error)
+	Open(...interface{}) (io.Reader, io.Writer, error)
+	Close() error
 }
 
 // Monitor I/O via Bus
-func Monitor(mio MonitorIO, bus *Bus) {
+func Monitor(mio MonitorIO, bus *Bus, opts ...interface{}) {
 	var (
 		bufReader *bufio.Reader
 		bufWriter *bufio.Writer
 		line      []byte
 		err       error
 		isopen    bool
+		rdr       io.Reader
+		wrt       io.Writer
 
 		open = func() {
-			rdr, wrt, err := mio.Open()
+			rdr, wrt, err = mio.Open(opts...)
 			if err == nil {
 				bufReader = bufio.NewReaderSize(rdr, 256)
 				bufWriter = bufio.NewWriterSize(wrt, 64)
@@ -78,6 +80,8 @@ func Monitor(mio MonitorIO, bus *Bus) {
 			if err != nil {
 				if err != io.EOF {
 					bus.Err <- err
+				} else {
+					bufReader.Reset(rdr)
 				}
 				break
 			}
@@ -92,6 +96,8 @@ func Monitor(mio MonitorIO, bus *Bus) {
 			if err != nil {
 				if err != io.EOF {
 					bus.Err <- err
+				} else {
+					bufReader.Reset(rdr)
 				}
 				break
 			}

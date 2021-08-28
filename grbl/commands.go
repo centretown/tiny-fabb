@@ -29,16 +29,16 @@ type GCodeParameters struct {
 }
 
 type GrblCommands struct {
-	Settings        string `json:"settings"`
-	Parameters      string `json:"parameters"`
-	ParserState     string `json:"parserState"`
-	BuildInfo       string `json:"buildInfo"`
-	StartupBlocks   string `json:"startupBlocks"`
-	CodeMode        string `json:"codeMode"`
-	KillAlarm       string `json:"killAlarm"`
-	RunHomingCycle  string `json:"runHomingCycle"`
-	RunJoggingCycle string `json:"runJoggingCycle"`
-	EraseRestore    string `json:"eraseRestore"`
-	EraseZero       string `json:"eraseZero"`
-	ClearRestore    string `json:"clearRestore"`
+	Settings        []string `json:"settings"`
+	Parameters      []string `json:"parameters"`
+	ParserState     []string `json:"parserState"`
+	BuildInfo       []string `json:"buildInfo"`
+	StartupBlocks   []string `json:"startupBlocks"`
+	CodeMode        []string `json:"codeMode"`
+	KillAlarm       []string `json:"killAlarm"`
+	RunHomingCycle  []string `json:"runHomingCycle"`
+	RunJoggingCycle []string `json:"runJoggingCycle"`
+	EraseRestore    []string `json:"eraseRestore"`
+	EraseZero       []string `json:"eraseZero"`
+	ClearRestore    []string `json:"clearRestore"`
 }

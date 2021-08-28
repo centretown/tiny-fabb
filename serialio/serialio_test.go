@@ -2,64 +2,71 @@ package serialio
 
 import (
 	"testing"
+	"time"
+
+	"github.com/centretown/tiny-fabb/monitor"
 )
 
 func TestSerialIo(t *testing.T) {
-	// var id string
-	for _, l := range ListSerial() {
-		t.Log(l)
+	prv := &Provider{}
+	testList(t, prv, 2)
+	testList(t, prv, 2, "ACM")
+	testList(t, prv, 2, "ACM", "USB")
+}
+
+func testList(t *testing.T, prv *Provider, count int, filter ...string) {
+	t.Log(filter)
+
+	prv.Update(filter...)
+	for i := 0; i < count; i++ {
+		t.Logf("available %v\n", prv.List())
+		time.Sleep(time.Second)
 	}
 }
 
-// func testSerialIo(t *testing.T) {
-// 	var id string
-// 	for _, l := range ListSerial() {
-// 		t.Log(l)
-// 		if strings.Index(l, "ttyACM") != -1 {
-// 			id = l
-// 		}
-// 	}
+func TestMonitor(t *testing.T) {
+	prv := &Provider{}
+	testProvider(t, prv)
+}
 
-// 	sio, err := GetSerialIO(id)
+func testProvider(t *testing.T, prv monitor.Provider) {
 
-// 	rdr, wrt, err := sio.Open()
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
+	prv.Update()
+	ports := prv.List()
+	t.Log(ports)
+	for _, port := range ports {
+		t.Log()
+		t.Log(port)
+		mio, err := prv.Get(port)
+		if err != nil {
+			t.Log(err)
+			continue
+		}
+		bus := monitor.NewBus()
+		go monitor.Monitor(mio, bus)
+		capture(t, bus)
 
-// 	var (
-// 		bufReader = bufio.NewReaderSize(rdr, 256)
-// 		bufWriter = bufio.NewWriterSize(wrt, 64)
-// 		line      []byte
-// 	)
+	}
+}
 
-// 	_, err = bufWriter.WriteString("$$" + "\r")
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
-// 	bufWriter.Flush()
-
-// 	for {
-// 		line, err = bufReader.ReadBytes('\n')
-// 		if err != nil {
-// 			if err == io.EOF {
-// 				break
-// 			}
-// 			t.Fatal(err)
-// 		}
-
-// 		s := strings.TrimSpace(string(line))
-// 		t.Log(s)
-// 		if strings.HasPrefix(s, "ok") {
-// 			break
-// 		}
-// 		if strings.HasPrefix(s, "error") {
-// 			break
-// 		}
-// 	}
-
-// 	err = sio.Close()
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
-// }
+func capture(t *testing.T, bus *monitor.Bus) {
+	displayResults := func(results []string, err error) {
+		if err != nil {
+			t.Log(err)
+		} else {
+			for _, result := range results {
+				t.Log(result)
+			}
+		}
+	}
+	terminators := []string{"ok", "error"}
+	displayResults(bus.Capture("$I", terminators...))
+	displayResults(bus.Capture("$#", terminators...))
+	displayResults(bus.Capture("?", terminators...))
+	displayResults(bus.Capture("$C", terminators...))
+	displayResults(bus.Capture("$C", terminators...))
+	displayResults(bus.Capture("$", terminators...))
+	displayResults(bus.Capture("", terminators...))
+	displayResults(bus.Capture("$$", terminators...))
+	displayResults(bus.Capture("$0=10", terminators...))
+}

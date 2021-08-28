@@ -36,7 +36,6 @@ var commandEntries = map[forms.WebId]forms.Entries{
 			Label: "View build info",
 			URL:   "#i---view-build-info",
 			Type:  "text"}},
-	// Scan:  scanInfo}},
 	idStartupBlocks: {
 		{
 			ID:    idStartupBlocks.String(),

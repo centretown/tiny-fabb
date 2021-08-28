@@ -35,27 +35,26 @@
   <script>
     var details = document.getElementById("details");
     var currentView = "settings";
+    var currentController = 0;
+
+    function urlController() {
+      return "" + currentController + "/"
+    }
+    function urlView() {
+      return urlController() + currentView + "/"
+    }
+    function urlKey(key) {
+      return urlView() + key + "/"
+    }
 
     function selectView(view) {
       currentView = view;
-      let i = document.getElementById(
-        "selected-controller"
-      ).value;
-      getSection("/list/" + currentView + "/", "details");
+      getSection("/list/" + urlView(), "details");
     }
 
     function selectController() {
-      let i = document.getElementById(
-        "selected-controller"
-      ).value;
-      console.log("selected controller", i);
-      fetch("/controller/" + i + "/")
-        .then((response) => {
-          getSection("/list/" + currentView + "/", "details");
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
+      currentController = document.getElementById("selected-controller").value;
+      getSection("/list/" + urlView(), "details");
     }
 
     function getSection(section, id) {
@@ -97,7 +96,7 @@
     }
 
     function openEdit(key) {
-      fetch("/edit/" + currentView + "/" + key + "/")
+      fetch("/edit/" + urlKey(key))
         .then((response) => response.text())
         .then((text) => {
           let dlg = document.getElementById("dialog");
@@ -405,6 +404,6 @@
 
   <script id="deferred" defer>
     loadPreferences();
-    selectView("settings");
+    selectView(currentView);
   </script>
 </html>

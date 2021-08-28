@@ -26,6 +26,7 @@ type Settings struct {
 	ControllerCount int          `json:"controllerCount"`
 	WebPort         string       `json:"webPort"`
 	UDPPort         string       `json:"udpPort"`
+	Cameras         []string     `json:"cameras"`
 }
 
 var LocalSettings = &Settings{

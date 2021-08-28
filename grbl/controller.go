@@ -8,10 +8,41 @@ import (
 
 	"github.com/centretown/tiny-fabb/forms"
 	"github.com/centretown/tiny-fabb/monitor"
-	"github.com/centretown/tiny-fabb/serialio"
-	"github.com/centretown/tiny-fabb/web"
 	"github.com/golang/glog"
 )
+
+type Info struct {
+	Version  string
+	Options  string
+	Messages []string
+}
+
+const (
+	VER = "VER"
+	OPT = "OPT"
+	MSG = "MSG"
+)
+
+// func (inf *Info) Parse(results []string) {
+// 	var (
+// 		idx  int
+// 		temp string
+// 	)
+
+// 	for _, s := range results {
+// 		if len(s) < 5 {
+// 			continue
+// 		}
+
+// 		_, err := fmt.Sscanf(s, "[%]", &temp)
+// 		switch s[1:4] {
+// 		case "VER":
+// 		case "OPT":
+// 		case "MSG":
+
+// 		}
+// 	}
+// }
 
 type Controller struct {
 	Title    string       `json:"title"`
@@ -22,57 +53,39 @@ type Controller struct {
 	Settings GrblSettings `json:"settings"`
 	Commands GrblCommands `json:"commands"`
 
-	views  map[string]forms.Forms
-	bus    *monitor.Bus
-	layout *template.Template
+	views    map[string]forms.Forms
+	viewList []string
+	bus      *monitor.Bus
+	layout   *template.Template
 }
 
-func NewController(layout *template.Template) (gctl *Controller) {
+func NewController(bus *monitor.Bus, layout *template.Template) (gctl *Controller) {
 	gctl = &Controller{
 		layout: layout,
+		bus:    bus,
 	}
 
 	gctl.views = make(map[string]forms.Forms)
 	gctl.views["settings"] = gctl.bindSettings()
 	gctl.views["commands"] = gctl.bindCommands()
+	gctl.viewList = []string{"settings", "commands"}
 
 	return
 }
 
-func (gctl *Controller) ActivateController() (err error) {
-	if gctl.Active {
-		err = fmt.Errorf("%s already active", gctl.Title)
-		return
-	}
+// func (gctl *Controller) Describe() *controller.Descriptor {
+// 	d := &controller.Descriptor{
+// 		Title:       gctl.Title,
+// 		Description: "GRBL",
+// 		Port:        gctl.Port,
+// 		Active:      gctl.Active,
+// 		Version:     gctl.Version + " " + gctl.Build,
+// 	}
+// 	return d
+// }
 
-	var sio *serialio.SerialIO
-	sio, err = serialio.GetSerialIO(gctl.Port)
-	if err != nil {
-		return
-	}
-
-	gctl.bus = monitor.NewBus()
-	go monitor.Monitor(sio, gctl.bus)
-	gctl.Active = true
-	glog.Infof("Monitoring %v: %v...\n", gctl.Title, gctl.Port)
-
-	err = gctl.Query("settings", idSettings.String())
-	return
-}
-
-func (gctl *Controller) Describe() *web.Descriptor {
-	d := &web.Descriptor{
-		Title:       gctl.Title,
-		Description: "GRBL",
-		Port:        gctl.Port,
-		Active:      gctl.Active,
-		Version:     gctl.Version + " " + gctl.Build,
-	}
-	return d
-}
-
-func (gctl *Controller) ListViews() []string {
-	return []string{"Settings", "Commands", "Status"}
+func (gctl *Controller) Views() []string {
+	return gctl.viewList
 }
 
 func (gctl *Controller) Upload(w io.Writer, files []string) (err error) {
@@ -180,17 +193,16 @@ func (gctl *Controller) Query(view string, key string) (err error) {
 		return err
 	}
 
-	for _, result := range results {
-		done, err = isTerminated(result)
-		if err != nil {
-			glog.Warningln(err)
-		}
-		if done {
-			break
-		}
+	if view == "settings" {
+		for _, result := range results {
+			done, err = isTerminated(result)
+			if err != nil {
+				glog.Warningln(err)
+			}
+			if done {
+				break
+			}
 
-		switch view {
-		case "settings":
 			var count int
 			count, err = fmt.Sscanf(result, "$%d=%s", &id, &val)
 			if err == nil && count == 2 {
@@ -201,18 +213,13 @@ func (gctl *Controller) Query(view string, key string) (err error) {
 				}
 			}
 
-		case "commands":
-			val += result
+			if err != nil {
+				glog.Warningln(err.Error(), view, ent.Code)
+				return
+			}
 		}
-
-		if err != nil {
-			glog.Warningln(err.Error(), view, ent.Code)
-			return
-		}
-	}
-
-	if view == "commands" {
-		form.Value = &val
+	} else if view == "commands" {
+		form.Value = results
 	}
 	return
 }

@@ -1,9 +1,13 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"net/http"
+	"os"
+	"os/signal"
 
+	"github.com/centretown/tiny-fabb/camera"
 	"github.com/centretown/tiny-fabb/data"
 	"github.com/centretown/tiny-fabb/forms"
 	"github.com/centretown/tiny-fabb/theme"
@@ -33,8 +37,7 @@ func main() {
 	router.PathPrefix("/static/").Handler(http.StripPrefix("/static/",
 		http.FileServer(http.Dir(LocalSettings.AssetsPath+"/"))))
 
-	controllers, ports, layout, documents := data.Setup(LocalSettings.ControllerCount,
-		LocalSettings.AssetsPath, LocalSettings.DocsSource)
+	controllers, ports, layout, documents := data.Setup(LocalSettings.AssetsPath, LocalSettings.DocsSource)
 
 	forms.UseDocuments(documents)
 
@@ -49,10 +52,20 @@ func main() {
 		glog.Fatal(err)
 	}
 
-	glog.Infof("Web Server:%s Active", webPage.Title)
-	err = http.ListenAndServe(LocalSettings.WebPort, router)
-	if err != nil {
-		glog.Fatal(err)
-	}
+	webPage.Cameras = make(camera.Cameras)
+	webPage.Cameras.Start(router, 200, LocalSettings.Cameras...)
 
+	server := &http.Server{Addr: LocalSettings.WebPort, Handler: router}
+	sc := make(chan os.Signal, 1)
+	signal.Notify(sc, os.Interrupt)
+	go func() {
+		<-sc
+		webPage.Cameras.Stop()
+		server.Shutdown(context.Background())
+	}()
+
+	glog.Infof("Web Server:%s Active", webPage.Title)
+	err = server.ListenAndServe()
+	glog.Info(err)
+	glog.Exit()
 }

@@ -1,0 +1,2319 @@
+=== RUN   TestProvider
+    grbl_test.go:134: [/dev/ttyUSB0 /dev/ttyUSB1]
+    grbl_test.go:136: /dev/ttyUSB0
+[[VER:1.3a.20210424:] [OPT:PHBS] [MSG:Using machine:Test Drive - Demo Only No I/O!] [MSG:Mode=BT:Name=btgrblesp(10:52:1C:67:EB:76):Status=Not connected] ok]
+
+    <div class="w3-responsive">
+        <table class="w3-table" style="margin-top:.5rem">
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web0');"
+                        title="Edit current setting.">
+                        $0: Step Pulse (µs)
+                    </a>
+                </td>
+
+                <td id="web0">
+                    10
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web1');"
+                        title="Edit current setting.">
+                        $1: Step Idle Delay (ms)
+                    </a>
+                </td>
+
+                <td id="web1">
+                    250
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web2');"
+                        title="Edit current setting.">
+                        $2: Invert Step Port
+                    </a>
+                </td>
+
+                <td id="web2">
+                    48
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web2');"
+                        title="Edit current setting.">
+                        : Invert X
+                    </a>
+                </td>
+
+                <td id="web2-1">
+                    false
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web2');"
+                        title="Edit current setting.">
+                        : Invert Y
+                    </a>
+                </td>
+
+                <td id="web2-2">
+                    false
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web2');"
+                        title="Edit current setting.">
+                        : Invert Z
+                    </a>
+                </td>
+
+                <td id="web2-3">
+                    false
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web2');"
+                        title="Edit current setting.">
+                        : Invert A
+                    </a>
+                </td>
+
+                <td id="web2-4">
+                    false
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web2');"
+                        title="Edit current setting.">
+                        : Invert B
+                    </a>
+                </td>
+
+                <td id="web2-5">
+                    true
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web2');"
+                        title="Edit current setting.">
+                        : Invert C
+                    </a>
+                </td>
+
+                <td id="web2-6">
+                    true
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web3');"
+                        title="Edit current setting.">
+                        $3: Invert Direction Port
+                    </a>
+                </td>
+
+                <td id="web3">
+                    48
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web3');"
+                        title="Edit current setting.">
+                        : Invert X
+                    </a>
+                </td>
+
+                <td id="web3-1">
+                    false
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web3');"
+                        title="Edit current setting.">
+                        : Invert Y
+                    </a>
+                </td>
+
+                <td id="web3-2">
+                    false
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web3');"
+                        title="Edit current setting.">
+                        : Invert Z
+                    </a>
+                </td>
+
+                <td id="web3-3">
+                    false
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web3');"
+                        title="Edit current setting.">
+                        : Invert A
+                    </a>
+                </td>
+
+                <td id="web3-4">
+                    false
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web3');"
+                        title="Edit current setting.">
+                        : Invert B
+                    </a>
+                </td>
+
+                <td id="web3-5">
+                    true
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web3');"
+                        title="Edit current setting.">
+                        : Invert C
+                    </a>
+                </td>
+
+                <td id="web3-6">
+                    true
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web4');"
+                        title="Edit current setting.">
+                        $4: Invert Step Enable
+                    </a>
+                </td>
+
+                <td id="web4">
+                    false
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web5');"
+                        title="Edit current setting.">
+                        $5: Invert Limit Pins
+                    </a>
+                </td>
+
+                <td id="web5">
+                    false
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web6');"
+                        title="Edit current setting.">
+                        $6: Invert Probe Pin
+                    </a>
+                </td>
+
+                <td id="web6">
+                    false
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web10');"
+                        title="Edit current setting.">
+                        $10: Status Report
+                    </a>
+                </td>
+
+                <td id="web10">
+                    0
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web10');"
+                        title="Edit current setting.">
+                        : Show Work Position
+                    </a>
+                </td>
+
+                <td id="web10-1">
+                    true
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web10');"
+                        title="Edit current setting.">
+                        : Show Machine Position
+                    </a>
+                </td>
+
+                <td id="web10-2">
+                    false
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web10');"
+                        title="Edit current setting.">
+                        : RX Buffer Status
+                    </a>
+                </td>
+
+                <td id="web10-3">
+                    false
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web11');"
+                        title="Edit current setting.">
+                        $11: Junction Deviation (mm)
+                    </a>
+                </td>
+
+                <td id="web11">
+                    0.01
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web12');"
+                        title="Edit current setting.">
+                        $12: Arc Tolerance (mm)
+                    </a>
+                </td>
+
+                <td id="web12">
+                    0.002
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web13');"
+                        title="Edit current setting.">
+                        $13: Report Using Inches
+                    </a>
+                </td>
+
+                <td id="web13">
+                    false
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web20');"
+                        title="Edit current setting.">
+                        $20: Enable Soft Limits
+                    </a>
+                </td>
+
+                <td id="web20">
+                    false
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web21');"
+                        title="Edit current setting.">
+                        $21: Enable Hard Limits
+                    </a>
+                </td>
+
+                <td id="web21">
+                    false
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web22');"
+                        title="Edit current setting.">
+                        $22: Enable Homing Cycle
+                    </a>
+                </td>
+
+                <td id="web22">
+                    false
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web23');"
+                        title="Edit current setting.">
+                        $23: Invert Homing Direction
+                    </a>
+                </td>
+
+                <td id="web23">
+                    3
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web23');"
+                        title="Edit current setting.">
+                        : Invert X
+                    </a>
+                </td>
+
+                <td id="web23-1">
+                    true
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web23');"
+                        title="Edit current setting.">
+                        : Invert Y
+                    </a>
+                </td>
+
+                <td id="web23-2">
+                    true
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web23');"
+                        title="Edit current setting.">
+                        : Invert Z
+                    </a>
+                </td>
+
+                <td id="web23-3">
+                    false
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web23');"
+                        title="Edit current setting.">
+                        : Invert A
+                    </a>
+                </td>
+
+                <td id="web23-4">
+                    false
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web23');"
+                        title="Edit current setting.">
+                        : Invert B
+                    </a>
+                </td>
+
+                <td id="web23-5">
+                    false
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web23');"
+                        title="Edit current setting.">
+                        : Invert C
+                    </a>
+                </td>
+
+                <td id="web23-6">
+                    false
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web24');"
+                        title="Edit current setting.">
+                        $24: Homing feed (mm/min)
+                    </a>
+                </td>
+
+                <td id="web24">
+                    200
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web25');"
+                        title="Edit current setting.">
+                        $25: Homing seek (mm/min)
+                    </a>
+                </td>
+
+                <td id="web25">
+                    2000
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web26');"
+                        title="Edit current setting.">
+                        $26: Homing debounce (ms)
+                    </a>
+                </td>
+
+                <td id="web26">
+                    250
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web27');"
+                        title="Edit current setting.">
+                        $27: Homing pull-off (mm)
+                    </a>
+                </td>
+
+                <td id="web27">
+                    1
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web30');"
+                        title="Edit current setting.">
+                        $30: Max spindle speed (rpm)
+                    </a>
+                </td>
+
+                <td id="web30">
+                    1000
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web31');"
+                        title="Edit current setting.">
+                        $31: Min spindle speed (rpm)
+                    </a>
+                </td>
+
+                <td id="web31">
+                    0
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web32');"
+                        title="Edit current setting.">
+                        $32: Laser mode, boolean
+                    </a>
+                </td>
+
+                <td id="web32">
+                    false
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web100');"
+                        title="Edit current setting.">
+                        $100: X (steps/mm)
+                    </a>
+                </td>
+
+                <td id="web100">
+                    100
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web101');"
+                        title="Edit current setting.">
+                        $101: Y (steps/mm)
+                    </a>
+                </td>
+
+                <td id="web101">
+                    100
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web102');"
+                        title="Edit current setting.">
+                        $102: Z (steps/mm)
+                    </a>
+                </td>
+
+                <td id="web102">
+                    100
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web103');"
+                        title="Edit current setting.">
+                        $103: A (steps/mm)
+                    </a>
+                </td>
+
+                <td id="web103">
+                    100
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web104');"
+                        title="Edit current setting.">
+                        $104: B (steps/mm)
+                    </a>
+                </td>
+
+                <td id="web104">
+                    100
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web105');"
+                        title="Edit current setting.">
+                        $105: C (steps/mm)
+                    </a>
+                </td>
+
+                <td id="web105">
+                    100
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web110');"
+                        title="Edit current setting.">
+                        $110: X Max rate (mm/min)
+                    </a>
+                </td>
+
+                <td id="web110">
+                    1000
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web111');"
+                        title="Edit current setting.">
+                        $111: Y Max rate (mm/min)
+                    </a>
+                </td>
+
+                <td id="web111">
+                    1000
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web112');"
+                        title="Edit current setting.">
+                        $112: Z Max rate (mm/min)
+                    </a>
+                </td>
+
+                <td id="web112">
+                    1000
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web113');"
+                        title="Edit current setting.">
+                        $113: A Max rate (mm/min)
+                    </a>
+                </td>
+
+                <td id="web113">
+                    1000
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web114');"
+                        title="Edit current setting.">
+                        $114: B Max rate (mm/min)
+                    </a>
+                </td>
+
+                <td id="web114">
+                    1000
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web115');"
+                        title="Edit current setting.">
+                        $115: C Max rate (mm/min)
+                    </a>
+                </td>
+
+                <td id="web115">
+                    1000
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web120');"
+                        title="Edit current setting.">
+                        $120: X Acceleration (mm/sec²)
+                    </a>
+                </td>
+
+                <td id="web120">
+                    200
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web121');"
+                        title="Edit current setting.">
+                        $121: Y Acceleration (mm/sec²)
+                    </a>
+                </td>
+
+                <td id="web121">
+                    200
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web122');"
+                        title="Edit current setting.">
+                        $122: Z Acceleration (mm/sec²)
+                    </a>
+                </td>
+
+                <td id="web122">
+                    200
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web123');"
+                        title="Edit current setting.">
+                        $123: A Acceleration (mm/sec²)
+                    </a>
+                </td>
+
+                <td id="web123">
+                    200
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web124');"
+                        title="Edit current setting.">
+                        $124: B Acceleration (mm/sec²)
+                    </a>
+                </td>
+
+                <td id="web124">
+                    200
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web125');"
+                        title="Edit current setting.">
+                        $125: C Acceleration (mm/sec²)
+                    </a>
+                </td>
+
+                <td id="web125">
+                    200
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web130');"
+                        title="Edit current setting.">
+                        $130: X Max travel (mm)
+                    </a>
+                </td>
+
+                <td id="web130">
+                    300
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web131');"
+                        title="Edit current setting.">
+                        $131: Y Max travel (mm)
+                    </a>
+                </td>
+
+                <td id="web131">
+                    300
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web132');"
+                        title="Edit current setting.">
+                        $132: Z Max travel (mm)
+                    </a>
+                </td>
+
+                <td id="web132">
+                    300
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web133');"
+                        title="Edit current setting.">
+                        $133: A Max travel (mm)
+                    </a>
+                </td>
+
+                <td id="web130">
+                    300
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web134');"
+                        title="Edit current setting.">
+                        $134: B Max travel (mm)
+                    </a>
+                </td>
+
+                <td id="web134">
+                    300
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web135');"
+                        title="Edit current setting.">
+                        $135: C Max travel (mm)
+                    </a>
+                </td>
+
+                <td id="web135">
+                    300
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web136');"
+                        title="Edit current setting.">
+                        $$: View and write Grbl settings
+                    </a>
+                </td>
+
+                <td id="web136">
+                    []
+                </td>
+            </tr>
+            
+        
+        </table>
+    </div>
+
+    <div class="w3-responsive">
+        <table class="w3-table" style="margin-top:.5rem">
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web2001');"
+                        title="Edit current setting.">
+                        $#: View gcode parameters
+                    </a>
+                </td>
+
+                <td id="web2001">
+                    [[G54:0.000,0.000,0.000] [G55:0.000,0.000,0.000] [G56:0.000,0.000,0.000] [G57:0.000,0.000,0.000] [G58:0.000,0.000,0.000] [G59:0.000,0.000,0.000] [G28:0.000,0.000,0.000] [G30:0.000,0.000,0.000] [G92:0.000,0.000,0.000] [TLO:0.000] [PRB:0.000,0.000,0.000:0] ok]
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web2002');"
+                        title="Edit current setting.">
+                        $G: View gcode parser state
+                    </a>
+                </td>
+
+                <td id="web2002">
+                    [[GC:G0 G54 G17 G21 G90 G94 M5 M9 T0 F0 S0] ok]
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web2003');"
+                        title="Edit current setting.">
+                        $I: View build info
+                    </a>
+                </td>
+
+                <td id="web2003">
+                    [[VER:1.3a.20210424:] [OPT:PHBS] [MSG:Using machine:Test Drive - Demo Only No I/O!] [MSG:Mode=BT:Name=btgrblesp(10:52:1C:67:EB:76):Status=Not connected] ok]
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web2004');"
+                        title="Edit current setting.">
+                        $N: View startup blocks
+                    </a>
+                </td>
+
+                <td id="web2004">
+                    [$N0= $N1= ok]
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web2005');"
+                        title="Edit current setting.">
+                        $C: Check gcode mode
+                    </a>
+                </td>
+
+                <td id="web2005">
+                    []
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web2006');"
+                        title="Edit current setting.">
+                        $X: Kill alarm lock
+                    </a>
+                </td>
+
+                <td id="web2006">
+                    []
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web2007');"
+                        title="Edit current setting.">
+                        $H: Run homing cycle
+                    </a>
+                </td>
+
+                <td id="web2007">
+                    []
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web2008');"
+                        title="Edit current setting.">
+                        $J: Run jogging motion
+                    </a>
+                </td>
+
+                <td id="web2008">
+                    []
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web2009');"
+                        title="Edit current setting.">
+                        $RST=$: Erase and restore
+                    </a>
+                </td>
+
+                <td id="web2009">
+                    []
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web2010');"
+                        title="Edit current setting.">
+                        $RST=#: Erase and zero
+                    </a>
+                </td>
+
+                <td id="web2010">
+                    []
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web2011');"
+                        title="Edit current setting.">
+                        $RST=*: Clear and restore
+                    </a>
+                </td>
+
+                <td id="web2011">
+                    []
+                </td>
+            </tr>
+            
+        
+        </table>
+    </div>
+    grbl_test.go:136: /dev/ttyUSB1
+[ Grbl 1.1h ['$' for help] [VER:1.1h.20190825:] [OPT:V,15,128] ok]
+
+    <div class="w3-responsive">
+        <table class="w3-table" style="margin-top:.5rem">
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web0');"
+                        title="Edit current setting.">
+                        $0: Step Pulse (µs)
+                    </a>
+                </td>
+
+                <td id="web0">
+                    10
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web1');"
+                        title="Edit current setting.">
+                        $1: Step Idle Delay (ms)
+                    </a>
+                </td>
+
+                <td id="web1">
+                    25
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web2');"
+                        title="Edit current setting.">
+                        $2: Invert Step Port
+                    </a>
+                </td>
+
+                <td id="web2">
+                    0
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web2');"
+                        title="Edit current setting.">
+                        : Invert X
+                    </a>
+                </td>
+
+                <td id="web2-1">
+                    false
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web2');"
+                        title="Edit current setting.">
+                        : Invert Y
+                    </a>
+                </td>
+
+                <td id="web2-2">
+                    false
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web2');"
+                        title="Edit current setting.">
+                        : Invert Z
+                    </a>
+                </td>
+
+                <td id="web2-3">
+                    false
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web2');"
+                        title="Edit current setting.">
+                        : Invert A
+                    </a>
+                </td>
+
+                <td id="web2-4">
+                    false
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web2');"
+                        title="Edit current setting.">
+                        : Invert B
+                    </a>
+                </td>
+
+                <td id="web2-5">
+                    false
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web2');"
+                        title="Edit current setting.">
+                        : Invert C
+                    </a>
+                </td>
+
+                <td id="web2-6">
+                    false
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web3');"
+                        title="Edit current setting.">
+                        $3: Invert Direction Port
+                    </a>
+                </td>
+
+                <td id="web3">
+                    0
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web3');"
+                        title="Edit current setting.">
+                        : Invert X
+                    </a>
+                </td>
+
+                <td id="web3-1">
+                    false
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web3');"
+                        title="Edit current setting.">
+                        : Invert Y
+                    </a>
+                </td>
+
+                <td id="web3-2">
+                    false
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web3');"
+                        title="Edit current setting.">
+                        : Invert Z
+                    </a>
+                </td>
+
+                <td id="web3-3">
+                    false
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web3');"
+                        title="Edit current setting.">
+                        : Invert A
+                    </a>
+                </td>
+
+                <td id="web3-4">
+                    false
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web3');"
+                        title="Edit current setting.">
+                        : Invert B
+                    </a>
+                </td>
+
+                <td id="web3-5">
+                    false
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web3');"
+                        title="Edit current setting.">
+                        : Invert C
+                    </a>
+                </td>
+
+                <td id="web3-6">
+                    false
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web4');"
+                        title="Edit current setting.">
+                        $4: Invert Step Enable
+                    </a>
+                </td>
+
+                <td id="web4">
+                    false
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web5');"
+                        title="Edit current setting.">
+                        $5: Invert Limit Pins
+                    </a>
+                </td>
+
+                <td id="web5">
+                    false
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web6');"
+                        title="Edit current setting.">
+                        $6: Invert Probe Pin
+                    </a>
+                </td>
+
+                <td id="web6">
+                    false
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web10');"
+                        title="Edit current setting.">
+                        $10: Status Report
+                    </a>
+                </td>
+
+                <td id="web10">
+                    1
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web10');"
+                        title="Edit current setting.">
+                        : Show Work Position
+                    </a>
+                </td>
+
+                <td id="web10-1">
+                    false
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web10');"
+                        title="Edit current setting.">
+                        : Show Machine Position
+                    </a>
+                </td>
+
+                <td id="web10-2">
+                    true
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web10');"
+                        title="Edit current setting.">
+                        : RX Buffer Status
+                    </a>
+                </td>
+
+                <td id="web10-3">
+                    false
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web11');"
+                        title="Edit current setting.">
+                        $11: Junction Deviation (mm)
+                    </a>
+                </td>
+
+                <td id="web11">
+                    0.01
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web12');"
+                        title="Edit current setting.">
+                        $12: Arc Tolerance (mm)
+                    </a>
+                </td>
+
+                <td id="web12">
+                    0.002
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web13');"
+                        title="Edit current setting.">
+                        $13: Report Using Inches
+                    </a>
+                </td>
+
+                <td id="web13">
+                    false
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web20');"
+                        title="Edit current setting.">
+                        $20: Enable Soft Limits
+                    </a>
+                </td>
+
+                <td id="web20">
+                    false
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web21');"
+                        title="Edit current setting.">
+                        $21: Enable Hard Limits
+                    </a>
+                </td>
+
+                <td id="web21">
+                    false
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web22');"
+                        title="Edit current setting.">
+                        $22: Enable Homing Cycle
+                    </a>
+                </td>
+
+                <td id="web22">
+                    false
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web23');"
+                        title="Edit current setting.">
+                        $23: Invert Homing Direction
+                    </a>
+                </td>
+
+                <td id="web23">
+                    0
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web23');"
+                        title="Edit current setting.">
+                        : Invert X
+                    </a>
+                </td>
+
+                <td id="web23-1">
+                    false
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web23');"
+                        title="Edit current setting.">
+                        : Invert Y
+                    </a>
+                </td>
+
+                <td id="web23-2">
+                    false
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web23');"
+                        title="Edit current setting.">
+                        : Invert Z
+                    </a>
+                </td>
+
+                <td id="web23-3">
+                    false
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web23');"
+                        title="Edit current setting.">
+                        : Invert A
+                    </a>
+                </td>
+
+                <td id="web23-4">
+                    false
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web23');"
+                        title="Edit current setting.">
+                        : Invert B
+                    </a>
+                </td>
+
+                <td id="web23-5">
+                    false
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web23');"
+                        title="Edit current setting.">
+                        : Invert C
+                    </a>
+                </td>
+
+                <td id="web23-6">
+                    false
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web24');"
+                        title="Edit current setting.">
+                        $24: Homing feed (mm/min)
+                    </a>
+                </td>
+
+                <td id="web24">
+                    25
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web25');"
+                        title="Edit current setting.">
+                        $25: Homing seek (mm/min)
+                    </a>
+                </td>
+
+                <td id="web25">
+                    500
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web26');"
+                        title="Edit current setting.">
+                        $26: Homing debounce (ms)
+                    </a>
+                </td>
+
+                <td id="web26">
+                    250
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web27');"
+                        title="Edit current setting.">
+                        $27: Homing pull-off (mm)
+                    </a>
+                </td>
+
+                <td id="web27">
+                    1
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web30');"
+                        title="Edit current setting.">
+                        $30: Max spindle speed (rpm)
+                    </a>
+                </td>
+
+                <td id="web30">
+                    1000
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web31');"
+                        title="Edit current setting.">
+                        $31: Min spindle speed (rpm)
+                    </a>
+                </td>
+
+                <td id="web31">
+                    0
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web32');"
+                        title="Edit current setting.">
+                        $32: Laser mode, boolean
+                    </a>
+                </td>
+
+                <td id="web32">
+                    false
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web100');"
+                        title="Edit current setting.">
+                        $100: X (steps/mm)
+                    </a>
+                </td>
+
+                <td id="web100">
+                    250
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web101');"
+                        title="Edit current setting.">
+                        $101: Y (steps/mm)
+                    </a>
+                </td>
+
+                <td id="web101">
+                    250
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web102');"
+                        title="Edit current setting.">
+                        $102: Z (steps/mm)
+                    </a>
+                </td>
+
+                <td id="web102">
+                    250
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web103');"
+                        title="Edit current setting.">
+                        $103: A (steps/mm)
+                    </a>
+                </td>
+
+                <td id="web103">
+                    0
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web104');"
+                        title="Edit current setting.">
+                        $104: B (steps/mm)
+                    </a>
+                </td>
+
+                <td id="web104">
+                    0
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web105');"
+                        title="Edit current setting.">
+                        $105: C (steps/mm)
+                    </a>
+                </td>
+
+                <td id="web105">
+                    0
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web110');"
+                        title="Edit current setting.">
+                        $110: X Max rate (mm/min)
+                    </a>
+                </td>
+
+                <td id="web110">
+                    500
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web111');"
+                        title="Edit current setting.">
+                        $111: Y Max rate (mm/min)
+                    </a>
+                </td>
+
+                <td id="web111">
+                    500
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web112');"
+                        title="Edit current setting.">
+                        $112: Z Max rate (mm/min)
+                    </a>
+                </td>
+
+                <td id="web112">
+                    500
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web113');"
+                        title="Edit current setting.">
+                        $113: A Max rate (mm/min)
+                    </a>
+                </td>
+
+                <td id="web113">
+                    0
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web114');"
+                        title="Edit current setting.">
+                        $114: B Max rate (mm/min)
+                    </a>
+                </td>
+
+                <td id="web114">
+                    0
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web115');"
+                        title="Edit current setting.">
+                        $115: C Max rate (mm/min)
+                    </a>
+                </td>
+
+                <td id="web115">
+                    0
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web120');"
+                        title="Edit current setting.">
+                        $120: X Acceleration (mm/sec²)
+                    </a>
+                </td>
+
+                <td id="web120">
+                    10
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web121');"
+                        title="Edit current setting.">
+                        $121: Y Acceleration (mm/sec²)
+                    </a>
+                </td>
+
+                <td id="web121">
+                    10
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web122');"
+                        title="Edit current setting.">
+                        $122: Z Acceleration (mm/sec²)
+                    </a>
+                </td>
+
+                <td id="web122">
+                    10
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web123');"
+                        title="Edit current setting.">
+                        $123: A Acceleration (mm/sec²)
+                    </a>
+                </td>
+
+                <td id="web123">
+                    0
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web124');"
+                        title="Edit current setting.">
+                        $124: B Acceleration (mm/sec²)
+                    </a>
+                </td>
+
+                <td id="web124">
+                    0
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web125');"
+                        title="Edit current setting.">
+                        $125: C Acceleration (mm/sec²)
+                    </a>
+                </td>
+
+                <td id="web125">
+                    0
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web130');"
+                        title="Edit current setting.">
+                        $130: X Max travel (mm)
+                    </a>
+                </td>
+
+                <td id="web130">
+                    200
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web131');"
+                        title="Edit current setting.">
+                        $131: Y Max travel (mm)
+                    </a>
+                </td>
+
+                <td id="web131">
+                    200
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web132');"
+                        title="Edit current setting.">
+                        $132: Z Max travel (mm)
+                    </a>
+                </td>
+
+                <td id="web132">
+                    200
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web133');"
+                        title="Edit current setting.">
+                        $133: A Max travel (mm)
+                    </a>
+                </td>
+
+                <td id="web130">
+                    0
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web134');"
+                        title="Edit current setting.">
+                        $134: B Max travel (mm)
+                    </a>
+                </td>
+
+                <td id="web134">
+                    0
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web135');"
+                        title="Edit current setting.">
+                        $135: C Max travel (mm)
+                    </a>
+                </td>
+
+                <td id="web135">
+                    0
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web136');"
+                        title="Edit current setting.">
+                        $$: View and write Grbl settings
+                    </a>
+                </td>
+
+                <td id="web136">
+                    []
+                </td>
+            </tr>
+            
+        
+        </table>
+    </div>
+
+    <div class="w3-responsive">
+        <table class="w3-table" style="margin-top:.5rem">
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web2001');"
+                        title="Edit current setting.">
+                        $#: View gcode parameters
+                    </a>
+                </td>
+
+                <td id="web2001">
+                    [[G54:0.000,0.000,0.000] [G55:0.000,0.000,0.000] [G56:0.000,0.000,0.000] [G57:0.000,0.000,0.000] [G58:0.000,0.000,0.000] [G59:0.000,0.000,0.000] [G28:0.000,0.000,0.000] [G30:0.000,0.000,0.000] [G92:0.000,0.000,0.000] [TLO:0.000] [PRB:0.000,0.000,0.000:0] ok]
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web2002');"
+                        title="Edit current setting.">
+                        $G: View gcode parser state
+                    </a>
+                </td>
+
+                <td id="web2002">
+                    [[GC:G0 G54 G17 G21 G90 G94 M5 M9 T0 F0 S0] ok]
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web2003');"
+                        title="Edit current setting.">
+                        $I: View build info
+                    </a>
+                </td>
+
+                <td id="web2003">
+                    [[VER:1.1h.20190825:] [OPT:V,15,128] ok]
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web2004');"
+                        title="Edit current setting.">
+                        $N: View startup blocks
+                    </a>
+                </td>
+
+                <td id="web2004">
+                    [$N0= $N1= ok]
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web2005');"
+                        title="Edit current setting.">
+                        $C: Check gcode mode
+                    </a>
+                </td>
+
+                <td id="web2005">
+                    []
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web2006');"
+                        title="Edit current setting.">
+                        $X: Kill alarm lock
+                    </a>
+                </td>
+
+                <td id="web2006">
+                    []
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web2007');"
+                        title="Edit current setting.">
+                        $H: Run homing cycle
+                    </a>
+                </td>
+
+                <td id="web2007">
+                    []
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web2008');"
+                        title="Edit current setting.">
+                        $J: Run jogging motion
+                    </a>
+                </td>
+
+                <td id="web2008">
+                    []
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web2009');"
+                        title="Edit current setting.">
+                        $RST=$: Erase and restore
+                    </a>
+                </td>
+
+                <td id="web2009">
+                    []
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web2010');"
+                        title="Edit current setting.">
+                        $RST=#: Erase and zero
+                    </a>
+                </td>
+
+                <td id="web2010">
+                    []
+                </td>
+            </tr>
+            
+        
+            
+            <tr>
+                <td>
+                    <a href="javascript:openEdit('web2011');"
+                        title="Edit current setting.">
+                        $RST=*: Clear and restore
+                    </a>
+                </td>
+
+                <td id="web2011">
+                    []
+                </td>
+            </tr>
+            
+        
+        </table>
+    </div>
+--- PASS: TestProvider (0.29s)
+PASS
+ok  	github.com/centretown/tiny-fabb/grbl	0.347s
