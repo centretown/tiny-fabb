@@ -9,6 +9,8 @@ import (
 
 type Connector struct{}
 
+var controllerCount int = 0
+
 func (conn *Connector) Connect(bus *monitor.Bus, layout *template.Template) (ctl monitor.Controller, err error) {
 	var (
 		terminators = []string{"ok", "error"}
@@ -26,6 +28,9 @@ func (conn *Connector) Connect(bus *monitor.Bus, layout *template.Template) (ctl
 	}
 
 	gctl := NewController(bus, layout)
+
+	gctl.Title = fmt.Sprintf("Controller-%d", controllerCount)
+	controllerCount++
 
 	ctl = gctl
 
