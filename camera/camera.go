@@ -6,9 +6,11 @@ import (
 	"image"
 	"image/jpeg"
 	"net/http"
+	"strings"
 	"sync"
 	"time"
 
+	"github.com/golang/glog"
 	"github.com/gorilla/mux"
 	"github.com/mattn/go-mjpeg"
 	"gocv.io/x/gocv"
@@ -73,7 +75,13 @@ func (cam *Camera) proxy(viewer func(img image.Image)) {
 
 		img, err := dec.Decode()
 		if err != nil {
-			fmt.Println(cam.Title, err)
+			msg := err.Error()
+			if strings.Contains(msg, "connection reset by peer") ||
+				strings.Contains(msg, "connection timed out") {
+				glog.Error(err)
+				break
+			}
+			glog.Info(cam.Title, err)
 			continue
 		}
 

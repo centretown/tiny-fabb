@@ -8,8 +8,8 @@ import (
 	"os/signal"
 
 	"github.com/centretown/tiny-fabb/camera"
-	"github.com/centretown/tiny-fabb/data"
 	"github.com/centretown/tiny-fabb/forms"
+	"github.com/centretown/tiny-fabb/settings"
 	"github.com/centretown/tiny-fabb/theme"
 	"github.com/centretown/tiny-fabb/web"
 	"github.com/golang/glog"
@@ -23,26 +23,27 @@ func main() {
 		glog.Infof("%s: %v\n", f.Name, f.Value)
 	})
 
-	if LoadSettingsErr != nil {
-		err := LocalSettings.Save()
+	profile := settings.CurrentProfile
+	if settings.LoadErr != nil {
+		err := profile.Save()
 		if err != nil {
 			glog.Warningln(err)
 		}
 	}
 
-	glog.Infoln(DefaultSettings())
+	glog.Infoln(profile)
 
 	router := mux.NewRouter()
 	// serve static files from assets folder
 	router.PathPrefix("/static/").Handler(http.StripPrefix("/static/",
-		http.FileServer(http.Dir(LocalSettings.AssetsPath+"/"))))
+		http.FileServer(http.Dir(profile.AssetsPath+"/"))))
 
-	controllers, ports, layout, documents := data.Setup(LocalSettings.AssetsPath, LocalSettings.DocsSource)
+	controllers, ports, layout, documents := profile.Setup()
 
 	forms.UseDocuments(documents)
 
 	themes := make(theme.Themes)
-	err := themes.ReadJSON(LocalSettings.DataSource + "/themes.json")
+	err := themes.ReadJSON(profile.DataSource + "/themes.json")
 	if err != nil {
 		glog.Fatal(err)
 	}
@@ -53,9 +54,9 @@ func main() {
 	}
 
 	webPage.Cameras = make(camera.Cameras)
-	webPage.Cameras.Start(router, 200, LocalSettings.Cameras...)
+	webPage.Cameras.Start(router, 200, profile.Cameras...)
 
-	server := &http.Server{Addr: LocalSettings.WebPort, Handler: router}
+	server := &http.Server{Addr: profile.WebPort, Handler: router}
 	sc := make(chan os.Signal, 1)
 	signal.Notify(sc, os.Interrupt)
 	go func() {

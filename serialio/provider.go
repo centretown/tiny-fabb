@@ -10,17 +10,20 @@ import (
 )
 
 const (
-	sys = "/sys/class/tty/"
-	dev = "/dev/"
-	acm = "ttyACM"
-	usb = "ttyUSB"
+	sys  = "/sys/class/tty/"
+	dev  = "/dev/"
+	acm  = "ttyACM"
+	usb  = "ttyUSB"
+	usb0 = "ttyUSB0"
 )
 
 var defaultFilters = []string{acm, usb}
+var defaultExcludes = []string{}
 
 type Provider struct {
-	Ports  map[string]*SerialIO
-	Filter []string
+	Ports   map[string]*SerialIO
+	Filter  []string
+	Exclude []string
 }
 
 func (prv *Provider) List() (list []string) {
@@ -41,14 +44,15 @@ func (prv *Provider) Get(port string) (sio monitor.MonitorIO, err error) {
 	return
 }
 
-func (prv *Provider) Update(filters ...string) (list []string) {
+func (prv *Provider) Update() (list []string) {
 	if prv.Ports == nil {
 		prv.Ports = make(map[string]*SerialIO)
 	}
-	if len(filters) > 0 {
-		prv.Filter = filters
-	} else {
+	if len(prv.Filter) == 0 {
 		prv.Filter = defaultFilters
+	}
+	if len(prv.Exclude) == 0 {
+		prv.Exclude = defaultExcludes
 	}
 
 	list = prv.ListPorts()
@@ -97,6 +101,15 @@ func (prv *Provider) includedPort(fname string) bool {
 	return false
 }
 
+func (prv *Provider) excludedPort(fname string) bool {
+	for _, f := range prv.Exclude {
+		if strings.Contains(fname, f) {
+			return true
+		}
+	}
+	return false
+}
+
 func (prv *Provider) ListPorts() (ports []string) {
 	ports = make([]string, 0)
 	var (
@@ -112,7 +125,7 @@ func (prv *Provider) ListPorts() (ports []string) {
 
 	for _, f := range files {
 		name = f.Name()
-		if prv.includedPort(name) {
+		if prv.includedPort(name) && !prv.excludedPort(name) {
 			ports = append(ports, dev+name)
 		}
 	}

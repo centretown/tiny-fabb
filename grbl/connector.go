@@ -29,8 +29,8 @@ func (conn *Connector) Connect(bus *monitor.Bus, layout *template.Template) (ctl
 
 	gctl := NewController(bus, layout)
 
-	gctl.Title = fmt.Sprintf("Controller-%d", controllerCount)
 	controllerCount++
+	gctl.Title = fmt.Sprintf("Controller-%d", controllerCount)
 
 	ctl = gctl
 
