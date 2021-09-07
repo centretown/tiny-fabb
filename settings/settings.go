@@ -3,6 +3,7 @@ package settings
 import (
 	"encoding/json"
 	"flag"
+	"fmt"
 	"html/template"
 	"io/ioutil"
 	"os"
@@ -23,6 +24,7 @@ type Help struct {
 	ControllerCount string `json:"controllerCount"`
 	WebPort         string `json:"webPort"`
 	UDPPort         string `json:"udpPort"`
+	Cameras         string `json:cameras`
 	Include         string `json:"include"`
 	Exclude         string `json:"exclude"`
 }
@@ -46,10 +48,11 @@ var CurrentProfile = &Profile{
 		DocsSource:      "location of documentation file",
 		WebPort:         "web server port",
 		UDPPort:         "udp port",
+		Cameras:         "attached camera addresses",
 		ControllerCount: "number of controllers to allocate",
 		AssetsPath:      "location of static assets",
-		Include:         "device prefixes to include eg: ttyUSB,ttyACM",
-		Exclude:         "devices to exclude eg: ttyUSB0",
+		Include:         "device prefixes to include",
+		Exclude:         "devices to exclude",
 	},
 	AssetsPath:      "assets",
 	DataSource:      "assets/data/",
@@ -113,6 +116,19 @@ func DefaultProfile() string {
 		SaveErr = os.Mkdir(settingsDir, 0755)
 	}
 	return path.Join(settingsDir, FileName)
+}
+
+func (s *Profile) Print() (r []string) {
+	r = append(r, fmt.Sprintf("%s: %v", s.Help.AssetsPath, s.AssetsPath))
+	r = append(r, fmt.Sprintf("%s: %v", s.Help.DataSource, s.DataSource))
+	r = append(r, fmt.Sprintf("%s: %v", s.Help.DocsSource, s.DocsSource))
+	r = append(r, fmt.Sprintf("%s: %v", s.Help.WebPort, s.WebPort))
+	r = append(r, fmt.Sprintf("%s: %v", s.Help.UDPPort, s.UDPPort))
+	r = append(r, fmt.Sprintf("%s: %v", s.Help.Cameras, s.Cameras))
+	r = append(r, fmt.Sprintf("%s: %v", s.Help.ControllerCount, s.ControllerCount))
+	r = append(r, fmt.Sprintf("%s: %v", s.Help.Include, s.Include))
+	r = append(r, fmt.Sprintf("%s: %v", s.Help.Exclude, s.Exclude))
+	return
 }
 
 func (s *Profile) Setup() (controllers []monitor.Controller, ports []string, layout *template.Template, documents docs.Docs) {

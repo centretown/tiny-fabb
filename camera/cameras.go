@@ -28,8 +28,8 @@ func (cams Cameras) Start(router *mux.Router, interval time.Duration, urls ...st
 		}
 		cams[title] = cam
 
-		cam.SetFrameSize(8)
-		cam.SetQuality(8)
+		cam.SetFrameSize(10)
+		cam.SetQuality(10)
 		cam.GetStatus()
 
 		// err := testMove(cam.MoveUp)

@@ -19,9 +19,6 @@ import (
 
 func main() {
 	flag.Parse()
-	flag.VisitAll(func(f *flag.Flag) {
-		glog.Infof("%s: %v\n", f.Name, f.Value)
-	})
 
 	profile := settings.CurrentProfile
 	if settings.LoadErr != nil {
@@ -31,7 +28,10 @@ func main() {
 		}
 	}
 
-	glog.Infoln(profile)
+	r := profile.Print()
+	for _, s := range r {
+		glog.Infoln(s)
+	}
 
 	router := mux.NewRouter()
 	// serve static files from assets folder
@@ -54,7 +54,7 @@ func main() {
 	}
 
 	webPage.Cameras = make(camera.Cameras)
-	webPage.Cameras.Start(router, 200, profile.Cameras...)
+	webPage.Cameras.Start(router, 50, profile.Cameras...)
 
 	server := &http.Server{Addr: profile.WebPort, Handler: router}
 	sc := make(chan os.Signal, 1)

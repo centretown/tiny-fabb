@@ -29,8 +29,17 @@ type Camera struct {
 }
 
 func (cam *Camera) ShowWindow() func(img image.Image) {
+	resize := func(window *gocv.Window, img image.Image) {
+		b := img.Bounds()
+		window.ResizeWindow(b.Max.X-b.Min.X, b.Max.Y-b.Min.Y)
+	}
+	resized := false
 	window := gocv.NewWindow(cam.streamUrl)
+
 	return func(img image.Image) {
+		if !resized {
+			resize(window, img)
+		}
 		// if !window.IsOpen() {
 		// }
 
