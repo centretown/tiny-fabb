@@ -2,8 +2,8 @@ package camera
 
 import "github.com/centretown/tiny-fabb/forms"
 
-func (cam *Camera) bindSettings() (frms forms.Forms) {
-	frms = forms.Forms{
+func (cam *Camera) bindSettings() {
+	cam.Forms = forms.Forms{
 		idFramesize: {
 			ID:      idFramesize,
 			Value:   &cam.Settings.Framesize,
@@ -135,6 +135,4 @@ func (cam *Camera) bindSettings() (frms forms.Forms) {
 			Entries: settingsEntries[idColorbar],
 		},
 	}
-
-	return
 }

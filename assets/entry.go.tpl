@@ -46,9 +46,9 @@
         <form
             class="w3-container"
             id="settings-form"
-            name="settings-form"
+            name="{{$first.ID}}"
             method="post"
-            action="/apply/{{$first.ID}}/">
+            action="">
 
             <header class="w3-container w3-theme-l1 w3-padding-16">
                 <h5 style="display:inline-block">{{$first.Code}}: {{$first.Label}}</h5>
@@ -136,4 +136,9 @@
 <!-- status -->
 {{define "status"}}
 <h5>Status:</h5>
+{{end}}
+
+<!-- cameras -->
+{{define "cameras"}}
+<h5>Cameras:</h5>
 {{end}}

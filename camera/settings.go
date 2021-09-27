@@ -1,3 +1,5 @@
+// Copyright (c) 2021 Dave Marsh. See LICENSE.
+
 package camera
 
 import (
@@ -5,6 +7,8 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+
+	"github.com/centretown/tiny-fabb/forms"
 )
 
 type Framesize uint8
@@ -71,37 +75,37 @@ func (fr Framesize) String() string {
 }
 
 type CameraStatus struct {
-	Framesize     Framesize `json:"framesize"`  //0 - 10
-	Quality       uint8     `json:"quality"`    //0 - 63
-	Brightness    int8      `json:"brightness"` //-2 - 2
-	Contrast      int8      `json:"contrast"`   //-2 - 2
-	Saturation    int8      `json:"saturation"` //-2 - 2
-	Sharpness     int8      `json:"sharpness"`  //-2 - 2
-	Denoise       uint8     `json:"denoise"`
-	SpecialEffect uint8     `json:"special_effect"` //0 - 6
-	WbMode        uint8     `json:"wb_mode"`        //0 - 4
-	Awb           uint8     `json:"awb"`
-	AwbGain       uint8     `json:"awb_gain"`
-	Aec           uint8     `json:"aec"`
-	Aec2          uint8     `json:"aec2"`
-	AeLevel       int8      `json:"ae_level"`  //-2 - 2
-	AecValue      int16     `json:"aec_value"` //0 - 1200
-	Agc           uint8     `json:"agc"`
-	AgcGain       uint8     `json:"agc_gain"`    //0 - 30
-	GainCeiling   uint8     `json:"gainceiling"` //0 - 6
-	Bpc           uint8     `json:"bpc"`
-	Wpc           uint8     `json:"wpc"`
-	RawGma        uint8     `json:"raw_gma"`
-	Lenc          uint8     `json:"lenc"`
-	Hmirror       uint8     `json:"hmirror"`
-	Vflip         uint8     `json:"vflip"`
-	Dcw           uint8     `json:"dcw"`
-	Colorbar      uint8     `json:"colorbar"`
+	Framesize     uint8 `json:"framesize"`  //0 - 10
+	Quality       uint8 `json:"quality"`    //0 - 63
+	Brightness    int8  `json:"brightness"` //-2 - 2
+	Contrast      int8  `json:"contrast"`   //-2 - 2
+	Saturation    int8  `json:"saturation"` //-2 - 2
+	Sharpness     int8  `json:"sharpness"`  //-2 - 2
+	Denoise       uint8 `json:"denoise"`
+	SpecialEffect uint8 `json:"special_effect"` //0 - 6
+	WbMode        uint8 `json:"wb_mode"`        //0 - 4
+	Awb           uint8 `json:"awb"`
+	AwbGain       uint8 `json:"awb_gain"`
+	Aec           uint8 `json:"aec"`
+	Aec2          uint8 `json:"aec2"`
+	AeLevel       int8  `json:"ae_level"`  //-2 - 2
+	AecValue      int16 `json:"aec_value"` //0 - 1200
+	Agc           uint8 `json:"agc"`
+	AgcGain       uint8 `json:"agc_gain"`    //0 - 30
+	GainCeiling   uint8 `json:"gainceiling"` //0 - 6
+	Bpc           uint8 `json:"bpc"`
+	Wpc           uint8 `json:"wpc"`
+	RawGma        uint8 `json:"raw_gma"`
+	Lenc          uint8 `json:"lenc"`
+	Hmirror       uint8 `json:"hmirror"`
+	Vflip         uint8 `json:"vflip"`
+	Dcw           uint8 `json:"dcw"`
+	Colorbar      uint8 `json:"colorbar"`
 }
 
 func (cam *Camera) GetStatus() (err error) {
 	var data []byte
-	data, err = request(cam.statusUrl)
+	data, err = request(cam.StatusUrl)
 	if err != nil {
 		return
 	}
@@ -113,160 +117,36 @@ func (cam *Camera) GetStatus() (err error) {
 	return
 }
 
-func (cam *Camera) SetFrameSize(val int) error {
-	return cam.set(val, "framesize", 0, 10, func(val int) {
-		cam.Settings.Framesize = Framesize(val)
-	})
+func (cam *Camera) Apply(w http.ResponseWriter, r *http.Request) (err error) {
+	id := forms.GetRequestString(r, "id")
+	val := forms.GetRequestString(r, "val")
+	err = cam.Set(id, val)
+	if err != nil {
+		forms.WriteError(w, err)
+		return
+	}
+	return
 }
 
-func (cam *Camera) SetQuality(val int) error {
-	return cam.set(val, "quality", 0, 63, func(val int) {
-		cam.Settings.Quality = uint8(val)
-	})
-}
+func (cam *Camera) Set(id string, val string) (err error) {
+	webid := forms.ToWebId(id)
+	frm, ok := cam.Forms[webid]
+	if !ok {
+		err = fmt.Errorf("id '%s' not found", id)
+		return
+	}
 
-func (cam *Camera) SetBrightness(val int) error {
-	return cam.set(val, "brightness", -2, 2, func(val int) {
-		cam.Settings.Brightness = int8(val)
-	})
+	ent := frm.Entries[0]
+	err = ent.ScanInput(val, frm.Value)
+	if err != nil {
+		return
+	}
 
-}
-
-func (cam *Camera) SetContrast(val int) error {
-	return cam.set(val, "contrast", -2, 2, func(val int) {
-		cam.Settings.Contrast = int8(val)
-	})
-}
-
-func (cam *Camera) SetSaturation(val int) error {
-	return cam.set(val, "saturation", -2, 2, func(val int) {
-		cam.Settings.Saturation = int8(val)
-	})
-}
-
-func (cam *Camera) SetSharpness(val int) error {
-	return cam.set(val, "sharpness", -2, 2, func(val int) {
-		cam.Settings.Sharpness = int8(val)
-	})
-}
-
-func (cam *Camera) SetDenoise(val int) error {
-	return cam.set(val, "denoise", 0, 1, func(val int) {
-		cam.Settings.Denoise = uint8(val)
-	})
-}
-
-func (cam *Camera) SetSpecialEffect(val int) error {
-	return cam.set(val, "special_effect", 0, 6, func(val int) {
-		cam.Settings.SpecialEffect = uint8(val)
-	})
-}
-
-func (cam *Camera) SetWbMode(val int) error {
-	return cam.set(val, "wb_mode", 0, 4, func(val int) {
-		cam.Settings.WbMode = uint8(val)
-	})
-}
-
-func (cam *Camera) SetAwb(val int) error {
-	return cam.set(val, "awb", 0, 1, func(val int) {
-		cam.Settings.Awb = uint8(val)
-	})
-}
-
-func (cam *Camera) SetAwbGain(val int) error {
-	return cam.set(val, "awb_gain", 0, 1, func(val int) {
-		cam.Settings.AwbGain = uint8(val)
-	})
-}
-func (cam *Camera) SetAec(val int) error {
-	return cam.set(val, "aec", 0, 1, func(val int) {
-		cam.Settings.Aec = uint8(val)
-	})
-}
-
-func (cam *Camera) SetAec2(val int) error {
-	return cam.set(val, "aec2", 0, 1, func(val int) {
-		cam.Settings.Aec2 = uint8(val)
-	})
-}
-
-func (cam *Camera) SetAeLevel(val int) error {
-	return cam.set(val, "ae_level", -2, 2, func(val int) {
-		cam.Settings.AeLevel = int8(val)
-	})
-}
-
-func (cam *Camera) SetAecValue(val int) error {
-	return cam.set(val, "aec_value", 0, 1200, func(val int) {
-		cam.Settings.AecValue = int16(val)
-	})
-}
-
-func (cam *Camera) SetAgc(val int) error {
-	return cam.set(val, "agc", 0, 1, func(val int) {
-		cam.Settings.Agc = uint8(val)
-	})
-}
-
-func (cam *Camera) SetAgcGain(val int) error {
-	return cam.set(val, "agc_gain", 0, 30, func(val int) {
-		cam.Settings.AgcGain = uint8(val)
-	})
-}
-
-func (cam *Camera) SetGainCeiling(val int) error {
-	return cam.set(val, "gainceiling", 0, 6, func(val int) {
-		cam.Settings.GainCeiling = uint8(val)
-	})
-}
-
-func (cam *Camera) SetBpc(val int) error {
-	return cam.set(val, "bpc", 0, 1, func(val int) {
-		cam.Settings.Bpc = uint8(val)
-	})
-}
-
-func (cam *Camera) SetWpc(val int) error {
-	return cam.set(val, "wpc", 0, 1, func(val int) {
-		cam.Settings.Wpc = uint8(val)
-	})
-}
-
-func (cam *Camera) SetRawGma(val int) error {
-	return cam.set(val, "raw_gma", 0, 1, func(val int) {
-		cam.Settings.RawGma = uint8(val)
-	})
-}
-
-func (cam *Camera) SetLenc(val int) error {
-	return cam.set(val, "lenc", 0, 1, func(val int) {
-		cam.Settings.Lenc = uint8(val)
-	})
-}
-
-func (cam *Camera) SetHmirror(val int) error {
-	return cam.set(val, "hmirror", 0, 1, func(val int) {
-		cam.Settings.Hmirror = uint8(val)
-	})
-}
-
-func (cam *Camera) SetVflip(val int) error {
-	return cam.set(val, "vflip", 0, 1, func(val int) {
-		cam.Settings.Vflip = uint8(val)
-	})
-}
-
-func (cam *Camera) SetDcw(val int) error {
-	return cam.set(val, "dcw", 0, 1, func(val int) {
-		cam.Settings.Dcw = uint8(val)
-	})
-}
-
-func (cam *Camera) SetColorbar(val int) error {
-	return cam.set(val, "colorbar", 0, 1, func(val int) {
-		cam.Settings.Colorbar = uint8(val)
-	})
+	_, err = request(fmt.Sprintf("%s?var=%s&val=%s", cam.ControlUrl, ent.Code, val))
+	if err != nil {
+		return
+	}
+	return
 }
 
 func (cam *Camera) set(val int, code string, min, max int, update func(int)) (err error) {
@@ -274,7 +154,7 @@ func (cam *Camera) set(val int, code string, min, max int, update func(int)) (er
 		err = fmt.Errorf("%s: %d out of range (%d-%d)", code, val, min, max)
 		return
 	}
-	_, err = request(fmt.Sprintf("%s?var=%s&val=%d", cam.controlUrl, code, val))
+	_, err = request(fmt.Sprintf("%s?var=%s&val=%d", cam.ControlUrl, code, val))
 	if err == nil {
 		update(val)
 	}
@@ -295,7 +175,7 @@ func (cam *Camera) MoveDown() (err error) {
 }
 
 func (cam *Camera) move(val string) (err error) {
-	s := fmt.Sprintf("%s?go=%s", cam.controlUrl, val)
+	s := fmt.Sprintf("%s?go=%s", cam.ControlUrl, val)
 	fmt.Println(s)
 	_, err = request(s)
 	return

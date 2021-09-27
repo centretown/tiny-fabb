@@ -10,7 +10,7 @@ var settingsEntries = map[forms.WebId]forms.Entries{
 			Label: "Framesize",
 			Type:  "number",
 			Min:   0,
-			Max:   10,
+			Max:   14,
 			Step:  1,
 		},
 	},
@@ -150,7 +150,7 @@ var settingsEntries = map[forms.WebId]forms.Entries{
 			Type:  "number",
 			Min:   0,
 			Max:   1200,
-			Step:  10,
+			Step:  1,
 		},
 	},
 	idAgc: {

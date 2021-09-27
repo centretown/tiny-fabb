@@ -1,3 +1,5 @@
+// Copyright (c) 2021 Dave Marsh. See LICENSE.
+
 package web
 
 import (
@@ -9,7 +11,6 @@ import (
 
 	"github.com/centretown/tiny-fabb/forms"
 	"github.com/centretown/tiny-fabb/monitor"
-	"github.com/golang/glog"
 	"github.com/gorilla/mux"
 )
 
@@ -39,7 +40,7 @@ func (wp *Page) handleList(w http.ResponseWriter, r *http.Request) {
 	}
 	err = controller.List(w, view)
 	if err != nil {
-		writeError(w, err)
+		forms.WriteError(w, err)
 		return
 	}
 }
@@ -50,10 +51,10 @@ func (wp *Page) handleEdit(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	key := getRequestString(r, "key")
+	key := forms.GetRequestString(r, "key")
 	err = controller.Edit(w, view, key)
 	if err != nil {
-		writeError(w, err)
+		forms.WriteError(w, err)
 		return
 	}
 }
@@ -68,7 +69,7 @@ func (wp *Page) handleApply(w http.ResponseWriter, r *http.Request) {
 		updated []*forms.Updated
 		pkg     []byte
 	)
-	key := getRequestString(r, "key")
+	key := forms.GetRequestString(r, "key")
 	err = r.ParseForm()
 	if err == nil || err == io.EOF {
 		updated, err = controller.Apply(view, key, r.Form)
@@ -78,7 +79,7 @@ func (wp *Page) handleApply(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err != nil {
-		writeError(w, err)
+		forms.WriteError(w, err)
 		return
 	}
 	fmt.Fprint(w, string(pkg))
@@ -86,7 +87,7 @@ func (wp *Page) handleApply(w http.ResponseWriter, r *http.Request) {
 
 func (wp *Page) handleOptions(w http.ResponseWriter, r *http.Request) {
 	var ok bool
-	theme := getRequestString(r, "theme")
+	theme := forms.GetRequestString(r, "theme")
 	wp.Theme, ok = wp.Themes[theme]
 	if ok {
 		s := wp.Theme.MakeCSS()
@@ -95,17 +96,17 @@ func (wp *Page) handleOptions(w http.ResponseWriter, r *http.Request) {
 }
 
 func (wp *Page) GetView(w http.ResponseWriter, r *http.Request) (ctlr monitor.Controller, view string, err error) {
-	sel := getRequestUint(r, selController)
+	sel := forms.GetRequestUint(r, selController)
 	if int(sel) >= len(wp.Controllers) {
 		err = fmt.Errorf("controller %d not found", sel)
-		writeError(w, err)
+		forms.WriteError(w, err)
 		return
 	}
 	ctlr = wp.Controllers[sel]
-	view = getRequestString(r, selView)
+	view = forms.GetRequestString(r, selView)
 	if !wp.findView(view) {
 		err = fmt.Errorf("view %s not found", view)
-		writeError(w, err)
+		forms.WriteError(w, err)
 		return
 	}
 	return
@@ -118,21 +119,4 @@ func (wp *Page) findView(view string) bool {
 		}
 	}
 	return false
-}
-
-func getRequestString(r *http.Request, key string) (sel string) {
-	vars := mux.Vars(r)
-	fmt.Sscan(vars[key], &sel)
-	return
-}
-
-func getRequestUint(r *http.Request, key string) (sel uint) {
-	vars := mux.Vars(r)
-	fmt.Sscan(vars[key], &sel)
-	return
-}
-
-func writeError(w http.ResponseWriter, err error) {
-	glog.Infoln(err)
-	http.Error(w, err.Error(), 400)
 }

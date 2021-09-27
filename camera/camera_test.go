@@ -15,12 +15,12 @@ import (
 
 var (
 	addr     = ":8080"
-	interval = 50 * time.Millisecond
+	interval = 200 * time.Millisecond
 	webpage  = `
 	<html>
     <head>
         <style>
-            figure {
+            .camera {
                 padding: 0px;
                 margin: 0;
                 margin-block-start: 0;
@@ -29,7 +29,7 @@ var (
                 margin-inline-end: 0;
             }
 
-            figure img {
+            .camera img {
                 display: block;
                 border-radius: 4px;
                 margin-top: 8px;
@@ -37,19 +37,14 @@ var (
         </style>
     </head>
     <body>
-    <figure>
+    <figure class="camera">
         <div id="stream-camera0" class="image-container">
             <img id="camera0-stream" src="/camera0/mjpeg">
         </div>
     </figure>
-    <figure>
+    <figure class="camera">
         <div id="stream-camera1" class="image-container">
             <img id="camera1-stream" src="/camera1/mjpeg">
-        </div>
-    </figure>
-    <figure>
-        <div id="stream-camera2" class="image-container">
-            <img id="camera2-stream" src="/camera2/mjpeg">
         </div>
     </figure>
     </body>
@@ -60,8 +55,11 @@ func TestCamera(t *testing.T) {
 
 	router := mux.NewRouter()
 	cams := make(Cameras)
+	// cams.Start(router, interval, "http://192.168.0.44",
+	// 	"http://192.168.0.175", "http://192.168.0.99")
 	cams.Start(router, interval, "http://192.168.0.44",
-		"http://192.168.0.175", "http://192.168.0.99")
+		"http://192.168.0.175")
+	// cams.Start(router, interval, "http://192.168.0.44")
 
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/html")

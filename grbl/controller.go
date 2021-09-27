@@ -68,7 +68,7 @@ func NewController(bus *monitor.Bus, layout *template.Template) (gctl *Controlle
 	gctl.views = make(map[string]forms.Forms)
 	gctl.views["settings"] = gctl.bindSettings()
 	gctl.views["commands"] = gctl.bindCommands()
-	gctl.viewList = []string{"settings", "commands"}
+	gctl.viewList = []string{"settings", "commands", "status"}
 
 	return
 }

@@ -2,6 +2,8 @@ package camera
 
 import (
 	"fmt"
+	"html/template"
+	"net/http"
 	"time"
 
 	"github.com/gorilla/mux"
@@ -9,62 +11,41 @@ import (
 
 type Cameras map[string]*Camera
 
-func (cams Cameras) Start(router *mux.Router, interval time.Duration, urls ...string) {
+func (cams Cameras) Start(router *mux.Router,
+	layout *template.Template,
+	interval time.Duration, urls ...string) {
 	// LoadClassifier()
-	const (
-		format = "camera%d"
-	)
-	var title string
+
+	router.HandleFunc("/camera-bar/", func(w http.ResponseWriter, r *http.Request) {
+		tmpl := layout.Lookup("camera-bar")
+		if tmpl == nil {
+			return
+		}
+		tmpl.Execute(w, cams)
+	})
 
 	for i, url := range urls {
-		title = fmt.Sprintf(format, i)
 		cam := &Camera{
-			Title:      title,
-			controlUrl: url + ":80/action",
-			captureUrl: url + ":80/capture",
-			statusUrl:  url + ":80/status",
-			streamUrl:  url + ":81/stream",
-			interval:   interval,
+			Name:       fmt.Sprintf("camera%d", i),
+			Title:      fmt.Sprintf("Camera: %0d", i),
+			ControlUrl: url + ":80/action",
+			CaptureUrl: url + ":80/capture",
+			StatusUrl:  url + ":80/status",
+			StreamUrl:  url + ":81/stream",
+			Interval:   interval,
+			layout:     layout,
 		}
-		cams[title] = cam
-
-		cam.SetFrameSize(10)
-		cam.SetQuality(10)
+		cams[cam.Name] = cam
+		fmt.Println("SetFrameSize")
+		cam.Set("frameSize", "8")
+		fmt.Println("SetQuality")
+		cam.Set("quality", "10")
+		fmt.Println("GetStatus")
 		cam.GetStatus()
-
-		// err := testMove(cam.MoveUp)
-		// if err != nil {
-		// 	glog.Info(err)
-		// }
-		// time.Sleep(500)
-		// err = testMove(cam.MoveLeft)
-		// if err != nil {
-		// 	glog.Info(err)
-		// }
-		// time.Sleep(500)
-		// err = testMove(cam.MoveDown)
-		// if err != nil {
-		// 	glog.Info(err)
-		// }
-		// time.Sleep(500)
-		// err = testMove(cam.MoveRight)
-		// if err != nil {
-		// 	glog.Info(err)
-		// }
-		// time.Sleep(500)
+		fmt.Println("Start")
 		cam.Start(router)
 	}
 }
-
-// func testMove(m func() error) (err error) {
-// 	for i := 0; i < 10; i++ {
-// 		err = m()
-// 		if err != nil {
-// 			return
-// 		}
-// 	}
-// 	return
-// }
 
 func (cams Cameras) Stop() {
 	for _, cam := range cams {

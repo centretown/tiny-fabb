@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
   {{$wp:=.}}
   <head>
@@ -20,10 +21,12 @@
 
   <body class="w3-theme-d5">
     <div id="stickyHeader" class="sticky">
-      {{template "app-bar" .}} {{template "select-bar" .}}
+      {{template "app-bar" .}}
       {{template "button-bar" .}}
     </div>
-    <div id="details" class="w3-container w3-theme-d3"></div>
+    <div id="camera-bar"></div>
+    
+    <div id="details" class="w3-container w3-theme-d3 w3-border"></div>
     <div id="dialog" class="w3-modal w3-card w3-theme-d5"></div>
     <div id="options" class="w3-modal w3-card w3-theme-d5">
       {{template "options" .}}
@@ -34,8 +37,10 @@
 
   <script>
     var details = document.getElementById("details");
+    var dialogS = dialog;
     var currentView = "settings";
     var currentController = 0;
+    var cameraOn = false;
 
     function urlController() {
       return "" + currentController + "/"
@@ -50,6 +55,37 @@
     function selectView(view) {
       currentView = view;
       getSection("/list/" + urlView(), "details");
+    }
+
+    function selectCamera() {
+      cameraOn = !cameraOn;
+      if (cameraOn) {
+        getSection("/camera-bar/", "camera-bar");
+      } else {
+        document.getElementById("camera-bar").innerHTML = "";
+      }
+    }
+
+    function openCameraFull(id) {
+      let elem = document.getElementById(id)
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem.webkitRequestFullscreen) { /* Safari */
+        elem.webkitRequestFullscreen();
+      } else if (elem.msRequestFullscreen) { /* IE11 */
+        elem.msRequestFullscreen();
+      }
+    }
+
+    function openCameraSettings(camera) {
+      getSection("/"+camera+"/camera-settings/", "dialog");
+      dialog.style.display = "block";
+    }
+
+    function openServoSettings(camera) {
+      console.log("openServoSettings");
+      getSection("/"+camera+"/servo-settings/", "dialog");
+      dialog.style.display = "block";
     }
 
     function selectController() {
@@ -68,6 +104,29 @@
         });
     }
 
+    function applyCameraCheckbox(camera,id) {
+      let val = (document.getElementById(id).checked)?1:0;
+      applyCameraVal(camera,id,val);
+    }
+    
+    function applyCameraSetting(camera,id) {
+      let val = document.getElementById(id).value;
+      applyCameraVal(camera,id,val);
+    }
+
+    function applyCameraVal(camera,id,val) {
+      let init = {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        credentials: "include",
+      };
+      
+      let path = "/"+camera+"/apply/"+id+"/"+val+"/";
+      fetch(path);
+    }
+
     function submitForm(frm) {
       let init = {
         method: "POST",
@@ -78,7 +137,8 @@
         credentials: "include",
       };
 
-      fetch(frm.action, init)
+      let path = "/apply/"+urlKey(frm.name);
+      fetch(path, init)
         .then((response) => response.text())
         .then((text) => {
           if (text.includes("error")) {
@@ -99,7 +159,7 @@
       fetch("/edit/" + urlKey(key))
         .then((response) => response.text())
         .then((text) => {
-          let dlg = document.getElementById("dialog");
+          let dlg = dialog;
           dlg.innerHTML = text;
           let frm = document.getElementById("settings-form");
 
@@ -121,7 +181,7 @@
     }
 
     function closeDialog() {
-      document.getElementById("dialog").style.display = "none";
+      dialog.style.display = "none";
     }
 
     function pop(doc) {
@@ -331,11 +391,52 @@
       max-height: 30rem;
     }
 
+    .dlgtab {
+      overflow-y: auto;
+      max-height: 30rem;
+      min-height: 5rem;
+    }
+
     .doc {
       overflow-y: auto;
       max-height: 14rem;
       min-height: 5rem;
       margin: 1rem;
+    }
+
+    .pic-content {
+      display: flex;
+      flex-flow: row wrap;
+    }
+
+    .pic {
+      max-height: 200px;
+      min-height: 100px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .pics-items {
+      display: flex;
+      flex: 11rem;
+      flex-flow: row wrap;
+      align-items: flex-start;
+    }
+    @media (min-height: 800px) {
+      .pic {
+        max-height: 400px;
+      }
+    }
+    @media (min-height: 1200px) {
+      .pic {
+        max-height: 600px;
+      }
+    }
+    @media (min-height: 1600px) {
+      .pic {
+        max-height: 1000px;
+      }
     }
 
     .entries {
@@ -344,6 +445,7 @@
       flex-flow: row wrap;
       align-items: flex-start;
     }
+
     .doc li {
       font-size: 1rem;
     }
@@ -399,6 +501,35 @@
     tr:nth-child(odd) {
       color: var(--w3-l4);
       background-color: var(--w3-l4-bg);
+    }
+    
+    .full{
+      position: absolute:
+      top: 80px;
+      left: 0;    
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    .fullview {
+      display: grid;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    .fullImage {
+      height: 100%;
+      max-width: 100%;
+      max-height: 95vh;
+      margin: auto;
+      padding: 0;
+    }
+
+    .select-controller {
+      text-align: center;
+      width: 100%;
     }
   </style>
 

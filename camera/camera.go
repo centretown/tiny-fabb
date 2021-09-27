@@ -1,8 +1,11 @@
+// Copyright (c) 2021 Dave Marsh. See LICENSE.
+
 package camera
 
 import (
 	"bytes"
 	"fmt"
+	"html/template"
 	"image"
 	"image/jpeg"
 	"net/http"
@@ -10,6 +13,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/centretown/tiny-fabb/forms"
 	"github.com/golang/glog"
 	"github.com/gorilla/mux"
 	"github.com/mattn/go-mjpeg"
@@ -17,24 +21,30 @@ import (
 )
 
 type Camera struct {
-	Title      string
-	Settings   CameraStatus
-	wg         *sync.WaitGroup
-	stream     *mjpeg.Stream
-	streamUrl  string
-	controlUrl string
-	statusUrl  string
-	captureUrl string
-	interval   time.Duration
+	Name       string       `json:"name"`
+	Title      string       `json:"title"`
+	Settings   CameraStatus `json:"settings"`
+	ControlUrl string       `json:"controlUrl"`
+	StreamUrl  string       `json:"streamUrl"`
+	StatusUrl  string       `json:"statusUrl"`
+	CaptureUrl string       `json:"captureUrl"`
+
+	Interval time.Duration
+	wg       *sync.WaitGroup
+	stream   *mjpeg.Stream
+
+	Forms  forms.Forms
+	layout *template.Template
 }
 
 func (cam *Camera) ShowWindow() func(img image.Image) {
+	resized := false
 	resize := func(window *gocv.Window, img image.Image) {
 		b := img.Bounds()
 		window.ResizeWindow(b.Max.X-b.Min.X, b.Max.Y-b.Min.Y)
+		resized = true
 	}
-	resized := false
-	window := gocv.NewWindow(cam.streamUrl)
+	window := gocv.NewWindow(cam.StreamUrl)
 
 	return func(img image.Image) {
 		if !resized {
@@ -73,7 +83,7 @@ func (cam *Camera) ShowWindow() func(img image.Image) {
 func (cam *Camera) proxy(viewer func(img image.Image)) {
 	defer cam.wg.Done()
 
-	dec, err := mjpeg.NewDecoderFromURL(cam.streamUrl)
+	dec, err := mjpeg.NewDecoderFromURL(cam.StreamUrl)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -90,7 +100,7 @@ func (cam *Camera) proxy(viewer func(img image.Image)) {
 				glog.Error(err)
 				break
 			}
-			glog.Info(cam.Title, err)
+			glog.Info(cam.Name, err)
 			continue
 		}
 
@@ -101,25 +111,27 @@ func (cam *Camera) proxy(viewer func(img image.Image)) {
 		buf.Reset()
 		err = jpeg.Encode(&buf, img, nil)
 		if err != nil {
-			fmt.Println(cam.Title, err)
+			fmt.Println(cam.Name, err)
 			continue
 		}
 		err = cam.stream.Update(buf.Bytes())
 		if err != nil {
-			fmt.Println(cam.Title, err)
+			fmt.Println(cam.Name, err)
 			continue
 		}
 	}
 }
 
 func (cam *Camera) Start(router *mux.Router) {
+
 	cam.bindSettings()
 	cam.wg = &sync.WaitGroup{}
 	cam.wg.Add(1)
-	cam.stream = mjpeg.NewStreamWithInterval(cam.interval)
+	cam.stream = mjpeg.NewStreamWithInterval(cam.Interval)
 
-	go cam.proxy(cam.ShowWindow())
-	prefix := "/" + cam.Title + "/"
+	go cam.proxy(nil)
+	// go cam.proxy(cam.ShowWindow())
+	prefix := "/" + cam.Name + "/"
 
 	router.HandleFunc(prefix+"jpeg",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -128,6 +140,38 @@ func (cam *Camera) Start(router *mux.Router) {
 		})
 
 	router.HandleFunc(prefix+"mjpeg", cam.stream.ServeHTTP)
+
+	router.HandleFunc(prefix+"apply/{id}/{val}/",
+		func(w http.ResponseWriter, r *http.Request) {
+			cam.Apply(w, r)
+		})
+
+	router.HandleFunc(prefix+"camera-full/",
+		func(w http.ResponseWriter, r *http.Request) {
+			tmpl := cam.layout.Lookup("camera-full")
+			if tmpl == nil {
+				return
+			}
+			tmpl.Execute(w, cam)
+		})
+
+	router.HandleFunc(prefix+"camera-settings/",
+		func(w http.ResponseWriter, r *http.Request) {
+			tmpl := cam.layout.Lookup("camera-settings")
+			if tmpl == nil {
+				return
+			}
+			tmpl.Execute(w, cam)
+		})
+
+	router.HandleFunc(prefix+"servo-settings/",
+		func(w http.ResponseWriter, r *http.Request) {
+			tmpl := cam.layout.Lookup("servo-settings")
+			if tmpl == nil {
+				return
+			}
+			tmpl.Execute(w, cam)
+		})
 }
 
 func (cam *Camera) Stop() {

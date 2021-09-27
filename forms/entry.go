@@ -61,6 +61,10 @@ func (ent *Entry) Checked(v interface{}) (b bool) {
 		b = *e
 	case bool:
 		b = e
+	case uint8:
+		b = e != 0
+	case *uint8:
+		b = *e != 0
 	}
 	return
 }

@@ -24,7 +24,7 @@ type Help struct {
 	ControllerCount string `json:"controllerCount"`
 	WebPort         string `json:"webPort"`
 	UDPPort         string `json:"udpPort"`
-	Cameras         string `json:cameras`
+	Cameras         string `json:"cameras"`
 	Include         string `json:"include"`
 	Exclude         string `json:"exclude"`
 }
