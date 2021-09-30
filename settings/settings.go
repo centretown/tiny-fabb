@@ -30,39 +30,36 @@ type Help struct {
 }
 
 type Profile struct {
-	Help            Help     `json:"help"`
-	AssetsPath      string   `json:"assetsPath"`
-	DataSource      string   `json:"dataSource"`
-	DocsSource      string   `json:"docsSource"`
-	ControllerCount int      `json:"controllerCount"`
-	WebPort         string   `json:"webPort"`
-	UDPPort         string   `json:"udpPort"`
-	Cameras         []string `json:"cameras"`
-	Include         []string `json:"include"`
-	Exclude         []string `json:"exclude"`
+	Help       Help     `json:"help"`
+	AssetsPath string   `json:"assetsPath"`
+	DataSource string   `json:"dataSource"`
+	DocsSource string   `json:"docsSource"`
+	WebPort    string   `json:"webPort"`
+	UDPPort    string   `json:"udpPort"`
+	Cameras    []string `json:"cameras"`
+	Include    []string `json:"include"`
+	Exclude    []string `json:"exclude"`
 }
 
 var CurrentProfile = &Profile{
 	Help: Help{
-		DataSource:      "location of data folder",
-		DocsSource:      "location of documentation file",
-		WebPort:         "web server port",
-		UDPPort:         "udp port",
-		Cameras:         "attached camera addresses",
-		ControllerCount: "number of controllers to allocate",
-		AssetsPath:      "location of static assets",
-		Include:         "device prefixes to include",
-		Exclude:         "devices to exclude",
+		DataSource: "location of data folder",
+		DocsSource: "location of documentation file",
+		WebPort:    "web server port",
+		UDPPort:    "udp port",
+		Cameras:    "attached camera addresses",
+		AssetsPath: "location of static assets",
+		Include:    "device prefixes to include",
+		Exclude:    "devices to exclude",
 	},
-	AssetsPath:      "assets",
-	DataSource:      "assets/data/",
-	DocsSource:      "assets/data/docs.json",
-	WebPort:         ":8080",
-	UDPPort:         ":44444",
-	ControllerCount: 5,
-	Cameras:         []string{""},
-	Include:         []string{""},
-	Exclude:         []string{""},
+	AssetsPath: "assets",
+	DataSource: "assets/data/",
+	DocsSource: "assets/data/docs.json",
+	WebPort:    ":8080",
+	UDPPort:    ":44444",
+	Cameras:    []string{""},
+	Include:    []string{""},
+	Exclude:    []string{""},
 }
 
 var (
@@ -82,9 +79,6 @@ func init() {
 		CurrentProfile.WebPort, CurrentProfile.Help.WebPort)
 	flag.StringVar(&CurrentProfile.UDPPort, "udpport",
 		CurrentProfile.UDPPort, CurrentProfile.Help.UDPPort)
-	flag.IntVar(&CurrentProfile.ControllerCount, "count",
-		CurrentProfile.ControllerCount,
-		CurrentProfile.Help.ControllerCount)
 	flag.StringVar(&CurrentProfile.AssetsPath, "assets",
 		CurrentProfile.AssetsPath, CurrentProfile.Help.AssetsPath)
 }
@@ -125,7 +119,6 @@ func (s *Profile) Print() (r []string) {
 	r = append(r, fmt.Sprintf("%s: %v", s.Help.WebPort, s.WebPort))
 	r = append(r, fmt.Sprintf("%s: %v", s.Help.UDPPort, s.UDPPort))
 	r = append(r, fmt.Sprintf("%s: %v", s.Help.Cameras, s.Cameras))
-	r = append(r, fmt.Sprintf("%s: %v", s.Help.ControllerCount, s.ControllerCount))
 	r = append(r, fmt.Sprintf("%s: %v", s.Help.Include, s.Include))
 	r = append(r, fmt.Sprintf("%s: %v", s.Help.Exclude, s.Exclude))
 	return
@@ -141,7 +134,7 @@ func (s *Profile) Setup() (controllers []monitor.Controller, ports []string, lay
 	prv := &serialio.Provider{}
 	prv.Filter = s.Include
 	prv.Exclude = s.Exclude
-	connector := &grbl.Connector{}
+	connector := grbl.NewConnector(s.DataSource, layout)
 
 	ports = prv.Update()
 	glog.Infoln(ports)
@@ -157,9 +150,10 @@ func (s *Profile) Setup() (controllers []monitor.Controller, ports []string, lay
 		bus := monitor.NewBus()
 		go monitor.Monitor(sio, bus)
 
-		gctl, err := connector.Connect(bus, layout)
+		gctl, err := connector.Connect(bus)
 		if err != nil {
 			glog.Warning(err)
+			bus.Done <- true
 			continue
 		}
 
@@ -170,5 +164,11 @@ func (s *Profile) Setup() (controllers []monitor.Controller, ports []string, lay
 	if err != nil {
 		glog.Errorln(err)
 	}
+
+	err = connector.Save()
+	if err != nil {
+		glog.Errorln(err)
+	}
+
 	return
 }

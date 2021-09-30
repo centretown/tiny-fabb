@@ -21,20 +21,76 @@ import (
 )
 
 type Camera struct {
-	Name       string       `json:"name"`
-	Title      string       `json:"title"`
-	Settings   CameraStatus `json:"settings"`
-	ControlUrl string       `json:"controlUrl"`
-	StreamUrl  string       `json:"streamUrl"`
-	StatusUrl  string       `json:"statusUrl"`
-	CaptureUrl string       `json:"captureUrl"`
+	Name       string        `json:"name"`
+	Title      string        `json:"title"`
+	Settings   CameraStatus  `json:"settings"`
+	ControlUrl string        `json:"controlUrl"`
+	StreamUrl  string        `json:"streamUrl"`
+	StatusUrl  string        `json:"statusUrl"`
+	CaptureUrl string        `json:"captureUrl"`
+	Interval   time.Duration `json:"interval"`
+	Servos     []*Servo      `json:"servos"`
+	Forms      forms.Forms   `json:"-"`
+	layout     *template.Template
+	wg         *sync.WaitGroup
+	stream     *mjpeg.Stream
+}
 
-	Interval time.Duration
-	wg       *sync.WaitGroup
-	stream   *mjpeg.Stream
+func (cam *Camera) Start(router *mux.Router) {
 
-	Forms  forms.Forms
-	layout *template.Template
+	cam.bindSettings()
+	cam.wg = &sync.WaitGroup{}
+	cam.wg.Add(1)
+	cam.stream = mjpeg.NewStreamWithInterval(cam.Interval)
+
+	go cam.proxy(nil)
+	// go cam.proxy(cam.ShowWindow())
+	prefix := "/" + cam.Name + "/"
+
+	router.HandleFunc(prefix+"jpeg",
+		func(w http.ResponseWriter, r *http.Request) {
+			w.Header().Set("Content-Type", "image/jpeg")
+			w.Write(cam.stream.Current())
+		})
+
+	router.HandleFunc(prefix+"mjpeg", cam.stream.ServeHTTP)
+
+	router.HandleFunc(prefix+"apply/{id}/{val}/",
+		func(w http.ResponseWriter, r *http.Request) {
+			cam.Apply(w, r)
+		})
+
+	router.HandleFunc(prefix+"camera-full/",
+		func(w http.ResponseWriter, r *http.Request) {
+			tmpl := cam.layout.Lookup("camera-full")
+			if tmpl == nil {
+				return
+			}
+			tmpl.Execute(w, cam)
+		})
+
+	router.HandleFunc(prefix+"camera-settings/",
+		func(w http.ResponseWriter, r *http.Request) {
+			tmpl := cam.layout.Lookup("camera-settings")
+			if tmpl == nil {
+				return
+			}
+			tmpl.Execute(w, cam)
+		})
+
+	router.HandleFunc(prefix+"servo-settings/",
+		func(w http.ResponseWriter, r *http.Request) {
+			tmpl := cam.layout.Lookup("servo-settings")
+			if tmpl == nil {
+				return
+			}
+			tmpl.Execute(w, cam)
+		})
+}
+
+func (cam *Camera) Stop() {
+	cam.stream.Close()
+	cam.wg.Wait()
 }
 
 func (cam *Camera) ShowWindow() func(img image.Image) {
@@ -120,61 +176,4 @@ func (cam *Camera) proxy(viewer func(img image.Image)) {
 			continue
 		}
 	}
-}
-
-func (cam *Camera) Start(router *mux.Router) {
-
-	cam.bindSettings()
-	cam.wg = &sync.WaitGroup{}
-	cam.wg.Add(1)
-	cam.stream = mjpeg.NewStreamWithInterval(cam.Interval)
-
-	go cam.proxy(nil)
-	// go cam.proxy(cam.ShowWindow())
-	prefix := "/" + cam.Name + "/"
-
-	router.HandleFunc(prefix+"jpeg",
-		func(w http.ResponseWriter, r *http.Request) {
-			w.Header().Set("Content-Type", "image/jpeg")
-			w.Write(cam.stream.Current())
-		})
-
-	router.HandleFunc(prefix+"mjpeg", cam.stream.ServeHTTP)
-
-	router.HandleFunc(prefix+"apply/{id}/{val}/",
-		func(w http.ResponseWriter, r *http.Request) {
-			cam.Apply(w, r)
-		})
-
-	router.HandleFunc(prefix+"camera-full/",
-		func(w http.ResponseWriter, r *http.Request) {
-			tmpl := cam.layout.Lookup("camera-full")
-			if tmpl == nil {
-				return
-			}
-			tmpl.Execute(w, cam)
-		})
-
-	router.HandleFunc(prefix+"camera-settings/",
-		func(w http.ResponseWriter, r *http.Request) {
-			tmpl := cam.layout.Lookup("camera-settings")
-			if tmpl == nil {
-				return
-			}
-			tmpl.Execute(w, cam)
-		})
-
-	router.HandleFunc(prefix+"servo-settings/",
-		func(w http.ResponseWriter, r *http.Request) {
-			tmpl := cam.layout.Lookup("servo-settings")
-			if tmpl == nil {
-				return
-			}
-			tmpl.Execute(w, cam)
-		})
-}
-
-func (cam *Camera) Stop() {
-	cam.stream.Close()
-	cam.wg.Wait()
 }

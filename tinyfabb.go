@@ -54,7 +54,7 @@ func main() {
 	}
 
 	webPage.Cameras = make(camera.Cameras)
-	webPage.Cameras.Start(router, layout, 200, profile.Cameras...)
+	webPage.Cameras.Start(router, profile.DataSource, layout, 200, profile.Cameras...)
 
 	server := &http.Server{Addr: profile.WebPort, Handler: router}
 	sc := make(chan os.Signal, 1)

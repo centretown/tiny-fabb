@@ -113,7 +113,6 @@ func (cam *Camera) GetStatus() (err error) {
 	if err != nil {
 		return
 	}
-	fmt.Println(cam.Settings)
 	return
 }
 

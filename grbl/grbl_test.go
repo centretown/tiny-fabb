@@ -128,7 +128,7 @@ import (
 func TestProvider(t *testing.T) {
 	prv := &serialio.Provider{}
 	layout := template.Must(template.ParseFiles("../assets/entry.go.tpl"))
-	connector := &Connector{}
+	connector := NewConnector("../assets/data/", layout)
 
 	list := prv.Update()
 	t.Log(list)
@@ -142,7 +142,7 @@ func TestProvider(t *testing.T) {
 		bus := monitor.NewBus()
 		go monitor.Monitor(sio, bus)
 
-		gctl, err := connector.Connect(bus, layout)
+		gctl, err := connector.Connect(bus)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -157,4 +157,15 @@ func TestProvider(t *testing.T) {
 			t.Fatal(err)
 		}
 	}
+
+	for id, gctl := range connector.Controllers {
+		t.Log(id, gctl.ID)
+		t.Log((gctl.Profile.Print()))
+	}
+
+	err := connector.Save()
+	if err != nil {
+		t.Fatal(err)
+	}
+
 }

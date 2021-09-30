@@ -1,8 +1,10 @@
 package camera
 
 import (
+	"encoding/json"
 	"fmt"
 	"html/template"
+	"io/ioutil"
 	"net/http"
 	"time"
 
@@ -12,6 +14,7 @@ import (
 type Cameras map[string]*Camera
 
 func (cams Cameras) Start(router *mux.Router,
+	dataSource string,
 	layout *template.Template,
 	interval time.Duration, urls ...string) {
 	// LoadClassifier()
@@ -36,15 +39,20 @@ func (cams Cameras) Start(router *mux.Router,
 			layout:     layout,
 		}
 		cams[cam.Name] = cam
-		fmt.Println("SetFrameSize")
-		cam.Set("frameSize", "8")
-		fmt.Println("SetQuality")
-		cam.Set("quality", "10")
-		fmt.Println("GetStatus")
-		cam.GetStatus()
-		fmt.Println("Start")
 		cam.Start(router)
+		cam.GetStatus()
 	}
+
+	cams.Save(dataSource)
+}
+
+func (cams Cameras) Save(dataSource string) {
+	b, err := json.MarshalIndent(cams, "", "  ")
+	if err != nil {
+		return
+	}
+
+	ioutil.WriteFile(dataSource+"cameras.json", b, 0640)
 }
 
 func (cams Cameras) Stop() {

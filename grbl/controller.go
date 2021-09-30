@@ -11,47 +11,14 @@ import (
 	"github.com/golang/glog"
 )
 
-type Info struct {
-	Version  string
-	Options  string
-	Messages []string
-}
-
-const (
-	VER = "VER"
-	OPT = "OPT"
-	MSG = "MSG"
-)
-
-// func (inf *Info) Parse(results []string) {
-// 	var (
-// 		idx  int
-// 		temp string
-// 	)
-
-// 	for _, s := range results {
-// 		if len(s) < 5 {
-// 			continue
-// 		}
-
-// 		_, err := fmt.Sscanf(s, "[%]", &temp)
-// 		switch s[1:4] {
-// 		case "VER":
-// 		case "OPT":
-// 		case "MSG":
-
-// 		}
-// 	}
-// }
-
 type Controller struct {
+	ID       string       `json:"id"`
 	Title    string       `json:"title"`
+	Profile  *Profile     `json:"profile"`
 	Active   bool         `json:"active"`
 	Port     string       `json:"port"`
-	Version  string       `json:"version"`
-	Build    string       `json:"build"`
 	Settings GrblSettings `json:"settings"`
-	Commands GrblCommands `json:"commands"`
+	Commands GrblCommands `json:"-"`
 
 	views    map[string]forms.Forms
 	viewList []string
@@ -60,29 +27,19 @@ type Controller struct {
 }
 
 func NewController(bus *monitor.Bus, layout *template.Template) (gctl *Controller) {
-	gctl = &Controller{
-		layout: layout,
-		bus:    bus,
-	}
+	gctl = &Controller{}
+	gctl.initialize(bus, layout)
+	return
+}
 
+func (gctl *Controller) initialize(bus *monitor.Bus, layout *template.Template) {
+	gctl.layout = layout
+	gctl.bus = bus
 	gctl.views = make(map[string]forms.Forms)
 	gctl.views["settings"] = gctl.bindSettings()
 	gctl.views["commands"] = gctl.bindCommands()
 	gctl.viewList = []string{"settings", "commands", "status"}
-
-	return
 }
-
-// func (gctl *Controller) Describe() *controller.Descriptor {
-// 	d := &controller.Descriptor{
-// 		Title:       gctl.Title,
-// 		Description: "GRBL",
-// 		Port:        gctl.Port,
-// 		Active:      gctl.Active,
-// 		Version:     gctl.Version + " " + gctl.Build,
-// 	}
-// 	return d
-// }
 
 func (gctl *Controller) Views() []string {
 	return gctl.viewList
@@ -263,6 +220,28 @@ func (gctl *Controller) Update(form *forms.Form) (err error) {
 		}
 	}
 
+	return
+}
+
+func (gctl *Controller) startup() (err error) {
+	err = gctl.Query("settings", idSettings.String())
+	if err != nil {
+		return
+	}
+
+	cmds := []string{
+		idParameters.String(),
+		idParserState.String(),
+		idBuildInfo.String(),
+		idStartupBlocks.String(),
+	}
+	for _, cmd := range cmds {
+		err = gctl.Query("commands", cmd)
+		if err != nil {
+			return
+		}
+
+	}
 	return
 }
 

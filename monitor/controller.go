@@ -1,14 +1,15 @@
 package monitor
 
 import (
-	"html/template"
 	"io"
 
 	"github.com/centretown/tiny-fabb/forms"
 )
 
 type Connector interface {
-	Connect(*Bus, *template.Template) (Controller, error)
+	Connect(*Bus) (Controller, error)
+	Save() error
+	Load() error
 }
 
 type Controller interface {
