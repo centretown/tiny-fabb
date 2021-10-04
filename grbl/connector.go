@@ -10,7 +10,6 @@ import (
 )
 
 type Connector struct {
-	List        []*Controller
 	Controllers map[string]*Controller
 	dataSource  string
 	layout      *template.Template
@@ -18,7 +17,6 @@ type Connector struct {
 
 func NewConnector(dataSource string, layout *template.Template) (conn *Connector) {
 	conn = &Connector{
-		List:        make([]*Controller, 0),
 		Controllers: make(map[string]*Controller),
 		dataSource:  dataSource,
 		layout:      layout,
@@ -35,7 +33,7 @@ func (conn *Connector) Connect(bus *monitor.Bus) (ctl monitor.Controller, err er
 		profile         *Profile
 		gctl            *Controller
 		ok              bool
-		controllerCount int = len(conn.List)
+		controllerCount int = len(conn.Controllers)
 	)
 
 	results, err = bus.Capture("$I", terminators...)
@@ -48,25 +46,30 @@ func (conn *Connector) Connect(bus *monitor.Bus) (ctl monitor.Controller, err er
 		return
 	}
 
-	if len(profile.ID) == 0 {
-		profile.ID = fmt.Sprintf("%s-%03d", profile.Prefix(), controllerCount+1)
-		s := fmt.Sprintf("$I=%s%s", ID, profile.ID)
-		_, err = bus.Capture(s, terminators...)
-		if err != nil {
-			return
-		}
-	}
-
 	gctl, ok = conn.Controllers[profile.ID]
 	if ok {
 		gctl.Profile = profile
 		gctl.initialize(bus, conn.layout)
 	} else {
 		controllerCount++
+		title := fmt.Sprintf("%s-%03d", profile.Prefix(), controllerCount)
 		gctl = NewController(bus, conn.layout)
 		gctl.Profile = profile
+
+		if len(profile.ID) == 0 {
+			profile.ID = title
+			s := fmt.Sprintf("$I=%s%s", ID, profile.ID)
+			_, err = bus.Capture(s, terminators...)
+			if err != nil {
+				return
+			}
+		}
 		gctl.ID = profile.ID
-		gctl.Title = fmt.Sprintf("%s-%03d", profile.Prefix(), controllerCount)
+		if profile.IsESP32() {
+			gctl.Title = title
+		} else {
+			gctl.Title = profile.ID
+		}
 		conn.Add(gctl)
 	}
 
@@ -77,7 +80,7 @@ func (conn *Connector) Connect(bus *monitor.Bus) (ctl monitor.Controller, err er
 
 func (conn *Connector) Save() (err error) {
 	var b []byte
-	b, err = json.MarshalIndent(&conn.List, "", "  ")
+	b, err = json.MarshalIndent(&conn.Controllers, "", "  ")
 	if err != nil {
 		return
 	}
@@ -91,17 +94,13 @@ func (conn *Connector) Load() (err error) {
 	if err != nil {
 		return
 	}
-	err = json.Unmarshal(b, &conn.List)
+	err = json.Unmarshal(b, &conn.Controllers)
 	if err != nil {
 		return
-	}
-	for _, ctl := range conn.List {
-		conn.Controllers[ctl.ID] = ctl
 	}
 	return
 }
 
 func (conn *Connector) Add(gctl *Controller) {
-	conn.List = append(conn.List, gctl)
 	conn.Controllers[gctl.ID] = gctl
 }

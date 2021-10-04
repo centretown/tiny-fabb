@@ -40,6 +40,8 @@ func (ent *Entry) Value(v interface{}) (r interface{}) {
 		switch t := v.(type) {
 		case *uint:
 			r = *t
+		case *float64:
+			r = *t
 		case *float32:
 			r = *t
 		case *bool:
@@ -82,6 +84,7 @@ type InputFormat struct {
 	HasChecked bool
 	HasRange   bool
 	HasStep    bool
+	ReadOnly   bool
 }
 
 func (ent *Entry) FormatInput(value interface{}, first *Entry) (f *InputFormat) {
@@ -107,6 +110,8 @@ func (ent *Entry) FormatInput(value interface{}, first *Entry) (f *InputFormat) 
 	case "number":
 		f.HasRange = ent.Min != ent.Max
 		f.HasStep = ent.Step != 0
+	case "readonly":
+		f.ReadOnly = true
 	}
 	return
 }
@@ -152,4 +157,13 @@ func UnMask(m interface{}, mask uint, isTrue bool) (err error) {
 		*v &= ^mask
 	}
 	return
+}
+
+func (ent *Entry) InBounds(s string) bool {
+	var val float32
+	if ent.Min >= ent.Max {
+		return true
+	}
+	fmt.Sscan(s, &val)
+	return val >= ent.Min && val <= ent.Max
 }

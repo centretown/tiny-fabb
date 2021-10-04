@@ -136,6 +136,11 @@ func (cam *Camera) Set(id string, val string) (err error) {
 	}
 
 	ent := frm.Entries[0]
+	if !ent.InBounds(val) {
+		err = fmt.Errorf("%s: %s out of range", id, val)
+		return
+	}
+
 	err = ent.ScanInput(val, frm.Value)
 	if err != nil {
 		return

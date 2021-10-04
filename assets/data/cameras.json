@@ -1,10 +1,55 @@
 {
-  "camera0": {
-    "name": "camera0",
-    "title": "Camera: 0",
+  "camera175": {
+    "id": "camera175",
+    "url": "http://192.168.0.175",
+    "title": "Camera: 175",
+    "active": true,
     "settings": {
       "framesize": 8,
       "quality": 10,
+      "brightness": 0,
+      "contrast": 0,
+      "saturation": 0,
+      "sharpness": 0,
+      "denoise": 0,
+      "special_effect": 0,
+      "wb_mode": 1,
+      "awb": 1,
+      "awb_gain": 1,
+      "aec": 1,
+      "aec2": 0,
+      "ae_level": 0,
+      "aec_value": 168,
+      "agc": 1,
+      "agc_gain": 0,
+      "gainceiling": 0,
+      "bpc": 0,
+      "wpc": 1,
+      "raw_gma": 1,
+      "lenc": 1,
+      "hmirror": 0,
+      "vflip": 0,
+      "dcw": 1,
+      "colorbar": 0
+    },
+    "controlUrl": "http://192.168.0.175:80/action",
+    "streamUrl": "http://192.168.0.175:81/stream",
+    "statusUrl": "http://192.168.0.175:80/status",
+    "captureUrl": "http://192.168.0.175:80/capture",
+    "interval": 200,
+    "servoIndeces": [
+      0,
+      1
+    ]
+  },
+  "camera44": {
+    "id": "camera44",
+    "url": "http://192.168.0.44",
+    "title": "Camera: 44",
+    "active": true,
+    "settings": {
+      "framesize": 9,
+      "quality": 12,
       "brightness": 0,
       "contrast": 0,
       "saturation": 0,
@@ -35,44 +80,9 @@
     "statusUrl": "http://192.168.0.44:80/status",
     "captureUrl": "http://192.168.0.44:80/capture",
     "interval": 200,
-    "servos": null
-  },
-  "camera1": {
-    "name": "camera1",
-    "title": "Camera: 1",
-    "settings": {
-      "framesize": 8,
-      "quality": 10,
-      "brightness": 0,
-      "contrast": 0,
-      "saturation": 0,
-      "sharpness": 0,
-      "denoise": 0,
-      "special_effect": 0,
-      "wb_mode": 0,
-      "awb": 1,
-      "awb_gain": 1,
-      "aec": 1,
-      "aec2": 0,
-      "ae_level": 0,
-      "aec_value": 168,
-      "agc": 1,
-      "agc_gain": 0,
-      "gainceiling": 0,
-      "bpc": 0,
-      "wpc": 1,
-      "raw_gma": 1,
-      "lenc": 1,
-      "hmirror": 0,
-      "vflip": 0,
-      "dcw": 1,
-      "colorbar": 0
-    },
-    "controlUrl": "http://192.168.0.175:80/action",
-    "streamUrl": "http://192.168.0.175:81/stream",
-    "statusUrl": "http://192.168.0.175:80/status",
-    "captureUrl": "http://192.168.0.175:80/capture",
-    "interval": 200,
-    "servos": null
+    "servoIndeces": [
+      0,
+      1
+    ]
   }
 }

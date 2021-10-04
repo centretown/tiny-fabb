@@ -25,41 +25,45 @@ type Help struct {
 	WebPort         string `json:"webPort"`
 	UDPPort         string `json:"udpPort"`
 	Cameras         string `json:"cameras"`
+	ServoController string `json:"servoController"`
 	Include         string `json:"include"`
 	Exclude         string `json:"exclude"`
 }
 
 type Profile struct {
-	Help       Help     `json:"help"`
-	AssetsPath string   `json:"assetsPath"`
-	DataSource string   `json:"dataSource"`
-	DocsSource string   `json:"docsSource"`
-	WebPort    string   `json:"webPort"`
-	UDPPort    string   `json:"udpPort"`
-	Cameras    []string `json:"cameras"`
-	Include    []string `json:"include"`
-	Exclude    []string `json:"exclude"`
+	Help            Help     `json:"help"`
+	AssetsPath      string   `json:"assetsPath"`
+	DataSource      string   `json:"dataSource"`
+	DocsSource      string   `json:"docsSource"`
+	WebPort         string   `json:"webPort"`
+	UDPPort         string   `json:"udpPort"`
+	Cameras         []string `json:"cameras"`
+	ServoController string   `json:"servoController"`
+	Include         []string `json:"include"`
+	Exclude         []string `json:"exclude"`
 }
 
 var CurrentProfile = &Profile{
 	Help: Help{
-		DataSource: "location of data folder",
-		DocsSource: "location of documentation file",
-		WebPort:    "web server port",
-		UDPPort:    "udp port",
-		Cameras:    "attached camera addresses",
-		AssetsPath: "location of static assets",
-		Include:    "device prefixes to include",
-		Exclude:    "devices to exclude",
+		DataSource:      "location of data folder",
+		DocsSource:      "location of documentation file",
+		WebPort:         "web server port",
+		UDPPort:         "udp port",
+		Cameras:         "attached camera addresses",
+		ServoController: "servo controller address",
+		AssetsPath:      "location of static assets",
+		Include:         "device prefixes to include",
+		Exclude:         "devices to exclude",
 	},
-	AssetsPath: "assets",
-	DataSource: "assets/data/",
-	DocsSource: "assets/data/docs.json",
-	WebPort:    ":8080",
-	UDPPort:    ":44444",
-	Cameras:    []string{""},
-	Include:    []string{""},
-	Exclude:    []string{""},
+	AssetsPath:      "assets",
+	DataSource:      "assets/data/",
+	DocsSource:      "assets/data/docs.json",
+	WebPort:         ":8080",
+	UDPPort:         ":44444",
+	Cameras:         []string{""},
+	ServoController: "http://192.168.0.44",
+	Include:         []string{""},
+	Exclude:         []string{""},
 }
 
 var (
@@ -119,6 +123,7 @@ func (s *Profile) Print() (r []string) {
 	r = append(r, fmt.Sprintf("%s: %v", s.Help.WebPort, s.WebPort))
 	r = append(r, fmt.Sprintf("%s: %v", s.Help.UDPPort, s.UDPPort))
 	r = append(r, fmt.Sprintf("%s: %v", s.Help.Cameras, s.Cameras))
+	r = append(r, fmt.Sprintf("%s: %v", s.Help.ServoController, s.ServoController))
 	r = append(r, fmt.Sprintf("%s: %v", s.Help.Include, s.Include))
 	r = append(r, fmt.Sprintf("%s: %v", s.Help.Exclude, s.Exclude))
 	return
@@ -129,7 +134,9 @@ func (s *Profile) Setup() (controllers []monitor.Controller, ports []string, lay
 		template.ParseFiles(
 			s.AssetsPath+"/layout.html",
 			s.AssetsPath+"/layout.go.tpl",
-			s.AssetsPath+"/entry.go.tpl"))
+			s.AssetsPath+"/entry.go.tpl",
+			s.AssetsPath+"/camera.go.tpl",
+			s.AssetsPath+"/servo.go.tpl"))
 
 	prv := &serialio.Provider{}
 	prv.Filter = s.Include

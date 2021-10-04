@@ -53,15 +53,17 @@ func main() {
 		glog.Fatal(err)
 	}
 
-	webPage.Cameras = make(camera.Cameras)
-	webPage.Cameras.Start(router, profile.DataSource, layout, 200, profile.Cameras...)
+	cconn := camera.NewConnector(profile.DataSource, layout, 200)
+	webPage.Cameras = cconn.Cameras
+
+	cconn.Start(router, profile.ServoController, profile.Cameras...)
 
 	server := &http.Server{Addr: profile.WebPort, Handler: router}
 	sc := make(chan os.Signal, 1)
 	signal.Notify(sc, os.Interrupt)
 	go func() {
 		<-sc
-		webPage.Cameras.Stop()
+		cconn.Stop()
 		server.Shutdown(context.Background())
 	}()
 

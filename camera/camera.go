@@ -14,6 +14,7 @@ import (
 	"time"
 
 	"github.com/centretown/tiny-fabb/forms"
+	"github.com/centretown/tiny-fabb/servo"
 	"github.com/golang/glog"
 	"github.com/gorilla/mux"
 	"github.com/mattn/go-mjpeg"
@@ -21,44 +22,44 @@ import (
 )
 
 type Camera struct {
-	Name       string        `json:"name"`
-	Title      string        `json:"title"`
-	Settings   CameraStatus  `json:"settings"`
-	ControlUrl string        `json:"controlUrl"`
-	StreamUrl  string        `json:"streamUrl"`
-	StatusUrl  string        `json:"statusUrl"`
-	CaptureUrl string        `json:"captureUrl"`
-	Interval   time.Duration `json:"interval"`
-	Servos     []*Servo      `json:"servos"`
-	Forms      forms.Forms   `json:"-"`
-	layout     *template.Template
-	wg         *sync.WaitGroup
-	stream     *mjpeg.Stream
+	ID           string         `json:"id"`
+	Url          string         `json:"url"`
+	Title        string         `json:"title"`
+	Active       bool           `json:"active"`
+	Settings     CameraStatus   `json:"settings"`
+	ControlUrl   string         `json:"controlUrl"`
+	StreamUrl    string         `json:"streamUrl"`
+	StatusUrl    string         `json:"statusUrl"`
+	CaptureUrl   string         `json:"captureUrl"`
+	Interval     time.Duration  `json:"interval"`
+	ServoIndeces []uint         `json:"servoIndeces"`
+	Forms        forms.Forms    `json:"-"`
+	Servos       []*servo.Servo `json:"-"`
+	layout       *template.Template
+	wg           *sync.WaitGroup
+	stream       *mjpeg.Stream
 }
 
-func (cam *Camera) Start(router *mux.Router) {
+type Cameras map[string]*Camera
 
+func (cam *Camera) Setup(router *mux.Router, servos *servo.Connector) {
 	cam.bindSettings()
-	cam.wg = &sync.WaitGroup{}
-	cam.wg.Add(1)
-	cam.stream = mjpeg.NewStreamWithInterval(cam.Interval)
-
-	go cam.proxy(nil)
 	// go cam.proxy(cam.ShowWindow())
-	prefix := "/" + cam.Name + "/"
-
-	router.HandleFunc(prefix+"jpeg",
-		func(w http.ResponseWriter, r *http.Request) {
-			w.Header().Set("Content-Type", "image/jpeg")
-			w.Write(cam.stream.Current())
-		})
-
-	router.HandleFunc(prefix+"mjpeg", cam.stream.ServeHTTP)
-
+	prefix := "/" + cam.ID + "/"
 	router.HandleFunc(prefix+"apply/{id}/{val}/",
 		func(w http.ResponseWriter, r *http.Request) {
 			cam.Apply(w, r)
 		})
+
+	var err error
+	cam.Servos, err = servos.Connect(cam.ServoIndeces...)
+	if err != nil {
+		glog.Warningln(err)
+	}
+
+	for _, svo := range cam.Servos {
+		svo.Connect(router, prefix)
+	}
 
 	router.HandleFunc(prefix+"camera-full/",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -68,7 +69,6 @@ func (cam *Camera) Start(router *mux.Router) {
 			}
 			tmpl.Execute(w, cam)
 		})
-
 	router.HandleFunc(prefix+"camera-settings/",
 		func(w http.ResponseWriter, r *http.Request) {
 			tmpl := cam.layout.Lookup("camera-settings")
@@ -77,7 +77,6 @@ func (cam *Camera) Start(router *mux.Router) {
 			}
 			tmpl.Execute(w, cam)
 		})
-
 	router.HandleFunc(prefix+"servo-settings/",
 		func(w http.ResponseWriter, r *http.Request) {
 			tmpl := cam.layout.Lookup("servo-settings")
@@ -86,6 +85,20 @@ func (cam *Camera) Start(router *mux.Router) {
 			}
 			tmpl.Execute(w, cam)
 		})
+	cam.Start()
+	router.HandleFunc(prefix+"jpeg",
+		func(w http.ResponseWriter, r *http.Request) {
+			w.Header().Set("Content-Type", "image/jpeg")
+			w.Write(cam.stream.Current())
+		})
+	router.HandleFunc(prefix+"mjpeg", cam.stream.ServeHTTP)
+}
+
+func (cam *Camera) Start() {
+	cam.wg = &sync.WaitGroup{}
+	cam.wg.Add(1)
+	cam.stream = mjpeg.NewStreamWithInterval(cam.Interval)
+	go cam.proxy(nil)
 }
 
 func (cam *Camera) Stop() {
@@ -111,11 +124,11 @@ func (cam *Camera) ShowWindow() func(img image.Image) {
 
 		mat, err := gocv.ImageToMatRGB(img)
 		if err != nil {
-			fmt.Println(err)
+			glog.Infoln(err)
 			return
 		}
 		if mat.Empty() {
-			fmt.Println("matrix empty")
+			glog.Infoln("matrix empty")
 			return
 		}
 		// blue := color.RGBA{0, 0, 255, 0}
@@ -154,9 +167,9 @@ func (cam *Camera) proxy(viewer func(img image.Image)) {
 			if strings.Contains(msg, "connection reset by peer") ||
 				strings.Contains(msg, "connection timed out") {
 				glog.Error(err)
-				break
+				return
 			}
-			glog.Info(cam.Name, err)
+			glog.Info(cam.ID, err)
 			continue
 		}
 
@@ -167,12 +180,12 @@ func (cam *Camera) proxy(viewer func(img image.Image)) {
 		buf.Reset()
 		err = jpeg.Encode(&buf, img, nil)
 		if err != nil {
-			fmt.Println(cam.Name, err)
+			glog.Infoln(cam.ID, err)
 			continue
 		}
 		err = cam.stream.Update(buf.Bytes())
 		if err != nil {
-			fmt.Println(cam.Name, err)
+			glog.Infoln(cam.ID, err)
 			continue
 		}
 	}
