@@ -2,24 +2,23 @@
 <div id="camera-bar-container" class="pic-content w3-container w3-border w3-theme-d1">
     {{range $index, $camera := .}}
         <div class="pics-items pic-content w3-animate-opacity">
-            <div class="w3-margin w3-padding">{{$camera.Title}}</div>
             {{template "camera-servo" $camera}}
             <div class="w3-bar">
+                <span class="w3-bar-item">
+                    {{$camera.Title}}
+                </span>
                 <span class="w3-button w3-bar-item"
                     title="Servos"
-                    style="padding-right:4px"
                     onclick="openServoSettings({{$index}})">
                     <i class="bi bi-gear-wide-connected"></i>
                 </span>
                 <span class="w3-button w3-bar-item" 
                     title="Configure"
-                    style="padding-right:4px"
                     onclick="openCameraSettings({{$index}})">
                     <i class="bi bi-grid-1x2"></i>
                 </span>
                 <span class="w3-button w3-bar-item"
                     title="Full View"
-                    style="padding-right:4px"
                     onclick="openCameraFull({{$index}})">
                     <i class="bi bi-fullscreen"></i>
                 </span>
@@ -40,7 +39,7 @@
     </header>
     <div class="content w3-theme-l3">
         {{template "camera-servo" .}}
-        <div class="content">
+        <div class="content" style="display:block;width:35%;">
             {{template "camera-edit" .}}
         </div>
     </div>
@@ -106,43 +105,50 @@
 {{end}}
 
 {{define "camera-servo"}}
-<div class="w3-display-container entries">
+<div id="{{.ID}}" class="w3-display-container entries">
     <img id="{{.ID}}-stream" 
         class="pic w3-image"
         src="/{{.ID}}/mjpeg">
     <div class="w3-display-topleft w3-container"
-        style="margin-top:16px;margin-left:12px;">
+        style="margin-top:16px;">
         <div class="w3-cell-row">
-            <div class="w3-container w3-btn w3-cell servo-control"
-                onclick="topLeftClick()">
+            <div class="w3-container w3-btn w3-ripple w3-cell servo-control"
+                onclick="panTilt({{.ID}},30,30,50)">
                 <i class="bi bi-arrow-up-left"></i>
             </div>
-            <div class="w3-container w3-btn w3-cell servo-control">
+            <div class="w3-container w3-btn w3-ripple w3-cell servo-control"
+                onclick="panTilt({{.ID}},0,30,50)">
                 <i class="bi bi-arrow-up"></i>
             </div>
-            <div class="w3-container w3-btn w3-cell servo-control">
+            <div class="w3-container w3-btn w3-ripple w3-cell servo-control"
+                onclick="panTilt({{.ID}},-30,30,50)">
                 <i class="bi bi-arrow-up-right"></i>
             </div>
         </div>
         <div class="w3-cell-row">
-            <div class="w3-container w3-btn w3-cell servo-control">
+            <div class="w3-container w3-btn w3-ripple w3-cell servo-control"
+                onclick="panTilt({{.ID}},30,0,50)">
                 <i class="bi bi-arrow-left"></i>
             </div>
-            <div class="w3-container w3-btn w3-cell servo-control">
-                <i class="bi bi-circle"></i>
+            <div class="w3-container w3-cell servo-control">
+                <i class="bi bi-arrows-move"></i>
             </div>
-            <div class="w3-container w3-btn w3-cell servo-control">
+            <div class="w3-container w3-btn w3-ripple w3-cell servo-control"
+                onclick="panTilt({{.ID}},-30,0,50)">
                 <i class="bi bi-arrow-right"></i>
             </div>
         </div>
         <div class="w3-cell-row">
-            <div class="w3-container w3-btn w3-cell servo-control">
+            <div class="w3-container w3-btn w3-ripple w3-cell servo-control"
+                onclick="panTilt({{.ID}},30,-30,50)">
                 <i class="bi bi-arrow-down-left"></i>
             </div>
-            <div class="w3-container w3-btn w3-cell servo-control">
+            <div class="w3-container w3-btn w3-ripple w3-cell servo-control"
+                onclick="panTilt({{.ID}},0,-30,50)">
                 <i class="bi bi-arrow-down"></i>
             </div>
-            <div class="w3-container w3-btn w3-cell servo-control">
+            <div class="w3-container w3-btn w3-ripple w3-cell servo-control"
+                onclick="panTilt({{.ID}},-30,-30,50)">
                 <i class="bi bi-arrow-down-right"></i>
             </div>
         </div>

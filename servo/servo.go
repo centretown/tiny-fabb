@@ -51,7 +51,7 @@ type Servo struct {
 	Forms      forms.Forms  `json:"-"`
 }
 
-func (svo *Servo) apply(w http.ResponseWriter) {
+func (svo *Servo) Apply(w http.ResponseWriter) {
 	b := &strings.Builder{}
 	_, err := fmt.Fprintf(b,
 		"%s?var=%s&index=%d&angle=%d&speed=%d&type=%d",
@@ -68,35 +68,34 @@ func (svo *Servo) apply(w http.ResponseWriter) {
 	}
 }
 
+func (svo *Servo) Home(w http.ResponseWriter, r *http.Request) {
+	svo.Command = ServoHome
+	svo.Angle = 0
+	svo.Speed = 0
+	svo.EaseType = 0
+	svo.Apply(w)
+}
+func (svo *Servo) Move(w http.ResponseWriter, r *http.Request) {
+	svo.Command = ServoMove
+	svo.Angle = forms.GetRequestUint(r, "angle")
+	svo.Speed = forms.GetRequestUint(r, "speed")
+	svo.EaseType = 0
+	svo.Apply(w)
+}
+func (svo *Servo) Ease(w http.ResponseWriter, r *http.Request) {
+	svo.Command = ServoEase
+	svo.Angle = forms.GetRequestUint(r, "angle")
+	svo.Speed = forms.GetRequestUint(r, "speed")
+	svo.EaseType = forms.GetRequestUint(r, "easeType")
+	svo.Apply(w)
+}
+
 func (svo *Servo) Connect(router *mux.Router, prefix string) {
-	var (
-		home = func(w http.ResponseWriter, r *http.Request) {
-			svo.Command = ServoHome
-			svo.Angle = 0
-			svo.Speed = 0
-			svo.EaseType = 0
-			svo.apply(w)
-		}
-		move = func(w http.ResponseWriter, r *http.Request) {
-			svo.Command = ServoMove
-			svo.Angle = forms.GetRequestUint(r, "angle")
-			svo.Speed = forms.GetRequestUint(r, "speed")
-			svo.EaseType = 0
-			svo.apply(w)
-		}
-		ease = func(w http.ResponseWriter, r *http.Request) {
-			svo.Command = ServoEase
-			svo.Angle = forms.GetRequestUint(r, "angle")
-			svo.Speed = forms.GetRequestUint(r, "speed")
-			svo.EaseType = forms.GetRequestUint(r, "easeType")
-			svo.apply(w)
-		}
-	)
 	svo.bind()
 	index := fmt.Sprintf("/servo%d", svo.Index)
-	router.HandleFunc(index+"/home/{angle}/{speed}/{easeType}/", home)
-	router.HandleFunc(index+"/home/", home)
-	router.HandleFunc(index+"/move/{angle}/{speed}/{easeType}/", move)
-	router.HandleFunc(index+"/move/{angle}/{speed}/", move)
-	router.HandleFunc(index+"/ease/{angle}/{speed}/{easeType}/", ease)
+	router.HandleFunc(index+"/home/{angle}/{speed}/{easeType}/", svo.Home)
+	router.HandleFunc(index+"/home/", svo.Home)
+	router.HandleFunc(index+"/move/{angle}/{speed}/{easeType}/", svo.Move)
+	router.HandleFunc(index+"/move/{angle}/{speed}/", svo.Move)
+	router.HandleFunc(index+"/ease/{angle}/{speed}/{easeType}/", svo.Ease)
 }

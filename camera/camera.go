@@ -51,6 +51,11 @@ func (cam *Camera) Setup(router *mux.Router, servos *servo.Connector) {
 			cam.Apply(w, r)
 		})
 
+	router.HandleFunc(prefix+"pan-tilt/{pan}/{tilt}/{speed}/",
+		func(w http.ResponseWriter, r *http.Request) {
+			cam.PanTilt(w, r)
+		})
+
 	var err error
 	cam.Servos, err = servos.Connect(cam.ServoIndeces...)
 	if err != nil {
@@ -104,6 +109,38 @@ func (cam *Camera) Start() {
 func (cam *Camera) Stop() {
 	cam.stream.Close()
 	cam.wg.Wait()
+}
+
+func (cam *Camera) PanTilt(w http.ResponseWriter, r *http.Request) {
+	var (
+		move = func(svo *servo.Servo, angle int, speed uint) {
+			if angle >= 0 && angle <= 180 {
+				svo.Command = servo.ServoMove
+				svo.Angle = uint(angle)
+				svo.Speed = speed
+				svo.Apply(w)
+			}
+		}
+	)
+	if len(cam.Servos) < 1 {
+		return
+	}
+
+	speed := forms.GetRequestUint(r, "speed")
+	if speed < 1 || speed > 255 {
+		speed = 50
+	}
+
+	change := forms.GetRequestInt(r, "pan")
+	svo := cam.Servos[0]
+	move(svo, change+int(svo.Angle), speed)
+
+	if len(cam.Servos) < 2 {
+		return
+	}
+	change = forms.GetRequestInt(r, "tilt")
+	svo = cam.Servos[1]
+	move(svo, change+int(svo.Angle), speed)
 }
 
 func (cam *Camera) ShowWindow() func(img image.Image) {

@@ -14,7 +14,8 @@
             name="check-camera" 
             title="Cameras"
             onclick="selectCamera()">
-            <i class="bi bi-camera"></i>
+            <i id="check-camera-image" 
+                class="bi bi-camera-video"></i>
         </button>
     </div>
 

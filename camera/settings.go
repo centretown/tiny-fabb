@@ -151,35 +151,3 @@ func (cam *Camera) Set(id string, val string) (err error) {
 	}
 	return
 }
-
-func (cam *Camera) set(val int, code string, min, max int, update func(int)) (err error) {
-	if val < min || val > max {
-		err = fmt.Errorf("%s: %d out of range (%d-%d)", code, val, min, max)
-		return
-	}
-	_, err = forms.Request(fmt.Sprintf("%s?var=%s&val=%d", cam.ControlUrl, code, val))
-	if err == nil {
-		update(val)
-	}
-	return
-}
-
-func (cam *Camera) MoveLeft() (err error) {
-	return cam.move("left")
-}
-func (cam *Camera) MoveRight() (err error) {
-	return cam.move("right")
-}
-func (cam *Camera) MoveUp() (err error) {
-	return cam.move("up")
-}
-func (cam *Camera) MoveDown() (err error) {
-	return cam.move("down")
-}
-
-func (cam *Camera) move(val string) (err error) {
-	s := fmt.Sprintf("%s?go=%s", cam.ControlUrl, val)
-	fmt.Println(s)
-	_, err = forms.Request(s)
-	return
-}

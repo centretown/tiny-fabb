@@ -24,7 +24,7 @@
       {{template "app-bar" .}}
       {{template "button-bar" .}}
     </div>
-    <div id="camera-bar"></div>
+    <div id="camera-bar" class="sticky"></div>
     
     <div id="details" class="w3-container w3-theme-d3 w3-border"></div>
     <div id="dialog" class="w3-modal w3-card w3-theme-d5"></div>
@@ -67,6 +67,7 @@
     }
 
     function openCameraFull(id) {
+      id=id+"-stream";
       let elem = document.getElementById(id)
       if (elem.requestFullscreen) {
         elem.requestFullscreen();
@@ -111,8 +112,17 @@
     servo.speed = 50;
     servo.easeType = 1;
 
-    function tiltUp() {
-    console.log("topLeftClick");
+    function panTilt(cam,pan,tilt,speed) {
+      let init = {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        credentials: "include",
+      };
+      let path = "/"+cam+"/pan-tilt/"+pan+"/"+tilt+"/"+speed+"/";
+      fetch(path);
+      console.log(path);
     }
 
     
