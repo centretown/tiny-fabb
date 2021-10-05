@@ -4,6 +4,7 @@ package forms
 
 import (
 	"fmt"
+	"io"
 	"net/http"
 
 	"github.com/golang/glog"
@@ -33,23 +34,16 @@ func WriteError(w http.ResponseWriter, err error) {
 	http.Error(w, err.Error(), 400)
 }
 
-// type RequestVar struct {
-// 	Code string
-// 	Val  interface{}
-// }
-
-// func GetRequestVars(r *http.Request, reqVars []*RequestVar) (err error) {
-// 	muxVars := mux.Vars(r)
-// 	for _, v := range reqVars {
-// 		val, ok := muxVars[v.Code]
-// 		if !ok {
-// 			err = fmt.Errorf("code '%s' not found", v.Code)
-// 			return
-// 		}
-// 		_, err = fmt.Scan(val, v.Val)
-// 		if err != nil {
-// 			return
-// 		}
-// 	}
-// 	return
-// }
+func Request(u string) (data []byte, err error) {
+	req, err := http.NewRequest("GET", u, nil)
+	if err != nil {
+		return
+	}
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return
+	}
+	defer resp.Body.Close()
+	data, err = io.ReadAll(resp.Body)
+	return
+}

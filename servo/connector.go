@@ -23,6 +23,7 @@ func NewConnector(controlUrl string,
 
 	for i := range conn.Servos {
 		conn.Servos[i] = &Servo{
+			Title:      fmt.Sprintf("Servo-%02d", i),
 			ControlUrl: controlUrl,
 			Index:      uint(i),
 			Command:    ServoEase,

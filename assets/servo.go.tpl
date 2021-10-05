@@ -1,4 +1,5 @@
 {{define "servo-settings"}}
+{{$camera:=.}}
 {{$svos:=.Servos}}
 <div class="w3-modal-content w3-theme-d5">
     <header class="w3-container w3-theme-l1 w3-padding-16">
@@ -9,12 +10,8 @@
         </span>
     </header>
     <div class="content w3-theme-l3">
-        <div class="entries">
-            <img id="{{.ID}}-stream" 
-                class="pic w3-image"
-                src="/{{.ID}}/mjpeg">
-        </div>
-        <div class="content" style="display:block;width:30%;">
+        {{template "camera-servo" $camera}}
+        <div class="content" style="display:block;width:35%;">
             {{template "servo-edit" $svos}}
         </div>
     </div>
@@ -25,58 +22,54 @@
             class="w3-btn w3-round w3-left w3-margin w3-theme-d5">
             Close
         </button>
+        <button
+            type="button"
+            class="w3-btn w3-round w3-right w3-margin w3-theme-d5"
+            onclick="changeServo()">
+            Apply
+        </button>
     </footer>
 </div> 
 {{end}}
 
 {{define "servo-edit"}}
 {{$svos:=.}}
-<div class="w3-container entries">
-{{range $index, $svo := $svos}}
-    {{range $webid, $form := .Forms}}
-        {{$value := $form.Value}}
-        {{$first := index $form.Entries 0}}
-        {{range $i, $ent := $form.Entries}}
-        <div class="entries dlgtab">
-            {{$f:=$ent.FormatInput $value $first}}
-            {{$id:=printf "%s-%d" $f.ID $index}}
-            <label for="{{$id}}">{{$ent.Label}}</label>
-            {{if $f.ReadOnly}}
-               <span>{{$value}}</span>
-            {{else}}
-                <input
-                    id="{{$id}}"
-                    name="{{$id}}"
-                    class="{{$f.Class}}"
-                    type="{{$f.Type}}"
-
-                    {{if $f.HasChecked}}
-                        checked
-                    {{end}}
-
-                    {{if $f.HasRange}}
-                        min="{{$ent.Min}}"
-                        max="{{$ent.Max}}"
-                    {{end}}
-                    
-                    {{if $f.HasStep}}
-                        step="{{$ent.Step}}"
-                    {{end}}
-                    value="{{$value}}"/>
-            {{end}}
-        </div>
+<form class="w3-container entries">
+    <label for="servo-select">Servo</label>
+    <select id="servo-select" name="servo-select"
+        class="w3-theme-l1 select-controller w3-padding">
+        {{range $index, $svo := $svos}}
+        <option value="{{$svo.Index}}">{{$svo.Title}}</option>
         {{end}}
-    {{end}}
-    <div>
-        <div>
-            <button class="w3-button w3-center"
-                style="width:100%"
-                onclick="">
-                Apply
-            </button>
-        </div>
-    </div>
-{{end}}
-</div>
+    </select>
+    <label for="servo-command">Command</label>
+    <select id="servo-command" name="servo-command"
+        class="w3-theme-l1 select-controller w3-padding"
+        value="3">
+        <option value="home">Home</option>
+        <option value="move">Move</option>
+        <option value="ease" selected>Ease</option>
+    </select>
+
+    <label for="servo-angle">Angle</label>
+    <input id="servo-angle" name="servo-angle" 
+        type="number" min="0" max="180"
+        value="90" style="width:100%"/>
+
+    <label for="servo-speed">Speed</label>
+    <input id="servo-speed" name="servo-speed" 
+        type="number"  min="0" max="255"
+        value="50" style="width:100%"/>
+
+    <label for="servo-ease-type">Easing Method</label>
+    <select id="servo-ease-type" name="servo-ease-type"
+        class="w3-theme-l1 select-controller w3-padding"
+        value="1">
+        <option value="0">Linear</option>
+        <option value="1" selected>Quadradic</option>
+        <option value="2">Cubic</option>
+        <option value="3">Quartic</option>
+    </select>
+</form>
 {{end}}
 

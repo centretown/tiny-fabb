@@ -5,8 +5,8 @@
     "title": "Camera: 175",
     "active": true,
     "settings": {
-      "framesize": 8,
-      "quality": 10,
+      "framesize": 10,
+      "quality": 43,
       "brightness": 0,
       "contrast": 0,
       "saturation": 0,

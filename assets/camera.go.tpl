@@ -3,10 +3,7 @@
     {{range $index, $camera := .}}
         <div class="pics-items pic-content w3-animate-opacity">
             <div class="w3-margin w3-padding">{{$camera.Title}}</div>
-            <img id={{$index}}
-                class="pic w3-image w3-margin" 
-                src="/{{$index}}/mjpeg" 
-                onclick="openCameraFull({{$index}})">
+            {{template "camera-servo" $camera}}
             <div class="w3-bar">
                 <span class="w3-button w3-bar-item"
                     title="Servos"
@@ -32,24 +29,6 @@
 </div>
 {{end}}
 
-{{define "camera-full"}}
-<div class="full w3-animate-opacity">
-    <div class="w3-bar w3-border w3-theme-d3">
-        <span class="w3-bar-item w3-left">{{.ID}} Full</span>
-        <span class="w3-bar-item w3-right">
-            <button class="w3-btn w3-round w3-left w3-theme-l2"
-                onclick="closeDialog()">x</button>
-        </span>
-    </div>
-    <div class="fullview">
-        <img id="{{.ID}}-stream" 
-            class="fullImage" 
-            onclick="closeDialog()"
-            src="/{{.ID}}/mjpeg">
-    </div>
-</div>
-{{end}}
-
 {{define "camera-settings"}}
 <div class="w3-modal-content w3-theme-d5 w3-container">
     <header class="w3-container w3-theme-l1 w3-padding-16">
@@ -60,11 +39,7 @@
         </span>
     </header>
     <div class="content w3-theme-l3">
-        <div class="entries">
-            <img id="{{.ID}}-stream" 
-                class="pic w3-image"
-                src="/{{.ID}}/mjpeg">
-        </div>
+        {{template "camera-servo" .}}
         <div class="content">
             {{template "camera-edit" .}}
         </div>
@@ -128,5 +103,50 @@
     {{end}}
 {{end}}
 </table>
+{{end}}
+
+{{define "camera-servo"}}
+<div class="w3-display-container entries">
+    <img id="{{.ID}}-stream" 
+        class="pic w3-image"
+        src="/{{.ID}}/mjpeg">
+    <div class="w3-display-topleft w3-container"
+        style="margin-top:16px;margin-left:12px;">
+        <div class="w3-cell-row">
+            <div class="w3-container w3-btn w3-cell servo-control"
+                onclick="topLeftClick()">
+                <i class="bi bi-arrow-up-left"></i>
+            </div>
+            <div class="w3-container w3-btn w3-cell servo-control">
+                <i class="bi bi-arrow-up"></i>
+            </div>
+            <div class="w3-container w3-btn w3-cell servo-control">
+                <i class="bi bi-arrow-up-right"></i>
+            </div>
+        </div>
+        <div class="w3-cell-row">
+            <div class="w3-container w3-btn w3-cell servo-control">
+                <i class="bi bi-arrow-left"></i>
+            </div>
+            <div class="w3-container w3-btn w3-cell servo-control">
+                <i class="bi bi-circle"></i>
+            </div>
+            <div class="w3-container w3-btn w3-cell servo-control">
+                <i class="bi bi-arrow-right"></i>
+            </div>
+        </div>
+        <div class="w3-cell-row">
+            <div class="w3-container w3-btn w3-cell servo-control">
+                <i class="bi bi-arrow-down-left"></i>
+            </div>
+            <div class="w3-container w3-btn w3-cell servo-control">
+                <i class="bi bi-arrow-down"></i>
+            </div>
+            <div class="w3-container w3-btn w3-cell servo-control">
+                <i class="bi bi-arrow-down-right"></i>
+            </div>
+        </div>
+    </div>
+</div>
 {{end}}
 

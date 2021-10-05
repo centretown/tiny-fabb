@@ -78,14 +78,8 @@
     }
 
     function openCameraSettings(camera) {
-      getSection("/"+camera+"/camera-settings/", "dialog");
+      getSection("/"+camera+"/camera-settings/", "dialog") ;
       dialog.style.display = "block";
-    }
-
-    var currentServo = 0;
-    function changeServo() {
-        currentServo = document.getElementById("selected-servo").value;
-        console.log(currentServo);
     }
 
     function openServoSettings(camera) {
@@ -110,6 +104,40 @@
         });
     }
 
+    var servo = {};
+    servo.index = 0;
+    servo.command = 3;
+    servo.angle = 90;
+    servo.speed = 50;
+    servo.easeType = 1;
+
+    function tiltUp() {
+    console.log("topLeftClick");
+    }
+
+    
+    function changeServo() {
+        servo.index = document.getElementById("servo-select").value;
+        servo.command = document.getElementById("servo-command").value;
+        servo.angle = document.getElementById("servo-angle").value;
+        servo.speed = document.getElementById("servo-speed").value;
+        servo.easeType = document.getElementById("servo-ease-type").value;
+        moveServo();
+    }
+
+    function moveServo() {
+      let init = {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        credentials: "include",
+      };
+      let path = "/servo"+servo.index+"/"+servo.command+"/"+
+        servo.angle+"/"+servo.speed+"/"+servo.easeType+"/";
+      fetch(path);
+    }
+    
     function applyCameraCheckbox(camera,id) {
       let val = (document.getElementById(id).checked)?1:0;
       applyCameraVal(camera,id,val);
@@ -258,7 +286,8 @@
         storeTheme();
       }
     }
-  </script>
+
+    </script>
 
   <!-- CSS -->
 
@@ -429,6 +458,11 @@
       flex-flow: row wrap;
       align-items: flex-start;
     }
+
+    .servo-control {
+      width: .6rem;
+    }
+
     @media (min-height: 800px) {
       .pic {
         max-height: 400px;

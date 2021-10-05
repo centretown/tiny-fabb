@@ -5,7 +5,6 @@ package camera
 import (
 	"encoding/json"
 	"fmt"
-	"io"
 	"net/http"
 
 	"github.com/centretown/tiny-fabb/forms"
@@ -105,7 +104,7 @@ type CameraStatus struct {
 
 func (cam *Camera) GetStatus() (err error) {
 	var data []byte
-	data, err = request(cam.StatusUrl)
+	data, err = forms.Request(cam.StatusUrl)
 	if err != nil {
 		return
 	}
@@ -146,7 +145,7 @@ func (cam *Camera) Set(id string, val string) (err error) {
 		return
 	}
 
-	_, err = request(fmt.Sprintf("%s?var=%s&val=%s", cam.ControlUrl, ent.Code, val))
+	_, err = forms.Request(fmt.Sprintf("%s?var=%s&val=%s", cam.ControlUrl, ent.Code, val))
 	if err != nil {
 		return
 	}
@@ -158,7 +157,7 @@ func (cam *Camera) set(val int, code string, min, max int, update func(int)) (er
 		err = fmt.Errorf("%s: %d out of range (%d-%d)", code, val, min, max)
 		return
 	}
-	_, err = request(fmt.Sprintf("%s?var=%s&val=%d", cam.ControlUrl, code, val))
+	_, err = forms.Request(fmt.Sprintf("%s?var=%s&val=%d", cam.ControlUrl, code, val))
 	if err == nil {
 		update(val)
 	}
@@ -181,20 +180,6 @@ func (cam *Camera) MoveDown() (err error) {
 func (cam *Camera) move(val string) (err error) {
 	s := fmt.Sprintf("%s?go=%s", cam.ControlUrl, val)
 	fmt.Println(s)
-	_, err = request(s)
-	return
-}
-
-func request(u string) (data []byte, err error) {
-	req, err := http.NewRequest("GET", u, nil)
-	if err != nil {
-		return
-	}
-	resp, err := http.DefaultClient.Do(req)
-	if err != nil {
-		return
-	}
-	defer resp.Body.Close()
-	data, err = io.ReadAll(resp.Body)
+	_, err = forms.Request(s)
 	return
 }

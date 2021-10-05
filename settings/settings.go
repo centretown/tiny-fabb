@@ -131,7 +131,7 @@ func (s *Profile) Print() (r []string) {
 
 func (s *Profile) Setup() (controllers []monitor.Controller, ports []string, layout *template.Template, documents docs.Docs) {
 	layout = template.Must(
-		template.ParseFiles(
+		layout.ParseFiles(
 			s.AssetsPath+"/layout.html",
 			s.AssetsPath+"/layout.go.tpl",
 			s.AssetsPath+"/entry.go.tpl",

@@ -4,7 +4,6 @@ package servo
 
 import (
 	"encoding/json"
-	"html/template"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
@@ -89,15 +88,4 @@ func testRequest(t *testing.T, u string) {
 	}
 
 	t.Log(string(out))
-}
-
-var assetsPath = "../assets"
-
-func TestServoForm(t *testing.T) {
-	var layout *template.Template = template.Must(
-		template.ParseFiles(
-			assetsPath+"/layout.html",
-			assetsPath+"/layout.go.tpl",
-			assetsPath+"/entry.go.tpl",
-			assetsPath+"/servo.go.tpl"))
 }
