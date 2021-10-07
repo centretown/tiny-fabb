@@ -14,7 +14,7 @@ type Page struct {
 	Title       string
 	Ports       []string
 	Controllers []monitor.Controller
-	Views       []string
+	Views       []*monitor.View
 	Color       string
 	Theme       theme.Theme
 	Themes      theme.Themes

@@ -10,6 +10,7 @@ import (
 	"os/user"
 	"path"
 
+	"github.com/centretown/tiny-fabb/camera"
 	"github.com/centretown/tiny-fabb/docs"
 	"github.com/centretown/tiny-fabb/grbl"
 	"github.com/centretown/tiny-fabb/monitor"
@@ -129,7 +130,7 @@ func (s *Profile) Print() (r []string) {
 	return
 }
 
-func (s *Profile) Setup() (controllers []monitor.Controller, ports []string, layout *template.Template, documents docs.Docs) {
+func (s *Profile) Setup() (controllers []monitor.Controller, ports []string, layout *template.Template, documents docs.Docs, camConn *camera.Connector) {
 	layout = template.Must(
 		layout.ParseFiles(
 			s.AssetsPath+"/layout.html",
@@ -141,7 +142,9 @@ func (s *Profile) Setup() (controllers []monitor.Controller, ports []string, lay
 	prv := &serialio.Provider{}
 	prv.Filter = s.Include
 	prv.Exclude = s.Exclude
-	connector := grbl.NewConnector(s.DataSource, layout)
+	camConn = camera.NewConnector(s.DataSource, layout, 200)
+	fmt.Println(camConn.Cameras)
+	grblConn := grbl.NewConnector(s.DataSource, layout, camConn.Cameras)
 
 	ports = prv.Update()
 	glog.Infoln(ports)
@@ -157,7 +160,7 @@ func (s *Profile) Setup() (controllers []monitor.Controller, ports []string, lay
 		bus := monitor.NewBus()
 		go monitor.Monitor(sio, bus)
 
-		gctl, err := connector.Connect(bus)
+		gctl, err := grblConn.Connect(bus)
 		if err != nil {
 			glog.Warning(err)
 			bus.Done <- true
@@ -172,7 +175,7 @@ func (s *Profile) Setup() (controllers []monitor.Controller, ports []string, lay
 		glog.Errorln(err)
 	}
 
-	err = connector.Save()
+	err = grblConn.Save()
 	if err != nil {
 		glog.Errorln(err)
 	}

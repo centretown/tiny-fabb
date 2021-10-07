@@ -1,7 +1,7 @@
 {
   "10-52-1C-67-83-44": {
     "id": "10-52-1C-67-83-44",
-    "title": "ESP32-003",
+    "title": "ESP32-3",
     "profile": {
       "id": "10-52-1C-67-83-44",
       "version": "1.3a.20210424",
@@ -59,11 +59,15 @@
       "maxTravelA": 300,
       "maxTravelB": 300,
       "maxTravelC": 200
-    }
+    },
+    "camera-ids": [
+      "camera175",
+      "camera44"
+    ]
   },
   "9C-9C-1F-C4-B7-88": {
     "id": "9C-9C-1F-C4-B7-88",
-    "title": "ESP32-002",
+    "title": "ESP32-2",
     "profile": {
       "id": "9C-9C-1F-C4-B7-88",
       "version": "1.3a.20210424",
@@ -121,13 +125,16 @@
       "maxTravelA": 300,
       "maxTravelB": 300,
       "maxTravelC": 300
-    }
+    },
+    "camera-ids": [
+      "camera175"
+    ]
   },
-  "ATMEGA328P-001": {
-    "id": "ATMEGA328P-001",
-    "title": "ATMEGA328P-001",
+  "ATMEGA328P-4": {
+    "id": "ATMEGA328P-4",
+    "title": "ATMEGA328P-4",
     "profile": {
-      "id": "ATMEGA328P-001",
+      "id": "ATMEGA328P-4",
       "version": "1.1h.20190825",
       "options": "V,15,128",
       "axisCount": 3,
@@ -183,6 +190,9 @@
       "maxTravelA": 0,
       "maxTravelB": 0,
       "maxTravelC": 0
-    }
+    },
+    "camera-ids": [
+      "camera44"
+    ]
   }
 }

@@ -6,24 +6,26 @@ import (
 	"io"
 	"strings"
 
+	"github.com/centretown/tiny-fabb/camera"
 	"github.com/centretown/tiny-fabb/forms"
 	"github.com/centretown/tiny-fabb/monitor"
 	"github.com/golang/glog"
 )
 
 type Controller struct {
-	ID       string       `json:"id"`
-	Title    string       `json:"title"`
-	Profile  *Profile     `json:"profile"`
-	Active   bool         `json:"active"`
-	Port     string       `json:"port"`
-	Settings GrblSettings `json:"settings"`
-	Commands GrblCommands `json:"-"`
-
-	views    map[string]forms.Forms
-	viewList []string
-	bus      *monitor.Bus
-	layout   *template.Template
+	ID        string         `json:"id"`
+	Title     string         `json:"title"`
+	Profile   *Profile       `json:"profile"`
+	Active    bool           `json:"active"`
+	Port      string         `json:"port"`
+	Settings  GrblSettings   `json:"settings"`
+	Commands  GrblCommands   `json:"-"`
+	CameraIDs []string       `json:"camera-ids"`
+	Cameras   camera.Cameras `json:"-"`
+	views     map[string]forms.Forms
+	viewList  []*monitor.View
+	bus       *monitor.Bus
+	layout    *template.Template
 }
 
 func NewController(bus *monitor.Bus, layout *template.Template) (gctl *Controller) {
@@ -32,16 +34,32 @@ func NewController(bus *monitor.Bus, layout *template.Template) (gctl *Controlle
 	return
 }
 
+func (gctl *Controller) Descriptor() string {
+	return gctl.Title
+}
+
 func (gctl *Controller) initialize(bus *monitor.Bus, layout *template.Template) {
 	gctl.layout = layout
 	gctl.bus = bus
 	gctl.views = make(map[string]forms.Forms)
+	gctl.Cameras = make(camera.Cameras)
+	gctl.views["status"] = forms.Forms{}
+	gctl.views["camera-bar"] = forms.Forms{}
 	gctl.views["settings"] = gctl.bindSettings()
 	gctl.views["commands"] = gctl.bindCommands()
-	gctl.viewList = []string{"settings", "commands", "status"}
+	gctl.viewList = []*monitor.View{
+		{ID: "status", Title: "Status",
+			Icon: "bi-info", Path: "/status/"},
+		{ID: "camera-bar", Title: "Cameras",
+			Icon: "bi-camera-video"},
+		{ID: "settings", Title: "Settings",
+			Icon: "bi-gear"},
+		{ID: "commands", Title: "Commands",
+			Icon: "bi-command"},
+	}
 }
 
-func (gctl *Controller) Views() []string {
+func (gctl *Controller) Views() []*monitor.View {
 	return gctl.viewList
 }
 
@@ -50,16 +68,37 @@ func (gctl *Controller) Upload(w io.Writer, files []string) (err error) {
 }
 
 func (gctl *Controller) List(w io.Writer, viewName string) (err error) {
-	tmpl, err := gctl.getTemplate("list")
+	var (
+		tmpl  *template.Template
+		forms forms.Forms
+	)
+
+	switch viewName {
+	case "status":
+		tmpl, err = gctl.getTemplate("status")
+	case "commands":
+		tmpl, err = gctl.getTemplate("command-list")
+	case "settings":
+		tmpl, err = gctl.getTemplate("list")
+	case "camera-bar":
+		tmpl, err = gctl.getTemplate("camera-bar")
+	}
+
 	if err != nil {
 		return
 	}
 
-	view, err := gctl.getView(viewName)
-	if err != nil {
-		return
+	switch viewName {
+	case "status", "commands", "settings":
+		forms, err = gctl.getViewForms(viewName)
+		if err != nil {
+			return
+		}
+		err = tmpl.Execute(w, forms)
+	case "camera-bar":
+		err = tmpl.Execute(w, gctl.Cameras)
 	}
-	err = tmpl.Execute(w, view)
+
 	return
 }
 
@@ -87,9 +126,11 @@ func (gctl *Controller) Apply(viewName, key string, vals map[string][]string) (u
 		return
 	}
 
-	err = form.Update(vals)
-	if err != nil {
-		return
+	if viewName == "settings" {
+		err = form.Update(vals)
+		if err != nil {
+			return
+		}
 	}
 
 	if gctl.Active {
@@ -253,7 +294,7 @@ func (gctl *Controller) getTemplate(tmplName string) (tmpl *template.Template, e
 	return
 }
 
-func (gctl *Controller) getView(viewName string) (view forms.Forms, err error) {
+func (gctl *Controller) getViewForms(viewName string) (view forms.Forms, err error) {
 	view = gctl.views[viewName]
 	if view == nil {
 		err = fmt.Errorf("view '%s' not found", viewName)
@@ -262,7 +303,7 @@ func (gctl *Controller) getView(viewName string) (view forms.Forms, err error) {
 }
 
 func (gctl *Controller) getForm(viewName, key string) (form *forms.Form, err error) {
-	view, err := gctl.getView(viewName)
+	view, err := gctl.getViewForms(viewName)
 	if err != nil {
 		return
 	}

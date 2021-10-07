@@ -12,8 +12,16 @@ type Connector interface {
 	Load() error
 }
 
+type View struct {
+	ID    string
+	Title string
+	Icon  string
+	Path  string
+}
+
 type Controller interface {
-	Views() (vs []string)
+	Descriptor() (s string)
+	Views() (vs []*View)
 	Upload(w io.Writer, files []string) (err error)
 	List(w io.Writer, view string) (err error)
 	Edit(w io.Writer, view, key string) (err error)

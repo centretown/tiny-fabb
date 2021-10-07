@@ -25,7 +25,7 @@
         <button
             type="button"
             class="w3-btn w3-round w3-right w3-margin w3-theme-d5"
-            onclick="changeServo()">
+            onclick="applyServo()">
             Apply
         </button>
     </footer>

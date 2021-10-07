@@ -6,6 +6,7 @@ import (
 	"html/template"
 	"io/ioutil"
 
+	"github.com/centretown/tiny-fabb/camera"
 	"github.com/centretown/tiny-fabb/monitor"
 )
 
@@ -13,13 +14,15 @@ type Connector struct {
 	Controllers map[string]*Controller
 	dataSource  string
 	layout      *template.Template
+	cameras     camera.Cameras
 }
 
-func NewConnector(dataSource string, layout *template.Template) (conn *Connector) {
+func NewConnector(dataSource string, layout *template.Template, cameras camera.Cameras) (conn *Connector) {
 	conn = &Connector{
 		Controllers: make(map[string]*Controller),
 		dataSource:  dataSource,
 		layout:      layout,
+		cameras:     cameras,
 	}
 	conn.Load()
 	return
@@ -52,7 +55,7 @@ func (conn *Connector) Connect(bus *monitor.Bus) (ctl monitor.Controller, err er
 		gctl.initialize(bus, conn.layout)
 	} else {
 		controllerCount++
-		title := fmt.Sprintf("%s-%03d", profile.Prefix(), controllerCount)
+		title := fmt.Sprintf("%s-%d", profile.Prefix(), controllerCount)
 		gctl = NewController(bus, conn.layout)
 		gctl.Profile = profile
 
@@ -71,6 +74,11 @@ func (conn *Connector) Connect(bus *monitor.Bus) (ctl monitor.Controller, err er
 			gctl.Title = profile.ID
 		}
 		conn.Add(gctl)
+	}
+	// gctl.Cameras = conn.cameras
+
+	for _, c := range gctl.CameraIDs {
+		gctl.Cameras[c] = conn.cameras[c]
 	}
 
 	ctl = gctl

@@ -1,67 +1,42 @@
-{{define "button-bar"}}
-<div id="button-bar" class="w3-bar w3-border w3-theme-d3">
-    <div class="w3-bar-item w3-left">
-        <button
-            href="#" 
-            class="w3-button"
-            title="Upload">
-            <i class="bi bi-upload"></i>
-        </button>
 
-        <button 
-            id="check-camera" 
-            class="w3-button"
-            name="check-camera" 
-            title="Cameras"
-            onclick="selectCamera()">
-            <i id="check-camera-image" 
-                class="bi bi-camera-video"></i>
-        </button>
-    </div>
-
-    <div class="radio-toolbar w3-bar-item w3-right">
-       <input 
-            type="radio" 
-            id="radio-commands" 
-            name="radio-view" 
-            value="commands"
-            title="Commands"
-           onchange="selectView(value)">
-        <label for="radio-commands">
-            <i class="bi bi-command"></i>
-        </label>
-
-        <input 
-            type="radio" 
-            id="radio-settings" 
-            name="radio-view" 
-            value="settings"
-            onchange="selectView(value)"
-            title="Settings"
-            checked>
-        <label for="radio-settings">
-            <i class="bi bi-grid"></i>
-        </label>
-    </div>
+{{define "controller-bar"}}
+<div id="controller-bar" class="w3-bar w3-border w3-theme-d3">
+{{range $i, $ctl := .}}
+    <button 
+        id="ctl{{$i}}" 
+        class="w3-button w3-bar-item tablink"
+        onclick="selectController(event,{{$i}},{{$ctl.Descriptor}})">
+        {{.Descriptor}}
+    </button>
+{{end}}
 </div>
+{{end}}
+
+{{define "controller"}}
+    {{$ctlID := .Descriptor}}
+    <div id="{{$ctlID}}" class="controller" style="display:none;">
+    {{range $i, $view := .Views}}
+       {{$ID := printf "%s-%s" $ctlID $view.ID}}
+        <button 
+            class="w3-btn w3-block w3-black w3-left-align"
+            title="{{$view.Title}}"
+            onclick="selectSection({{$ID}},{{$view.ID}})">
+            <i class="bi {{$view.Icon}}"></i>
+            <label>{{$view.Title}}</label>
+        </button>
+        <div id="{{$ID}}" class="w3-container w3-hide"></div>
+    {{end}}
+    </div>
+{{end}}
+
+{{define "controllers"}}
+    {{range $i, $ctl := .}}
+        {{template "controller" $ctl}}
+    {{end}}
 {{end}}
 
 {{define "app-bar"}}
 <div id="app-bar" class="w3-bar w3-border w3-theme-d3">
-    <div class="w3-theme-d3">
-        <select
-            id="selected-controller"
-            name="selected-controller"
-            class="w3-theme-d3 select-controller w3-padding"
-            onchange="selectController();">
-
-            {{range $index, $element := .Controllers}}
-                <option value="{{$index}}">
-                {{.Title}} {{.Port}}
-                </option>
-            {{end}}
-        </select>
-    </div>
     <div class="w3-dropdown-hover w3-left w3-bar-item w3-theme-d3">
         <button class="w3-button">
             <i class="bi bi-menu-button"></i>
@@ -99,6 +74,9 @@
                 <label>Lock</label>
             </a>
         </div>
+    </div>
+    <div class="w3-theme-d3">
+        {{template "controller-bar" .Controllers}}
     </div>
 </div>
 {{end}}

@@ -22,11 +22,9 @@
   <body class="w3-theme-d5">
     <div id="stickyHeader" class="sticky">
       {{template "app-bar" .}}
-      {{template "button-bar" .}}
     </div>
-    <div id="camera-bar" class="sticky"></div>
-    
-    <div id="details" class="w3-container w3-theme-d3 w3-border"></div>
+  {{template "controllers" .Controllers}}
+
     <div id="dialog" class="w3-modal w3-card w3-theme-d5"></div>
     <div id="options" class="w3-modal w3-card w3-theme-d5">
       {{template "options" .}}
@@ -36,38 +34,61 @@
   <!-- script -->
 
   <script>
-    var details = document.getElementById("details");
-    var dialogS = dialog;
-    var currentView = "settings";
     var currentController = 0;
-    var cameraOn = false;
+    var dialog = document.getElementById("dialog");
+
+    function selectController(evt,controllerIndex,contentID) {
+    console.log(controllerIndex,contentID);
+      currentController = controllerIndex;
+      x = document.getElementsByClassName("controller");
+      for (i = 0; i < x.length; i++) {
+        x[i].style.display = "none";
+      }    
+      tablinks = document.getElementsByClassName("tablink");
+      for (i = 0; i < x.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" w3-red", "");
+      }
+      document.getElementById(contentID).style.display = "block";
+      evt.currentTarget.className += " w3-red";
+    }
+
+    function selectSection(id,view) {
+    console.log(view,id);
+    let elem = document.getElementById(id)
+      if (!elem.innerHTML) {
+        console.log("gets the section");
+        console.log(urlView(view));
+        getSection("/view/"+urlView(view), id);
+      }
+      toggleShow(id);
+     }
+
+
+    function toggleShow(id) {
+      var x = document.getElementById(id);
+      if (x.className.indexOf("w3-show") == -1) {
+        x.className += " w3-show";
+      } else { 
+        x.className = x.className.replace(" w3-show", "");
+      }
+    }
 
     function urlController() {
       return "" + currentController + "/"
     }
-    function urlView() {
-      return urlController() + currentView + "/"
+    function urlView(view) {
+      return urlController() + view + "/"
     }
-    function urlKey(key) {
-      return urlView() + key + "/"
+    function urlKey(view,key) {
+      return urlView(view) + key + "/"
     }
 
     function selectView(view) {
       currentView = view;
-      getSection("/list/" + urlView(), "details");
-    }
-
-    function selectCamera() {
-      cameraOn = !cameraOn;
-      if (cameraOn) {
-        getSection("/camera-bar/", "camera-bar");
-      } else {
-        document.getElementById("camera-bar").innerHTML = "";
-      }
+      getSection("/list/" + urlView(), view);
     }
 
     function openCameraFull(id) {
-      id=id+"-stream";
       let elem = document.getElementById(id)
       if (elem.requestFullscreen) {
         elem.requestFullscreen();
@@ -89,11 +110,6 @@
       dialog.style.display = "block";
     }
 
-    function selectController() {
-      currentController = document.getElementById("selected-controller").value;
-      getSection("/list/" + urlView(), "details");
-    }
-
     function getSection(section, id) {
       fetch(section)
         .then((response) => response.text())
@@ -105,14 +121,7 @@
         });
     }
 
-    var servo = {};
-    servo.index = 0;
-    servo.command = 3;
-    servo.angle = 90;
-    servo.speed = 50;
-    servo.easeType = 1;
-
-    function panTilt(cam,pan,tilt,speed) {
+    function applyPanTilt(cam,pan,tilt,speed) {
       let init = {
         method: "GET",
         headers: {
@@ -125,17 +134,12 @@
       console.log(path);
     }
 
-    
-    function changeServo() {
-        servo.index = document.getElementById("servo-select").value;
-        servo.command = document.getElementById("servo-command").value;
-        servo.angle = document.getElementById("servo-angle").value;
-        servo.speed = document.getElementById("servo-speed").value;
-        servo.easeType = document.getElementById("servo-ease-type").value;
-        moveServo();
-    }
-
-    function moveServo() {
+    function applyServo() {
+      let index = document.getElementById("servo-select").value;
+      let command = document.getElementById("servo-command").value;
+      let angle = document.getElementById("servo-angle").value;
+      let speed = document.getElementById("servo-speed").value;
+      let easeType = document.getElementById("servo-ease-type").value;
       let init = {
         method: "GET",
         headers: {
@@ -143,8 +147,8 @@
         },
         credentials: "include",
       };
-      let path = "/servo"+servo.index+"/"+servo.command+"/"+
-        servo.angle+"/"+servo.speed+"/"+servo.easeType+"/";
+      let path = "/servo"+index+"/"+command+"/"+
+        angle+"/"+speed+"/"+easeType+"/";
       fetch(path);
     }
     
@@ -181,7 +185,7 @@
         credentials: "include",
       };
 
-      let path = "/apply/"+urlKey(frm.name);
+      let path = "/apply/"+urlKey("settings",frm.name);
       fetch(path, init)
         .then((response) => response.text())
         .then((text) => {
@@ -200,7 +204,7 @@
     }
 
     function openEdit(key) {
-      fetch("/edit/" + urlKey(key))
+      fetch("/edit/" + urlKey("settings",key))
         .then((response) => response.text())
         .then((text) => {
           let dlg = dialog;
@@ -599,6 +603,5 @@
 
   <script id="deferred" defer>
     loadPreferences();
-    selectView(currentView);
   </script>
 </html>

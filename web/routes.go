@@ -23,7 +23,7 @@ const (
 )
 
 func (wp *Page) addRoutes(router *mux.Router, layout *template.Template) {
-	router.HandleFunc("/list/"+urlView, wp.handleList)
+	router.HandleFunc("/view/"+urlView, wp.handleList)
 	router.HandleFunc("/edit/"+urlKey, wp.handleEdit)
 	router.HandleFunc("/apply/"+urlKey, wp.handleApply)
 	router.HandleFunc("/options/{theme}/", wp.handleOptions)
@@ -114,7 +114,7 @@ func (wp *Page) GetView(w http.ResponseWriter, r *http.Request) (ctlr monitor.Co
 
 func (wp *Page) findView(view string) bool {
 	for _, v := range wp.Views {
-		if v == view {
+		if v.ID == view {
 			return true
 		}
 	}

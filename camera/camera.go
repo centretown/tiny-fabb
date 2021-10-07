@@ -111,17 +111,22 @@ func (cam *Camera) Stop() {
 	cam.wg.Wait()
 }
 
+func (cam *Camera) move(w http.ResponseWriter,
+	svo *servo.Servo, angle int, speed uint) {
+
+	if angle < 0 {
+		angle = 0
+	}
+	if angle > 180 {
+		angle = 180
+	}
+	svo.Command = servo.ServoMove
+	svo.Angle = uint(angle)
+	svo.Speed = speed
+	svo.Apply(w)
+}
+
 func (cam *Camera) PanTilt(w http.ResponseWriter, r *http.Request) {
-	var (
-		move = func(svo *servo.Servo, angle int, speed uint) {
-			if angle >= 0 && angle <= 180 {
-				svo.Command = servo.ServoMove
-				svo.Angle = uint(angle)
-				svo.Speed = speed
-				svo.Apply(w)
-			}
-		}
-	)
 	if len(cam.Servos) < 1 {
 		return
 	}
@@ -132,15 +137,19 @@ func (cam *Camera) PanTilt(w http.ResponseWriter, r *http.Request) {
 	}
 
 	change := forms.GetRequestInt(r, "pan")
-	svo := cam.Servos[0]
-	move(svo, change+int(svo.Angle), speed)
+	if change != 0 {
+		svo := cam.Servos[0]
+		cam.move(w, svo, int(svo.Angle)+change, speed)
+	}
 
 	if len(cam.Servos) < 2 {
 		return
 	}
 	change = forms.GetRequestInt(r, "tilt")
-	svo = cam.Servos[1]
-	move(svo, change+int(svo.Angle), speed)
+	if change != 0 {
+		svo := cam.Servos[1]
+		cam.move(w, svo, int(svo.Angle)+change, speed)
+	}
 }
 
 func (cam *Camera) ShowWindow() func(img image.Image) {
@@ -156,9 +165,6 @@ func (cam *Camera) ShowWindow() func(img image.Image) {
 		if !resized {
 			resize(window, img)
 		}
-		// if !window.IsOpen() {
-		// }
-
 		mat, err := gocv.ImageToMatRGB(img)
 		if err != nil {
 			glog.Infoln(err)
@@ -168,19 +174,6 @@ func (cam *Camera) ShowWindow() func(img image.Image) {
 			glog.Infoln("matrix empty")
 			return
 		}
-		// blue := color.RGBA{0, 0, 255, 0}
-		// rects := classifier.DetectMultiScale(mat)
-		// fmt.Printf("found %d faces\n", len(rects))
-		// draw a rectangle around each face on the original image
-		// for _, r := range rects {
-		// 	gocv.Rectangle(&mat, r, blue, 3)
-		// 	gocv.PutText(&mat, "ape",
-		// 		image.Pt(r.Min.X, r.Min.Y),
-		// 		gocv.FontItalic,
-		// 		2.0,
-		// 		color.RGBA{R: 255, A: 63}, 4)
-		// }
-
 		window.IMShow(mat)
 		window.WaitKey(1)
 	}
