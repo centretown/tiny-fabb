@@ -18,11 +18,10 @@
     {{range $i, $view := .Views}}
        {{$ID := printf "%s-%s" $ctlID $view.ID}}
         <button 
-            class="w3-btn w3-block w3-black w3-left-align"
-            title="{{$view.Title}}"
+            class="w3-block w3-btn w3-black w3-left-align"
             onclick="selectSection({{$ID}},{{$view.ID}})">
             <i class="bi {{$view.Icon}}"></i>
-            <label>{{$view.Title}}</label>
+            <label class="w3-padding">{{$view.Title}}</label>
         </button>
         <div id="{{$ID}}" class="w3-container w3-hide"></div>
     {{end}}
@@ -39,9 +38,11 @@
 <div id="app-bar" class="w3-bar w3-border w3-theme-d3">
     <div class="w3-dropdown-hover w3-left w3-bar-item w3-theme-d3">
         <button class="w3-button">
+            {{/* onclick="toggleShow('drop-down-left')"> */}}
             <i class="bi bi-menu-button"></i>
         </button>
-        <div class="w3-dropdown-content w3-bar-block w3-border w3-theme-d1"
+        <div id="drop-down-left" 
+            class="w3-dropdown-content w3-bar-block w3-border w3-theme-d1"
             style="left:0">
 
             <button class="w3-bar-item w3-button" onclick="openOptions()">
@@ -60,9 +61,11 @@
     </div>
     <div class="w3-dropdown-hover w3-right w3-bar-item w3-theme-d3">
         <button class="w3-button app-icon">
+            {{/* onclick="toggleShow('drop-down-right')"> */}}
             <i class="bi bi-person"></i>
         </button>
-        <div class="w3-dropdown-content w3-bar-block w3-border w3-theme-d1" 
+        <div id="drop-down-right" 
+            class="w3-dropdown-content w3-bar-block w3-border w3-theme-d1" 
             style="right:0">
 
             <a href="#" class="w3-bar-item w3-button">

@@ -63,56 +63,65 @@ func (gctl *Controller) Views() []*monitor.View {
 	return gctl.viewList
 }
 
+func (gctl *Controller) FormatResponseList(list []string) (r []string) {
+	r = make([]string, 0)
+	for _, s := range list {
+		l := len(s)
+		if l == 0 {
+			continue
+		}
+		if s[0] != '[' {
+			r = append(r, s)
+			continue
+		}
+		// strip "[]"
+		s = s[1 : l-1]
+		if s[:3] != "MSG" {
+			r = append(r, s)
+			continue
+		}
+
+		s = s[3:]
+		sub := strings.Split(s, ":")
+		r = append(r, sub...)
+	}
+	return
+}
+
 func (gctl *Controller) Upload(w io.Writer, files []string) (err error) {
 	return
 }
 
-func (gctl *Controller) List(w io.Writer, viewName string) (err error) {
+func (gctl *Controller) View(w io.Writer, viewName string) (err error) {
 	var (
-		tmpl  *template.Template
-		forms forms.Forms
+		tmpl *template.Template
 	)
 
-	switch viewName {
-	case "status":
-		tmpl, err = gctl.getTemplate("status")
-	case "commands":
-		tmpl, err = gctl.getTemplate("command-list")
-	case "settings":
-		tmpl, err = gctl.getTemplate("list")
-	case "camera-bar":
-		tmpl, err = gctl.getTemplate("camera-bar")
-	}
-
+	tmpl, err = gctl.getTemplate(viewName)
 	if err != nil {
 		return
 	}
 
-	switch viewName {
-	case "status", "commands", "settings":
-		forms, err = gctl.getViewForms(viewName)
-		if err != nil {
-			return
-		}
-		err = tmpl.Execute(w, forms)
-	case "camera-bar":
+	if viewName == "camera-bar" {
 		err = tmpl.Execute(w, gctl.Cameras)
+		return
 	}
 
+	err = tmpl.Execute(w, gctl)
 	return
 }
 
 func (gctl *Controller) Edit(w io.Writer, viewName, key string) (err error) {
-	tmpl, err := gctl.getTemplate("edit")
-	if err != nil {
-		return
-	}
+	// tmpl, err := gctl.getTemplate("edit")
+	// if err != nil {
+	// 	return
+	// }
 
 	form, err := gctl.getForm(viewName, key)
 	if err != nil {
 		return
 	}
-	err = tmpl.Execute(w, form)
+	w.Write(form.ToJSON())
 	return
 }
 
@@ -294,16 +303,17 @@ func (gctl *Controller) getTemplate(tmplName string) (tmpl *template.Template, e
 	return
 }
 
-func (gctl *Controller) getViewForms(viewName string) (view forms.Forms, err error) {
-	view = gctl.views[viewName]
-	if view == nil {
+func (gctl *Controller) ViewForms(viewName string) (view forms.Forms, err error) {
+	var ok bool
+	view, ok = gctl.views[viewName]
+	if !ok {
 		err = fmt.Errorf("view '%s' not found", viewName)
 	}
 	return
 }
 
 func (gctl *Controller) getForm(viewName, key string) (form *forms.Form, err error) {
-	view, err := gctl.getViewForms(viewName)
+	view, err := gctl.ViewForms(viewName)
 	if err != nil {
 		return
 	}

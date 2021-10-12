@@ -13,7 +13,7 @@ var commandEntries = map[forms.WebId]forms.Entries{
 			Code:  "$$",
 			Label: "View and write Grbl settings",
 			URL:   "#and-xval---view-and-write-grbl-settings",
-			Type:  "text"}},
+			Type:  "cmd"}},
 	// Scan:  scanSetting}},
 	idParameters: {
 		{
@@ -21,77 +21,77 @@ var commandEntries = map[forms.WebId]forms.Entries{
 			Code:  "$#",
 			Label: "View gcode parameters",
 			URL:   "#---view-gcode-parameters",
-			Type:  "text"}},
+			Type:  "cmd"}},
 	idParserState: {
 		{
 			ID:    idParserState.String(),
 			Code:  "$G",
 			Label: "View gcode parser state",
 			URL:   "#g---view-gcode-parser-state",
-			Type:  "text"}},
+			Type:  "cmd"}},
 	idBuildInfo: {
 		{
 			ID:    idBuildInfo.String(),
 			Code:  "$I",
 			Label: "View build info",
 			URL:   "#i---view-build-info",
-			Type:  "text"}},
+			Type:  "cmd"}},
 	idStartupBlocks: {
 		{
 			ID:    idStartupBlocks.String(),
 			Code:  "$N",
 			Label: "View startup blocks",
 			URL:   "#n---view-startup-blocks",
-			Type:  "text"}},
+			Type:  "cmd"}},
 	idCodeMode: {
 		{
 			ID:    idCodeMode.String(),
 			Code:  "$C",
 			Label: "Check gcode mode",
 			URL:   "#c---check-gcode-mode",
-			Type:  "text"}},
+			Type:  "cmd"}},
 	idKillAlarm: {
 		{
 			ID:    idKillAlarm.String(),
 			Code:  "$X",
 			Label: "Kill alarm lock",
 			URL:   "#x---kill-alarm-lock",
-			Type:  "text"}},
+			Type:  "cmd"}},
 	idRunHomingCycle: {
 		{
 			ID:    idRunHomingCycle.String(),
 			Code:  "$H",
 			Label: "Run homing cycle",
 			URL:   "#h---run-homing-cycle",
-			Type:  "text"}},
+			Type:  "cmd"}},
 	idRunJoggingCycle: {
 		{
 			ID:    idRunJoggingCycle.String(),
 			Code:  "$J",
 			Label: "Run jogging motion",
 			URL:   "#jline---run-jogging-motion",
-			Type:  "text"}},
+			Type:  "cmd"}},
 	idEraseRestore: {
 		{
 			ID:    idEraseRestore.String(),
 			Code:  "$RST=$",
 			Label: "Erase and restore",
 			URL:   "#rst-rst-and-rst--restore-grbl-settings-and-data-to-defaults",
-			Type:  "text"}},
+			Type:  "cmd"}},
 	idEraseZero: {
 		{
 			ID:    idEraseZero.String(),
 			Code:  "$RST=#",
 			Label: "Erase and zero",
 			URL:   "#rst-rst-and-rst--restore-grbl-settings-and-data-to-defaults",
-			Type:  "text"}},
+			Type:  "cmd"}},
 	idClearRestore: {
 		{
 			ID:    idClearRestore.String(),
 			Code:  "$RST=*",
 			Label: "Clear and restore",
 			URL:   "#rst-rst-and-rst--restore-grbl-settings-and-data-to-defaults",
-			Type:  "text"}},
+			Type:  "cmd"}},
 }
 
 const (
@@ -500,7 +500,7 @@ var settingEntries = map[forms.WebId]forms.Entries{
 			Type:  "number"}},
 	idMaxTravelA: {
 		{
-			ID:    idMaxTravelX.String(),
+			ID:    idMaxTravelA.String(),
 			Code:  "$133",
 			Label: "A Max travel (mm)",
 			URL:   "#130-131-132--xyz-max-travel-mm",

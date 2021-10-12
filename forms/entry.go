@@ -57,6 +57,14 @@ func (ent *Entry) Value(v interface{}) (r interface{}) {
 	return
 }
 
+func (ent *Entry) ResponseList(v interface{}) []string {
+	l, ok := v.([]string)
+	if ok && len(l) > 0 {
+		return l
+	}
+	return []string{"empty"}
+}
+
 func (ent *Entry) Checked(v interface{}) (b bool) {
 	switch e := v.(type) {
 	case *bool:
@@ -76,9 +84,8 @@ func (ent *Entry) InfoURL(base string) (s string) {
 }
 
 type InputFormat struct {
-	ID         string
+	Entry      *Entry
 	Name       string
-	Type       string
 	Class      string
 	Value      string
 	HasChecked bool
@@ -90,11 +97,10 @@ type InputFormat struct {
 func (ent *Entry) FormatInput(value interface{}, first *Entry) (f *InputFormat) {
 	eval := ent.Value(value)
 	f = &InputFormat{
-		ID:    ent.ID,
-		Type:  ent.Type,
 		Name:  ent.ID,
 		Class: "w3-input",
 		Value: fmt.Sprint(eval),
+		Entry: ent,
 	}
 	switch ent.Type {
 	case "text":

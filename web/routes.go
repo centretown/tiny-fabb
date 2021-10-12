@@ -23,7 +23,7 @@ const (
 )
 
 func (wp *Page) addRoutes(router *mux.Router, layout *template.Template) {
-	router.HandleFunc("/view/"+urlView, wp.handleList)
+	router.HandleFunc("/view/"+urlView, wp.handleView)
 	router.HandleFunc("/edit/"+urlKey, wp.handleEdit)
 	router.HandleFunc("/apply/"+urlKey, wp.handleApply)
 	router.HandleFunc("/options/{theme}/", wp.handleOptions)
@@ -33,12 +33,12 @@ func (wp *Page) addRoutes(router *mux.Router, layout *template.Template) {
 		})
 }
 
-func (wp *Page) handleList(w http.ResponseWriter, r *http.Request) {
+func (wp *Page) handleView(w http.ResponseWriter, r *http.Request) {
 	controller, view, err := wp.GetView(w, r)
 	if err != nil {
 		return
 	}
-	err = controller.List(w, view)
+	err = controller.View(w, view)
 	if err != nil {
 		forms.WriteError(w, err)
 		return

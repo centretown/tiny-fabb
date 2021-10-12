@@ -53,11 +53,8 @@
     }
 
     function selectSection(id,view) {
-    console.log(view,id);
     let elem = document.getElementById(id)
       if (!elem.innerHTML) {
-        console.log("gets the section");
-        console.log(urlView(view));
         getSection("/view/"+urlView(view), id);
       }
       toggleShow(id);
@@ -65,12 +62,14 @@
 
 
     function toggleShow(id) {
-      var x = document.getElementById(id);
-      if (x.className.indexOf("w3-show") == -1) {
-        x.className += " w3-show";
+      let elem = document.getElementById(id);
+      let show = elem.className.indexOf("w3-show") == -1;
+      if (show) {
+        elem.className += " w3-show";
       } else { 
-        x.className = x.className.replace(" w3-show", "");
+        elem.className = elem.className.replace(" w3-show", "");
       }
+      return show;
     }
 
     function urlController() {
@@ -175,17 +174,47 @@
       fetch(path);
     }
 
-    function submitForm(frm) {
+    function fillForm(id,text) {
+      let data = JSON.parse(text);
+      let frm = document.getElementById(id+"-form");
+      let elem = document.getElementById(id+"-value");
+      if (elem) {
+        let v = data[frm.name];
+        if (v!=null) {
+          elem.innerHTML = v;
+        }
+      }
+
+      for (const [key,elem] of Object.entries(frm)) {
+        let v = data[elem.name];
+        if (v!=null) {
+          if (elem.type=="checkbox") {
+            if (v) {
+              elem.setAttribute("checked","");
+            } else if (elem.hasAttribute("checked")) {
+              elem.removeAttribute("checked");
+            }
+          } else if (elem.type!="radio") {
+            elem.value = v;
+          }
+        }
+      }
+    }
+
+    function submitForm(view,key,id) {
+      frmid=id+"-form";
+      let frm = document.getElementById(frmid);
+      let params=new URLSearchParams(new FormData(frm)).toString();
+      console.log("submit",view,params);
       let init = {
         method: "POST",
-        body: new URLSearchParams(new FormData(frm)).toString(),
+        body: params,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
         credentials: "include",
       };
-
-      let path = "/apply/"+urlKey("settings",frm.name);
+      let path = "/apply/"+urlKey(view,key);
       fetch(path, init)
         .then((response) => response.text())
         .then((text) => {
@@ -194,34 +223,26 @@
             return;
           }
           let obj = JSON.parse(text);
-          obj.forEach((e) => {
-            document.getElementById(e.id).innerHTML = e.value;
-          });
+          let elem = document.getElementById(id+"-value");
+          if (elem) {
+            elem.innerHTML = obj[0].value;
+          }
         })
         .catch((error) => {
           console.error("Error:", error);
         });
     }
 
-    function openEdit(key) {
-      fetch("/edit/" + urlKey("settings",key))
+    function toggleForm(view,key,id) {
+      if (!toggleShow(id)){
+        return;
+      }
+
+      let frmid=id+"-form";
+      fetch("/edit/" + urlKey(view,key))
         .then((response) => response.text())
         .then((text) => {
-          let dlg = dialog;
-          dlg.innerHTML = text;
-          let frm = document.getElementById("settings-form");
-
-          frm.addEventListener(
-            "submit",
-            function (event) {
-              event.preventDefault();
-              dlg.style.display = "none";
-              submitForm(frm);
-            },
-            false
-          );
-
-          dlg.style.display = "block";
+          fillForm(id,text);
         })
         .catch((error) => {
           console.error("Error:", error);
@@ -429,9 +450,55 @@
       margin: 0.5em;
     }
 
-    .pop-doc {
-      max-height: 9rem;
-      overflow-y: auto;
+    .flexview {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      row-gap: .4rem;
+      column-gap: .4rem;
+    }
+
+    .flexitem {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      width: 20rem;
+      max-width: 20rem;
+      margin: .1rem;
+    }
+
+   .flexcontent {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-self: stretch;
+      margin: .1rem;
+    }
+
+    .doc-title {
+      font-weight: 550;
+      text-align: center;
+    }
+
+    .doc {
+      padding: .2rem;
+      margin: .1rem;
+      overflow-x: wrap;
+      overflow-y: scroll;
+      max-height: 25vh;
+      min-height: 6rem;
+    }
+
+    .entries {
+      display: flex;
+      flex-flow: row wrap;
+      align-items: center;
+    }
+
+    .response {
+      width: 18rem;
+      overflow: wrap;
     }
 
     .content {
@@ -443,13 +510,6 @@
     .dlgtab {
       overflow-y: auto;
       max-height: 400px;
-    }
-
-    .doc {
-      overflow-y: auto;
-      max-height: 14rem;
-      min-height: 5rem;
-      margin: 1rem;
     }
 
     .pic-content {
@@ -511,29 +571,10 @@
       }
    }
 
-    .entries {
-      display: flex;
-      flex: 14rem;
-      flex-flow: row wrap;
-      align-items: flex-start;
-    }
-
-    .doc li {
-      font-size: 1rem;
-    }
-
-    .doc h4 {
-      font-size: 1.1rem;
-      font-weight: bold;
-    }
-
-    .doc ul {
-      list-style-type: circle;
-    }
-
     .sticky {
       position: sticky;
       top: 0;
+      z-index: 9;
     }
     i {
       font-size: 1.5rem;

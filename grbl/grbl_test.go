@@ -5,6 +5,9 @@ import (
 	"os"
 	"testing"
 
+	"github.com/centretown/tiny-fabb/camera"
+	"github.com/centretown/tiny-fabb/docs"
+	"github.com/centretown/tiny-fabb/forms"
 	"github.com/centretown/tiny-fabb/monitor"
 	"github.com/centretown/tiny-fabb/serialio"
 )
@@ -128,7 +131,13 @@ import (
 func TestProvider(t *testing.T) {
 	prv := &serialio.Provider{}
 	layout := template.Must(template.ParseFiles("../assets/entry.go.tpl"))
-	connector := NewConnector("../assets/data/", layout)
+	connector := NewConnector("../assets/data/", layout, camera.Cameras{})
+
+	documents, err := docs.LoadDocuments("../assets/data/docs.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+	forms.UseDocuments(documents)
 
 	list := prv.Update()
 	t.Log(list)
@@ -142,20 +151,42 @@ func TestProvider(t *testing.T) {
 		bus := monitor.NewBus()
 		go monitor.Monitor(sio, bus)
 
-		gctl, err := connector.Connect(bus)
+		ctl, err := connector.Connect(bus)
 		if err != nil {
 			t.Fatal(err)
 		}
 
-		err = gctl.List(os.Stdout, "settings")
+		err = ctl.View(os.Stdout, "commands")
+		if err != nil {
+			t.Fatal(err)
+		}
+		err = ctl.View(os.Stdout, "settings")
 		if err != nil {
 			t.Fatal(err)
 		}
 
-		err = gctl.List(os.Stdout, "commands")
+		gctl, ok := ctl.(*Controller)
+		if ok {
+			for _, frms := range gctl.views {
+				for _, frm := range frms {
+					t.Log(string(frm.ToJSON()))
+				}
+			}
+		}
+
+		err = ctl.Edit(os.Stdout, "settings", "web23")
 		if err != nil {
 			t.Fatal(err)
 		}
+		err = ctl.Edit(os.Stdout, "settings", "web1")
+		if err != nil {
+			t.Fatal(err)
+		}
+		err = ctl.Edit(os.Stdout, "commands", "web2001")
+		if err != nil {
+			t.Fatal(err)
+		}
+
 	}
 
 	for id, gctl := range connector.Controllers {
@@ -163,7 +194,7 @@ func TestProvider(t *testing.T) {
 		t.Log((gctl.Profile.Print()))
 	}
 
-	err := connector.Save()
+	err = connector.Save()
 	if err != nil {
 		t.Fatal(err)
 	}

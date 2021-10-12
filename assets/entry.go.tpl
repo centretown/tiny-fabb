@@ -1,139 +1,157 @@
-
-{{define "command-list"}}
-<div class="w3-container">
-    {{range $id, $form := .}}
-        {{$ent := index $form.Entries 0}}
-        {{$val := $form.Value}}
-        <div class="w3-cell-row">
-            <div class="w3-cell" style="width:12rem;">
-                <button id="{{$ent.ID}}-update" class="w3-btn w3-ripple w3-theme-l1">
-                    Update
-                </button>
-            </div>
-            <div class="w3-cell w3-left">
-                <label for="{{$ent.ID}}">{{$ent.Label}}</label>
-                <div id="{{$ent.ID}}">
-                    {{$val}}
-                </div>
-            </div>
-        </div>
-    {{end}}
-</div>
-{{end}}
-
-{{define "list"}}
-    <div class="w3-responsive">
-        <table class="w3-table" style="margin-top:.5rem;margin-bottom:.5rem">
-        {{range $id, $form := .}}
-            {{range $i, $ent := $form.Entries}}
-            <tr>
-                <td>
-                    <button id="{{$ent.ID}}-edit" class="w3-btn w3-ripple w3-theme-l1"
-                        onclick="openEdit({{$id}})">
-                        Edit
-                    </button>
-                </td>
-                <td>
-                    <label>{{$ent.Label}}</label>
-                </td>
-                <td id="{{$ent.ID}}">
-                    {{$ent.Value $form.Value}}
-                </td>
-            </tr>
-            {{end}}
-        {{end}}
-        </table>
-    </div>
-{{end}}
-
+{{/* Copyright (c) 2021 Dave Marsh. See LICENSE. */}}
 
 {{define "pop-detail"}}
-    <h4>{{.Link}}: {{.Title}}</h4>
-    <ul>
+    <div class="doc">
+    <header class="doc-title">{{.Link}}: {{.Title}}</header>
     {{range $idx, $text := .Text}}
-        <li>{{$text}}</li>
+        <p class="">{{$text}}</p>
     {{end}}
-    </ul>
     {{range $idx, $doc := .Subs}}
         {{template "pop-detail" $doc}}
     {{end}}
+    </div>
 {{end}}
 
 {{define "pop-doc"}}
     {{template "pop-detail" .}}
 {{end}}
 
+{{define "check"}}
+{{$f:=.}}
+{{$ent:=.Entry}}
+<div class="entries">
+    <label class="w3-padding">
+        <input
+            name="{{$f.Name}}"
+            class="{{$f.Class}}"
+            type="{{$ent.Type}}"
+            {{if $f.HasChecked}}checked{{end}}
+            value="{{$f.Value}}"/>
+        {{$f.Entry.Label}}
+    </label>
+</div>
+{{end}}
+
+{{define "text-digits"}}
+{{$f:=.}}
+{{$ent:=.Entry}}
+<div class="entries">
+    <div class="w3-padding">
+        {{$ent.Label}}</div>
+    <input
+        name="{{$f.Name}}"
+        class="{{$f.Class}} w3-margin"
+        type="{{$ent.Type}}"
+        {{if $f.HasRange}}min="{{$ent.Min}}"
+            max="{{$ent.Max}}"{{end}}
+        {{if $f.HasStep}}step="{{$ent.Step}}"{{end}}
+        value="{{$f.Value}}"/>
+</div>
+{{end}}
+
+{{/* accepts Identifier */}}
 {{define "edit"}} 
-{{$value := .Value}}
-{{$first := index .Entries 0}}
-{{$doc := .FindDoc $first.Code}}
-<div class="w3-modal-content w3-theme-d5">
-    <form
-        class="w3-container"
-        id="settings-form"
-        name="{{$first.ID}}"
-        method="post"
-        action="">
+{{$frm := .Form}}
+{{$value := $frm.Value}}
+{{$first := index $frm.Entries 0}}
+<div class="entries">
+    {{range $id, $ent := $frm.Entries}}
+    {{if eq $ent.Type "mask" "cmd"}} 
+    {{else}}
+        {{$f:=$ent.FormatInput $value $first}}
+        {{if eq $ent.Type "checkbox" "radio"}}
+            {{template "check" $f}}
+        {{else}}
+            {{template "text-digits" $f}}
+        {{end}}
+    {{end}}
+    {{end}}
+</div>
+{{end}}
 
-        <header class="w3-container w3-theme-l1 w3-padding-16">
-            <h5 style="display:inline-block">{{$first.Code}}: {{$first.Label}}</h5>
-            <span class="w3-right">
-                <button class="w3-btn w3-round w3-left w3-theme-d5"
-                    onclick="closeDialog()">x</button>
-            </span>
-        </header>
-
-        <div class="content w3-theme-l3">
-            <div class="entries">
-            {{range $id, $ent := .Entries}}
-                {{if ne $ent.Type "mask"}} 
-                    {{$f:=$ent.FormatInput $value $first}}
-                    <label class="w3-padding">
-                        <input
-                            id="{{$f.ID}}"
-                            name="{{$f.Name}}"
-                            class="{{$f.Class}}"
-                            type="{{$f.Type}}"
-
-                            {{if $f.HasChecked}}
-                                checked
-                            {{end}}
-
-                            {{if $f.HasRange}}
-                                min="{{$ent.Min}}"
-                                max="{{$ent.Max}}"
-                            {{end}}
-                            
-                            {{if $f.HasStep}}
-                                step="{{$ent.Step}}"
-                            {{end}}
-                            value="{{$f.Value}}"/>
-                        {{$ent.Label}}
-                    </label>
-                {{end}}
-            {{end}}
-            </div>
-            <div class="entries doc w3-theme-l5">
-                {{template "pop-doc" $doc}}
-            </div>
+{{/* accepts Identifier */}}
+{{define "flex-form"}}
+{{$ent := index .Form.Entries 0}}
+{{$val := .Form.Value}}
+<div class="w3-card w3-theme-d4 flexitem">
+    <button 
+        class=" w3-block w3-btn w3-theme-d4 w3-left-align"
+        onclick="toggleForm('{{.View}}','{{$ent.ID}}','{{.FormID}}');">
+        <i class="bi {{.Icon}}"></i>
+        <label class="w3-padding-small">{{$ent.Label}}</label>
+        {{if ne $ent.Type "cmd"}}
+            <span id="{{.FormID}}-value" class="w3-right-align">{{$val}}</span>
+        {{end}}
+    </button>
+    {{$doc := $ent.FindDoc $ent.Code}}
+    <div id="{{.FormID}}" class="w3-hide">
+        <button class="w3-block w3-theme-d3"
+            onclick="toggleShow('{{.FormID}}-doc')">
+            <i class="bi bi-file-earmark-arrow-down"></i>
+            <label class="">More Information...</label>
+        </button>
+        <div id="{{.FormID}}-doc" class="flexcontent w3-theme-l4 w3-hide">
+            {{template "pop-doc" $doc}}
         </div>
 
-        <footer class="w3-container w3-theme-l1">
-            <button
-                type="button"
-                onclick="closeDialog()"
-                class="w3-btn w3-round w3-left w3-margin w3-theme-d5">
-                Cancel
-            </button>
-            <button
-                type="submit"
-                class="w3-btn w3-round w3-right w3-margin w3-theme-d5">
-                Apply
-            </button>
-        </footer>
-    </form>
-</div> 
+        <form id="{{.FormID}}-form" name="{{.Form.ID}}"
+            class="w3-theme-l3 flexcontent">
+            {{template "edit" .}}
+        </form>
+
+        <button class="w3-block w3-theme-d3"
+            onclick="submitForm('{{.View}}','{{$ent.ID}}','{{.FormID}}');">
+            <i class="bi bi-asterisk"></i>
+            <label class="w3-padding-small">Update</label>
+        </button>
+
+        <div class="w3-theme-l2 flexcontent">
+            {{range $is, $s := .Results}}
+            <div class="response">
+                {{$s}}
+            </div>
+            {{end}}
+        </div>
+    </div>
+</div>
 {{end}}
+
+{{define "commands"}}
+{{$gctl:=.}}
+{{$view:="commands"}}
+{{$icon:="bi-command"}}
+{{$ctlID := $gctl.ID}}
+{{$forms := $gctl.ViewForms $view}}
+
+<div class="flexview">
+    {{range $id, $form := $forms}}
+        {{$ent := index $form.Entries 0}}
+        {{$rl := $ent.ResponseList $form.Value}}
+        {{$results := $gctl.FormatResponseList $rl}}
+        {{$ident := $form.Identify $ctlID $view $icon $results}}
+        {{template "flex-form" $ident}}
+    {{end}}
+</div>
+{{end}}
+
+{{define "settings"}}
+{{$gctl:=.}}
+{{$view:="settings"}}
+{{$icon:="bi-gear"}}
+{{$ctlID := $gctl.ID}}
+{{$forms := $gctl.ViewForms $view}}
+
+<div class="flexview">
+    {{range $id, $form := $forms}}
+        {{$ent := index $form.Entries 0}}
+        {{$results := $ent.ResponseList $form.Value}}
+        {{/* {{$results := $gctl.FormatResponseList $rl}} */}}
+        {{$ident := $form.Identify $ctlID $view $icon $results}}
+        {{template "flex-form" $ident}}
+    {{end}}
+</div>
+{{end}}
+
 
 {{define "error"}} 
     An error has occurred. Sad. 

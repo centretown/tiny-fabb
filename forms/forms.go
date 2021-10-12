@@ -1,6 +1,11 @@
 package forms
 
-import "github.com/centretown/tiny-fabb/docs"
+import (
+	"encoding/json"
+	"fmt"
+
+	"github.com/centretown/tiny-fabb/docs"
+)
 
 var documents docs.Docs
 
@@ -50,18 +55,54 @@ func (form *Form) GetUpdated() (updated []*Updated) {
 	return
 }
 
+type Identifier struct {
+	CtlID   string
+	View    string
+	FormID  string
+	Form    *Form
+	Icon    string
+	Results []string
+}
+
+func (form *Form) Identify(ctlid, view, icon string,
+	results []string) (ident *Identifier) {
+
+	ident = &Identifier{
+		CtlID:   ctlid,
+		View:    view,
+		FormID:  fmt.Sprintf("%s-%s", ctlid, form.ID.String()),
+		Icon:    icon,
+		Results: results,
+		Form:    form,
+	}
+	return
+}
+
 func (form *Form) Update(vals map[string][]string) (err error) {
 	for _, entry := range form.Entries {
 		ss, ok := vals[entry.ID]
-		if ok && len(ss) > 0 {
+		if entry.Type == "checkbox" {
+			if ok {
+				err = entry.ScanInput("true", form.Value)
+			} else {
+				err = entry.ScanInput("false", form.Value)
+			}
+		} else if ok && len(ss) > 0 {
 			err = entry.ScanInput(ss[0], form.Value)
-		} else if entry.Type == "checkbox" {
-			// no values are submitted for unchecked checkboxes
-			err = entry.ScanInput("false", form.Value)
 		}
+
 		if err != nil {
 			return
 		}
 	}
+	return
+}
+
+func (form *Form) ToJSON() (b []byte) {
+	m := make(map[string]interface{})
+	for _, entry := range form.Entries {
+		m[entry.ID] = entry.Value((form.Value))
+	}
+	b, _ = json.MarshalIndent(m, "", "  ")
 	return
 }
