@@ -75,12 +75,12 @@
 {{$val := .Form.Value}}
 <div class="w3-card w3-theme-d4 flexitem">
     <button 
-        class=" w3-block w3-btn w3-theme-d4 w3-left-align"
+        class="w3-block w3-btn w3-theme-d4 w3-left-align"
         onclick="toggleForm('{{.View}}','{{$ent.ID}}','{{.FormID}}');">
         <i class="bi {{.Icon}}"></i>
-        <label class="w3-padding-small">{{$ent.Label}}</label>
+        <label class="">{{$ent.Label}}</label>
         {{if ne $ent.Type "cmd"}}
-            <span id="{{.FormID}}-value" class="w3-right-align">{{$val}}</span>
+            <span id="{{.FormID}}-value" class="w3-right">{{$val}}</span>
         {{end}}
     </button>
     {{$doc := $ent.FindDoc $ent.Code}}

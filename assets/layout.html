@@ -187,16 +187,17 @@
 
       for (const [key,elem] of Object.entries(frm)) {
         let v = data[elem.name];
-        if (v!=null) {
-          if (elem.type=="checkbox") {
-            if (v) {
-              elem.setAttribute("checked","");
-            } else if (elem.hasAttribute("checked")) {
-              elem.removeAttribute("checked");
-            }
-          } else if (elem.type!="radio") {
-            elem.value = v;
+        console.log("fill",elem.name,v);
+        if (elem.type=="checkbox") {
+          if (v==true) {
+          console.log("set");
+            elem.setAttribute("checked","");
+          } else {
+          console.log("remove");
+            elem.removeAttribute("checked");
           }
+        } else if (v!=null && elem.type!="radio") {
+            elem.value = v;
         }
       }
     }
