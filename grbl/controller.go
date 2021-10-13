@@ -23,7 +23,7 @@ type Controller struct {
 	CameraIDs []string       `json:"camera-ids"`
 	Cameras   camera.Cameras `json:"-"`
 	views     map[string]forms.Forms
-	viewList  []*monitor.View
+	viewList  map[string]*monitor.View
 	bus       *monitor.Bus
 	layout    *template.Template
 }
@@ -47,20 +47,26 @@ func (gctl *Controller) initialize(bus *monitor.Bus, layout *template.Template) 
 	gctl.views["camera-bar"] = forms.Forms{}
 	gctl.views["settings"] = gctl.bindSettings()
 	gctl.views["commands"] = gctl.bindCommands()
-	gctl.viewList = []*monitor.View{
-		{ID: "status", Title: "Status",
+	gctl.viewList = map[string]*monitor.View{
+		"status": {ID: "status", Title: "Status",
 			Icon: "bi-info", Path: "/status/"},
-		{ID: "camera-bar", Title: "Cameras",
+		"camera-bar": {ID: "camera-bar", Title: "Cameras",
 			Icon: "bi-camera-video"},
-		{ID: "settings", Title: "Settings",
+		"settings": {ID: "settings", Title: "Settings",
 			Icon: "bi-gear"},
-		{ID: "commands", Title: "Commands",
+		"commands": {ID: "commands", Title: "Commands",
 			Icon: "bi-command"},
 	}
 }
 
-func (gctl *Controller) Views() []*monitor.View {
-	return gctl.viewList
+func (gctl *Controller) Views() (vs []*monitor.View) {
+	vs = make([]*monitor.View, len(gctl.viewList))
+	i := 0
+	for _, v := range gctl.viewList {
+		vs[i] = v
+		i++
+	}
+	return
 }
 
 func (gctl *Controller) FormatResponseList(list []string) (r []string) {
@@ -112,16 +118,19 @@ func (gctl *Controller) View(w io.Writer, viewName string) (err error) {
 }
 
 func (gctl *Controller) Edit(w io.Writer, viewName, key string) (err error) {
-	// tmpl, err := gctl.getTemplate("edit")
-	// if err != nil {
-	// 	return
-	// }
+	tmpl, err := gctl.getTemplate("edit")
+	if err != nil {
+		return
+	}
 
 	form, err := gctl.getForm(viewName, key)
 	if err != nil {
 		return
 	}
-	w.Write(form.ToJSON())
+	view := gctl.viewList[viewName]
+	ident := form.Identify(gctl.ID, viewName, view.Icon, []string{})
+	err = tmpl.Execute(w, ident)
+	// w.Write(form.ToJSON())
 	return
 }
 

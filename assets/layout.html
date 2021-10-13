@@ -60,6 +60,13 @@
       toggleShow(id);
      }
 
+    function isHidden(id) {
+      let elem = document.getElementById(id);
+      if (!elem) {
+        return true;
+      }
+      return elem.className.indexOf("w3-show") == -1;
+    }
 
     function toggleShow(id) {
       let elem = document.getElementById(id);
@@ -69,7 +76,7 @@
       } else { 
         elem.className = elem.className.replace(" w3-show", "");
       }
-      return show;
+      return;
     }
 
     function urlController() {
@@ -189,6 +196,7 @@
         let v = data[elem.name];
         console.log("fill",elem.name,v);
         if (elem.type=="checkbox") {
+        console.log(elem);
           if (v==true) {
           console.log("set");
             elem.setAttribute("checked","");
@@ -235,15 +243,16 @@
     }
 
     function toggleForm(view,key,id) {
-      if (!toggleShow(id)){
+      if (!isHidden(id)){
+        toggleShow(id);
         return;
       }
 
-      let frmid=id+"-form";
       fetch("/edit/" + urlKey(view,key))
         .then((response) => response.text())
         .then((text) => {
           fillForm(id,text);
+          toggleShow(id);
         })
         .catch((error) => {
           console.error("Error:", error);

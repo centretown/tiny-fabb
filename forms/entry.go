@@ -99,20 +99,18 @@ func (ent *Entry) FormatInput(value interface{}, first *Entry) (f *InputFormat) 
 	f = &InputFormat{
 		Name:  ent.ID,
 		Class: "w3-input",
-		Value: fmt.Sprint(eval),
 		Entry: ent,
+		Value: fmt.Sprint(eval),
 	}
 	switch ent.Type {
 	case "text":
 	case "checkbox":
 		f.Class = "w3-check"
 		f.HasChecked = ent.Checked(eval)
-		f.Value = "true"
 	case "radio":
 		f.Class = "w3-" + ent.Type
 		f.HasChecked = ent.Checked(eval)
 		f.Name = first.ID
-		f.Value = fmt.Sprint(ent.Item)
 	case "number":
 		f.HasRange = ent.Min != ent.Max
 		f.HasStep = ent.Step != 0

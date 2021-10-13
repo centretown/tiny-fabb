@@ -20,13 +20,13 @@
 {{$f:=.}}
 {{$ent:=.Entry}}
 <div class="entries">
+    <input
+        name="{{$f.Name}}"
+        class="{{$f.Class}}"
+        type="{{$ent.Type}}"
+        {{if $f.HasChecked}}checked{{end}}
+        value="{{$f.Value}}"/>
     <label class="w3-padding">
-        <input
-            name="{{$f.Name}}"
-            class="{{$f.Class}}"
-            type="{{$ent.Type}}"
-            {{if $f.HasChecked}}checked{{end}}
-            value="{{$f.Value}}"/>
         {{$f.Entry.Label}}
     </label>
 </div>
