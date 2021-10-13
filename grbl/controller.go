@@ -1,6 +1,7 @@
 package grbl
 
 import (
+	"encoding/json"
 	"fmt"
 	"html/template"
 	"io"
@@ -61,11 +62,10 @@ func (gctl *Controller) initialize(bus *monitor.Bus, layout *template.Template) 
 
 func (gctl *Controller) Views() (vs []*monitor.View) {
 	vs = make([]*monitor.View, len(gctl.viewList))
-	i := 0
-	for _, v := range gctl.viewList {
-		vs[i] = v
-		i++
-	}
+	vs[0] = gctl.viewList["status"]
+	vs[1] = gctl.viewList["camera-bar"]
+	vs[2] = gctl.viewList["settings"]
+	vs[3] = gctl.viewList["commands"]
 	return
 }
 
@@ -117,6 +117,11 @@ func (gctl *Controller) View(w io.Writer, viewName string) (err error) {
 	return
 }
 
+type EditData struct {
+	Value string `json:"value"`
+	Form  string `json:"form"`
+}
+
 func (gctl *Controller) Edit(w io.Writer, viewName, key string) (err error) {
 	tmpl, err := gctl.getTemplate("edit")
 	if err != nil {
@@ -129,8 +134,24 @@ func (gctl *Controller) Edit(w io.Writer, viewName, key string) (err error) {
 	}
 	view := gctl.viewList[viewName]
 	ident := form.Identify(gctl.ID, viewName, view.Icon, []string{})
-	err = tmpl.Execute(w, ident)
-	// w.Write(form.ToJSON())
+	bldr := &strings.Builder{}
+	err = tmpl.Execute(bldr, ident)
+	if err != nil {
+		return
+	}
+
+	val := form.Entries[0].Value(form.Value)
+	edata := &EditData{
+		Value: fmt.Sprint(val),
+		Form:  bldr.String(),
+	}
+
+	js, err := json.Marshal(edata)
+	if err != nil {
+		return
+	}
+
+	_, err = w.Write(js)
 	return
 }
 

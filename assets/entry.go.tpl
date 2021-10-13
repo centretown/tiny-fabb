@@ -20,13 +20,13 @@
 {{$f:=.}}
 {{$ent:=.Entry}}
 <div class="entries">
-    <input
-        name="{{$f.Name}}"
-        class="{{$f.Class}}"
-        type="{{$ent.Type}}"
-        {{if $f.HasChecked}}checked{{end}}
-        value="{{$f.Value}}"/>
     <label class="w3-padding">
+        <input
+            name="{{$f.Name}}"
+            class="{{$f.Class}}"
+            type="{{$ent.Type}}"
+            {{if $f.HasChecked}}checked{{end}}
+            value="{{$f.Value}}"/>
         {{$f.Entry.Label}}
     </label>
 </div>
@@ -54,19 +54,19 @@
 {{$frm := .Form}}
 {{$value := $frm.Value}}
 {{$first := index $frm.Entries 0}}
-<div class="entries">
-    {{range $id, $ent := $frm.Entries}}
-    {{if eq $ent.Type "mask" "cmd"}} 
-    {{else}}
-        {{$f:=$ent.FormatInput $value $first}}
-        {{if eq $ent.Type "checkbox" "radio"}}
-            {{template "check" $f}}
+    <div class="entries">
+        {{range $id, $ent := $frm.Entries}}
+        {{if eq $ent.Type "mask" "cmd"}} 
         {{else}}
-            {{template "text-digits" $f}}
+            {{$f:=$ent.FormatInput $value $first}}
+            {{if eq $ent.Type "checkbox" "radio"}}
+                {{template "check" $f}}
+            {{else}}
+                {{template "text-digits" $f}}
+            {{end}}
         {{end}}
-    {{end}}
-    {{end}}
-</div>
+        {{end}}
+    </div>
 {{end}}
 
 {{/* accepts Identifier */}}
@@ -94,9 +94,8 @@
             {{template "pop-doc" $doc}}
         </div>
 
-        <form id="{{.FormID}}-form" name="{{.Form.ID}}"
+        <form method="post" action="" id="{{.FormID}}-form" name="{{.Form.ID}}"
             class="w3-theme-l3 flexcontent">
-            {{template "edit" .}}
         </form>
 
         <button class="w3-block w3-theme-d3"

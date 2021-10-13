@@ -111,6 +111,7 @@ func (ent *Entry) FormatInput(value interface{}, first *Entry) (f *InputFormat) 
 		f.Class = "w3-" + ent.Type
 		f.HasChecked = ent.Checked(eval)
 		f.Name = first.ID
+		f.Value = fmt.Sprint(ent.Item)
 	case "number":
 		f.HasRange = ent.Min != ent.Max
 		f.HasStep = ent.Step != 0

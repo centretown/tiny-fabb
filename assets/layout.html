@@ -38,7 +38,6 @@
     var dialog = document.getElementById("dialog");
 
     function selectController(evt,controllerIndex,contentID) {
-    console.log(controllerIndex,contentID);
       currentController = controllerIndex;
       x = document.getElementsByClassName("controller");
       for (i = 0; i < x.length; i++) {
@@ -111,7 +110,6 @@
     }
 
     function openServoSettings(camera) {
-      console.log("openServoSettings");
       getSection("/"+camera+"/servo-settings/", "dialog");
       dialog.style.display = "block";
     }
@@ -181,40 +179,22 @@
       fetch(path);
     }
 
-    function fillForm(id,text) {
-      let data = JSON.parse(text);
-      let frm = document.getElementById(id+"-form");
+    function fillForm(id,val,text) {
       let elem = document.getElementById(id+"-value");
+      let frm = document.getElementById(id+"-form");
       if (elem) {
-        let v = data[frm.name];
-        if (v!=null) {
-          elem.innerHTML = v;
-        }
+        elem.innerHTML = val;
       }
-
-      for (const [key,elem] of Object.entries(frm)) {
-        let v = data[elem.name];
-        console.log("fill",elem.name,v);
-        if (elem.type=="checkbox") {
-        console.log(elem);
-          if (v==true) {
-          console.log("set");
-            elem.setAttribute("checked","");
-          } else {
-          console.log("remove");
-            elem.removeAttribute("checked");
-          }
-        } else if (v!=null && elem.type!="radio") {
-            elem.value = v;
-        }
-      }
+      frm.innerHTML = text;
     }
 
     function submitForm(view,key,id) {
       frmid=id+"-form";
       let frm = document.getElementById(frmid);
+      if (!frm.reportValidity() ) {
+        return;
+      }
       let params=new URLSearchParams(new FormData(frm)).toString();
-      console.log("submit",view,params);
       let init = {
         method: "POST",
         body: params,
@@ -251,7 +231,13 @@
       fetch("/edit/" + urlKey(view,key))
         .then((response) => response.text())
         .then((text) => {
-          fillForm(id,text);
+          let obj = JSON.parse(text);
+          fillForm(id,obj.value,obj.form);
+          
+          let frm = document.getElementById(id+"-form");
+          frm.addEventListener('onsubmit', function(event){
+            event.preventDefault();
+          });
           toggleShow(id);
         })
         .catch((error) => {
