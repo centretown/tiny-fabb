@@ -3,6 +3,7 @@ package grbl
 import (
 	"encoding/json"
 	"fmt"
+	"hash/maphash"
 	"html/template"
 	"io/ioutil"
 
@@ -67,7 +68,9 @@ func (conn *Connector) Connect(bus *monitor.Bus) (ctl monitor.Controller, err er
 				return
 			}
 		}
-		gctl.ID = profile.ID
+		var h maphash.Hash
+		h.WriteString(profile.ID)
+		gctl.ID = fmt.Sprintf("%x", h.Sum64())
 		if profile.IsESP32() {
 			gctl.Title = title
 		} else {
@@ -110,5 +113,5 @@ func (conn *Connector) Load() (err error) {
 }
 
 func (conn *Connector) Add(gctl *Controller) {
-	conn.Controllers[gctl.ID] = gctl
+	conn.Controllers[gctl.Profile.ID] = gctl
 }

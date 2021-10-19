@@ -5,31 +5,54 @@ package servo
 import "github.com/centretown/tiny-fabb/forms"
 
 func (svo *Servo) bind() {
-	svo.Forms = forms.Forms{
+	svo.CommandForms = forms.Forms{
 		idCommand: {
 			ID:      idCommand,
 			Value:   &svo.Command,
-			Entries: servoEntries[idCommand],
+			Entries: commandEntries[idCommand],
 		},
 		idIndex: {
 			ID:      idIndex,
 			Value:   &svo.Index,
-			Entries: servoEntries[idIndex],
+			Entries: commandEntries[idIndex],
 		},
 		idAngle: {
 			ID:      idAngle,
 			Value:   &svo.Angle,
-			Entries: servoEntries[idAngle],
+			Entries: commandEntries[idAngle],
 		},
 		idSpeed: {
 			ID:      idSpeed,
 			Value:   &svo.Speed,
-			Entries: servoEntries[idSpeed],
+			Entries: commandEntries[idSpeed],
 		},
 		idEaseType: {
 			ID:      idEaseType,
 			Value:   &svo.EaseType,
-			Entries: servoEntries[idEaseType],
+			Entries: commandEntries[idEaseType],
+		},
+	}
+
+	svo.SettingForms = forms.Forms{
+		idStep: {
+			ID:      idStep,
+			Value:   &svo.Settings.Step,
+			Entries: settingsEntries[idStep],
+		},
+		idMin: {
+			ID:      idMin,
+			Value:   &svo.Settings.Min,
+			Entries: settingsEntries[idMin],
+		},
+		idMax: {
+			ID:      idMax,
+			Value:   &svo.Settings.Max,
+			Entries: settingsEntries[idMax],
+		},
+		idInvert: {
+			ID:      idInvert,
+			Value:   &svo.Settings.Invert,
+			Entries: settingsEntries[idInvert],
 		},
 	}
 }

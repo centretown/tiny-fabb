@@ -41,7 +41,8 @@ func (conn *Connector) Start(router *mux.Router,
 	urls ...string) {
 
 	layout := conn.layout
-	servos := servo.NewConnector(servoController, layout, 9)
+	servos := servo.NewConnector(servoController,
+		conn.dataSource, layout, 9)
 
 	router.HandleFunc("/camera-bar/", func(w http.ResponseWriter, r *http.Request) {
 		tmpl := layout.Lookup("camera-bar")

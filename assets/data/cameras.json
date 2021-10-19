@@ -6,14 +6,14 @@
     "active": true,
     "settings": {
       "framesize": 8,
-      "quality": 8,
+      "quality": 10,
       "brightness": 0,
       "contrast": 0,
       "saturation": 0,
       "sharpness": 0,
       "denoise": 0,
       "special_effect": 0,
-      "wb_mode": 1,
+      "wb_mode": 0,
       "awb": 1,
       "awb_gain": 1,
       "aec": 1,
@@ -42,14 +42,14 @@
       1
     ]
   },
-  "camera44": {
-    "id": "camera44",
-    "url": "http://192.168.0.44",
-    "title": "Camera: 44",
+  "camera99": {
+    "id": "camera99",
+    "url": "http://192.168.0.99",
+    "title": "Camera: 99",
     "active": true,
     "settings": {
       "framesize": 8,
-      "quality": 12,
+      "quality": 10,
       "brightness": 0,
       "contrast": 0,
       "saturation": 0,
@@ -75,13 +75,12 @@
       "dcw": 1,
       "colorbar": 0
     },
-    "controlUrl": "http://192.168.0.44:80/action",
-    "streamUrl": "http://192.168.0.44:81/stream",
-    "statusUrl": "http://192.168.0.44:80/status",
-    "captureUrl": "http://192.168.0.44:80/capture",
+    "controlUrl": "http://192.168.0.99:80/action",
+    "streamUrl": "http://192.168.0.99:81/stream",
+    "statusUrl": "http://192.168.0.99:80/status",
+    "captureUrl": "http://192.168.0.99:80/capture",
     "interval": 200,
     "servoIndeces": [
-      0,
       1
     ]
   }

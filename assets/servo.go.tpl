@@ -49,6 +49,8 @@
         <option value="home">Home</option>
         <option value="move">Move</option>
         <option value="ease" selected>Ease</option>
+        <option value="test" selected>Test</option>
+        <option value="stop" selected>Stop</option>
     </select>
 
     <label for="servo-angle">Angle</label>
@@ -70,6 +72,12 @@
         <option value="2">Cubic</option>
         <option value="3">Quartic</option>
     </select>
+
+    <label for="servo-angle2">Angle 2</label>
+    <input id="servo-angle2" name="servo-angle2" 
+        type="number"  min="0" max="255"
+        value="50" style="width:100%"/>
+
 </form>
 {{end}}
 

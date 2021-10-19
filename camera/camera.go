@@ -111,47 +111,6 @@ func (cam *Camera) Stop() {
 	cam.wg.Wait()
 }
 
-func (cam *Camera) move(w http.ResponseWriter,
-	svo *servo.Servo, angle int, speed uint) {
-
-	if angle < 0 {
-		angle = 0
-	}
-	if angle > 180 {
-		angle = 180
-	}
-	svo.Command = servo.ServoMove
-	svo.Angle = uint(angle)
-	svo.Speed = speed
-	svo.Apply(w)
-}
-
-func (cam *Camera) PanTilt(w http.ResponseWriter, r *http.Request) {
-	if len(cam.Servos) < 1 {
-		return
-	}
-
-	speed := forms.GetRequestUint(r, "speed")
-	if speed < 1 || speed > 255 {
-		speed = 50
-	}
-
-	change := forms.GetRequestInt(r, "pan")
-	if change != 0 {
-		svo := cam.Servos[0]
-		cam.move(w, svo, int(svo.Angle)+change, speed)
-	}
-
-	if len(cam.Servos) < 2 {
-		return
-	}
-	change = forms.GetRequestInt(r, "tilt")
-	if change != 0 {
-		svo := cam.Servos[1]
-		cam.move(w, svo, int(svo.Angle)+change, speed)
-	}
-}
-
 func (cam *Camera) ShowWindow() func(img image.Image) {
 	resized := false
 	resize := func(window *gocv.Window, img image.Image) {

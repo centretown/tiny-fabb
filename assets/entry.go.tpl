@@ -94,7 +94,7 @@
             {{template "pop-doc" $doc}}
         </div>
 
-        <form method="post" action="" id="{{.FormID}}-form" name="{{.Form.ID}}"
+        <form id="{{.FormID}}-form" name="{{.Form.ID}}"
             class="w3-theme-l3 flexcontent">
         </form>
 

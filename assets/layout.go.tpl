@@ -14,7 +14,7 @@
 
 {{define "controller"}}
     {{$ctlID := .Descriptor}}
-    <div id="{{$ctlID}}" class="controller" style="display:none;">
+    <div id="{{$ctlID}}" class="controller-selector" style="display:none;">
     {{range $i, $view := .Views}}
        {{$ID := printf "%s-%s" $ctlID $view.ID}}
         <button 

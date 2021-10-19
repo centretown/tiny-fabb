@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/centretown/tiny-fabb/monitor"
+	"github.com/golang/glog"
 )
 
 const (
@@ -56,6 +57,7 @@ func (prv *Provider) Update() (list []string) {
 	}
 
 	list = prv.ListPorts()
+	glog.Info(list)
 	inList := func(s string) bool {
 		for _, l := range list {
 			if s == l {
@@ -103,6 +105,9 @@ func (prv *Provider) includedPort(fname string) bool {
 
 func (prv *Provider) excludedPort(fname string) bool {
 	for _, f := range prv.Exclude {
+		if len(f) == 0 {
+			continue
+		}
 		if strings.Contains(fname, f) {
 			return true
 		}

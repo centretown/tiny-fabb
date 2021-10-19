@@ -62,9 +62,9 @@ var CurrentProfile = &Profile{
 	WebPort:         ":8080",
 	UDPPort:         ":44444",
 	Cameras:         []string{""},
-	ServoController: "http://192.168.0.44",
-	Include:         []string{""},
-	Exclude:         []string{""},
+	ServoController: "http://192.168.0.44:80/action",
+	Include:         []string{"ttyUSB"},
+	Exclude:         []string{},
 }
 
 var (
@@ -100,6 +100,7 @@ func (s *Profile) Save() (err error) {
 func (s *Profile) Load() (err error) {
 	byts, err := ioutil.ReadFile(DefaultProfile())
 	if err != nil {
+		fmt.Print(err, "settings 103")
 		return
 	}
 	err = json.Unmarshal(byts, s)
@@ -143,12 +144,9 @@ func (s *Profile) Setup() (controllers []monitor.Controller, ports []string, lay
 	prv.Filter = s.Include
 	prv.Exclude = s.Exclude
 	camConn = camera.NewConnector(s.DataSource, layout, 200)
-	fmt.Println(camConn.Cameras)
 	grblConn := grbl.NewConnector(s.DataSource, layout, camConn.Cameras)
 
 	ports = prv.Update()
-	glog.Infoln(ports)
-
 	controllers = make([]monitor.Controller, 0)
 	for _, p := range ports {
 		sio, err := prv.Get(p)

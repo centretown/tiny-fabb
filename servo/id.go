@@ -11,4 +11,8 @@ const (
 	idAngle
 	idSpeed
 	idEaseType
+	idStep
+	idMin
+	idMax
+	idInvert
 )

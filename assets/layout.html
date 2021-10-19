@@ -39,7 +39,7 @@
 
     function selectController(evt,controllerIndex,contentID) {
       currentController = controllerIndex;
-      x = document.getElementsByClassName("controller");
+      x = document.getElementsByClassName("controller-selector");
       for (i = 0; i < x.length; i++) {
         x[i].style.display = "none";
       }    
@@ -125,7 +125,18 @@
         });
     }
 
-    function applyPanTilt(cam,pan,tilt,speed) {
+    var pt_cam,pt_pan,pt_tilt,pt_speed,pt_interval;
+
+    function panTiltDown(cam,pan,tilt,speed) {
+      pt_cam,pt_pan,pt_tilt,pt_speed=cam,pan,tilt,speed;
+      pt_interval=setInterval(applyPanTilt, 100);
+    }
+
+    function panTiltUp() {
+      clearInterval(pt_interval);
+    }
+
+    function applyPanTilt() {
       let init = {
         method: "GET",
         headers: {
@@ -133,9 +144,9 @@
         },
         credentials: "include",
       };
-      let path = "/"+cam+"/pan-tilt/"+pan+"/"+tilt+"/"+speed+"/";
-      fetch(path);
+      let path = "/"+pt_cam+"/pan-tilt/"+pt_pan+"/"+pt_tilt+"/"+pt_speed+"/";
       console.log(path);
+      fetch(path);
     }
 
     function applyServo() {
@@ -508,14 +519,28 @@
       max-height: 400px;
     }
 
-    .pic-content {
+    .pic-group {
       display: flex;
       flex-flow: row wrap;
+      justify-content: space-around;
+    }
+
+    .pic-item {
+      display: flex;
+      flex-direction: column;
+      width: 30vw;
+      min-width: 18rem;
+      margin: .1rem;
+    }
+
+
+    .pic-content {
+      display: flex;
+      flex-direction: row;
+      margin: .1rem;
     }
 
     .pic {
-      max-height: 200px;
-      min-height: 100px;
       display: block;
       margin: 16px;
       box-shadow: 1rem 1rem .5rem rgba(0,0,0,0.3);
@@ -524,90 +549,57 @@
 
     .pics-items {
       display: flex;
-      flex: 11rem;
-      flex-flow: row wrap;
+      flex-direction: row;
       align-items: flex-start;
     }
-
-    .servo-control {
-      width: .6rem;
-    }
-
-    @media (min-height: 800px) {
-      .pic {
-        max-height: 400px;
-      }
-      .content {
-        max-height: 600px;
-      }
-      .dlgtab {
-        max-height: 600px;
-      }
-    }
-    @media (min-height: 1200px) {
-      .pic {
-        max-height: 600px;
-      }
-      .content {
-        max-height: 800px;
-      }
-      .dlgtab {
-        max-height: 800px;
-      }
-    }
-    @media (min-height: 1600px) {
-      .pic {
-        max-height: 1000px;
-      }
-      .content {
-        max-height: 1200px;
-      }
-      .dlgtab {
-        max-height: 1200px;
-      }
-   }
 
     .sticky {
       position: sticky;
       top: 0;
       z-index: 9;
     }
+  
     i {
       font-size: 1.5rem;
       color: var(--w3);
     }
 
-    .radio-toolbar input[type="radio"] {
-      opacity: 0;
-      position: fixed;
-      width: 0;
+    .iservo {
+      font-size: 1rem;
+      font-weight: 900;
+      color: #fff;
+      text-shadow: 1px 1px 3px #000, -1px -1px 4px #000;
+      padding: .5rem;
     }
 
-    .radio-toolbar label {
-      display: inline-block;
-      background-color: inherit;
-      color: inherit;
-      padding: 4px 4px;
+    .pantilt-container {
+      display: grid;
+      grid-template-columns: 2rem 2rem 2rem;
+      grid-template-rows: 2rem 2rem 2rem;
+      position: absolute;
+      top: 1.5rem;
+      left: 1.5rem;
     }
 
-    .radio-toolbar label:hover {
-      color: var(--w3-l1);
-      background-color: var(--w3-l1-bg);
+    .servo-control {
+      width: 2rem;
     }
 
-    .radio-toolbar input[type="radio"]:checked + label {
-      background-color: var(--w3-l1-bg);
+    .vslide, .hslide {
+      color: black;
     }
 
-    tr:nth-child(even) {
-      color: var(--w3-l3);
-      background-color: var(--w3-l3-bg);
+    .vslide {
+      grid-row: 1 / span 3;
+      grid-column: 4 / span 1;
+      -webkit-appearance: slider-vertical;
     }
-    tr:nth-child(odd) {
-      color: var(--w3-l4);
-      background-color: var(--w3-l4-bg);
+
+    .hslide {
+      grid-column: 1 / span 3;
+      grid-row: 4 / span 1;
     }
-    
+
     .full{
       position: absolute:
       top: 80px;

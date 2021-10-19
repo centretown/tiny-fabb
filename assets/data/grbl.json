@@ -1,6 +1,6 @@
 {
   "10-52-1C-67-83-44": {
-    "id": "10-52-1C-67-83-44",
+    "id": "2310edb32b558bd9",
     "title": "ESP32-3",
     "profile": {
       "id": "10-52-1C-67-83-44",
@@ -62,11 +62,11 @@
     },
     "camera-ids": [
       "camera175",
-      "camera44"
+      "camera99"
     ]
   },
   "9C-9C-1F-C4-B7-88": {
-    "id": "9C-9C-1F-C4-B7-88",
+    "id": "c815afcafc90cee6",
     "title": "ESP32-2",
     "profile": {
       "id": "9C-9C-1F-C4-B7-88",
@@ -127,11 +127,12 @@
       "maxTravelC": 300
     },
     "camera-ids": [
-      "camera175"
+      "camera175",
+      "camera99"
     ]
   },
   "ATMEGA328P-4": {
-    "id": "ATMEGA328P-4",
+    "id": "ab9a6431a0c1bc7a",
     "title": "ATMEGA328P-4",
     "profile": {
       "id": "ATMEGA328P-4",
@@ -192,7 +193,8 @@
       "maxTravelC": 0
     },
     "camera-ids": [
-      "camera44"
+      "camera175",
+      "camera99"
     ]
   }
 }

@@ -1,12 +1,12 @@
 {{define "camera-bar"}}
-<div id="camera-bar-container" class="pic-content w3-container w3-border w3-theme-d1">
+<div class="pic-group w3-theme-d1">
     {{range $index, $camera := .}}
-        <div class="pics-items pic-content w3-animate-opacity">
+        <div class="pic-item w3-animate-opacity">
             {{template "camera-servo" $camera}}
             <div class="w3-bar">
-                <span class="w3-bar-item">
+                <label class="w3-bar-item">
                     {{$camera.Title}}
-                </span>
+                </label>
                 <span class="w3-button w3-bar-item"
                     title="Servos"
                     onclick="openServoSettings({{$index}})">
@@ -27,6 +27,33 @@
     {{end}}
 </div>
 {{end}}
+
+{{define "camera-servo"}}
+<div class="w3-display-container">
+    <img id="{{.ID}}" 
+        class="pic w3-image"
+        src="/{{.ID}}/mjpeg">
+    {{template "pan-tilt" .}}
+</div>
+{{end}}
+
+{{define "pan-tilt"}}
+<div class="pantilt-container">
+{{template "servo-controls" .}}
+</div>
+{{end}}
+
+{{define "servo-controls"}}
+{{$ctls := .ServoControls 20}}
+{{range $index, $ctl := $ctls}}
+    <div class="w3-ripple servo-control"  style="color:#90EE90;"
+        onclick="applyPanTilt({{$ctl.ID}},{{$ctl.PanStep}},{{$ctl.TiltStep}},{{$ctl.Speed}})"
+        ondblclick="applyPanTilt({{$ctl.ID}},{{$ctl.PanMax}},{{$ctl.TiltMax}},{{$ctl.Speed}})">
+        <i class="bi {{$ctl.Icon}} iservo" style="color:inherit"></i>
+    </div>
+{{end}}
+{{end}}
+
 
 {{define "camera-settings"}}
 <div class="w3-modal-content w3-theme-d5 w3-container">
@@ -57,7 +84,7 @@
 {{define "camera-edit"}}
 {{$cam:=.}}
 <table class="w3-table entries dlgtab">
-{{range $id, $form := .Forms}}
+{{range $id, $form := .CommandForms}}
     {{$value := $form.Value}}
     {{$first := index $form.Entries 0}}
     {{range $i, $ent := $form.Entries}}
@@ -102,68 +129,4 @@
     {{end}}
 {{end}}
 </table>
-{{end}}
-
-{{define "camera-servo"}}
-<div class="w3-display-container entries">
-    <img id="{{.ID}}" 
-        class="pic w3-image"
-        src="/{{.ID}}/mjpeg">
-    {{template "pan-tilt" .}}
-</div>
-{{end}}
-
-{{define "pan-tilt"}}
-<div class="w3-display-topleft w3-container"
-    style="margin-top:16px;">
-    <div class="w3-cell-row">
-        <div class="w3-container w3-btn w3-ripple w3-cell servo-control"
-            ondblclick="applyPanTilt({{.ID}},180,180,50)"
-            onclick="applyPanTilt({{.ID}},30,30,50)">
-            <i class="bi bi-arrow-up-left"></i>
-        </div>
-        <div class="w3-container w3-btn w3-ripple w3-cell servo-control"
-            ondblclick="applyPanTilt({{.ID}},0,180,50)"
-            onclick="applyPanTilt({{.ID}},0,30,50)">
-            <i class="bi bi-arrow-up"></i>
-        </div>
-        <div class="w3-container w3-btn w3-ripple w3-cell servo-control"
-            ondblclick="applyPanTilt({{.ID}},-180,180,50)"
-            onclick="applyPanTilt({{.ID}},-30,30,50)">
-            <i class="bi bi-arrow-up-right"></i>
-        </div>
-    </div>
-    <div class="w3-cell-row">
-        <div class="w3-container w3-btn w3-ripple w3-cell servo-control"
-            ondblclick="applyPanTilt({{.ID}},180,0,50)"
-            onclick="applyPanTilt({{.ID}},30,0,50)">
-            <i class="bi bi-arrow-left"></i>
-        </div>
-        <div class="w3-container w3-cell servo-control">
-            <i class="bi bi-arrows-move"></i>
-        </div>
-        <div class="w3-container w3-btn w3-ripple w3-cell servo-control"
-            ondblclick="applyPanTilt({{.ID}},-180,0,50)"
-            onclick="applyPanTilt({{.ID}},-30,0,50)">
-            <i class="bi bi-arrow-right"></i>
-        </div>
-    </div>
-    <div class="w3-cell-row">
-        <div class="w3-container w3-btn w3-ripple w3-cell servo-control"
-            ondblclick="applyPanTilt({{.ID}},180,-180,50)"
-            onclick="applyPanTilt({{.ID}},30,-30,50)">
-            <i class="bi bi-arrow-down-left"></i>
-        </div>
-        <div class="w3-container w3-btn w3-ripple w3-cell servo-control"
-            ondblclick="applyPanTilt({{.ID}},0,-180,50)"
-            onclick="applyPanTilt({{.ID}},0,-30,50)">
-            <i class="bi bi-arrow-down"></i>
-        </div>
-        <div class="w3-container w3-btn w3-ripple w3-cell servo-control"
-            ondblclick="applyPanTilt({{.ID}},-180,-180,50)"
-            onclick="applyPanTilt({{.ID}},-30,-30,50)">
-            <i class="bi bi-arrow-down-right"></i>
-        </div>
-    </div>
-</div>
 {{end}}

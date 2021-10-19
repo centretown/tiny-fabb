@@ -1,0 +1,137 @@
+[
+ {
+  "title": "Servo-00",
+  "controlUrl": "http://192.168.0.99:80/action",
+  "settings": {
+   "step": 18,
+   "min": 0,
+   "max": 180,
+   "invert": false
+  },
+  "index": 0,
+  "command": 3,
+  "angle": 90,
+  "speed": 50,
+  "easeType": 0
+ },
+ {
+  "title": "Servo-01",
+  "controlUrl": "http://192.168.0.99:80/action",
+  "settings": {
+   "step": 18,
+   "min": 0,
+   "max": 180,
+   "invert": false
+  },
+  "index": 1,
+  "command": 3,
+  "angle": 90,
+  "speed": 50,
+  "easeType": 0
+ },
+ {
+  "title": "Servo-02",
+  "controlUrl": "http://192.168.0.99:80/action",
+  "settings": {
+   "step": 18,
+   "min": 0,
+   "max": 180,
+   "invert": false
+  },
+  "index": 2,
+  "command": 3,
+  "angle": 90,
+  "speed": 50,
+  "easeType": 0
+ },
+ {
+  "title": "Servo-03",
+  "controlUrl": "http://192.168.0.99:80/action",
+  "settings": {
+   "step": 18,
+   "min": 0,
+   "max": 180,
+   "invert": false
+  },
+  "index": 3,
+  "command": 3,
+  "angle": 90,
+  "speed": 50,
+  "easeType": 0
+ },
+ {
+  "title": "Servo-04",
+  "controlUrl": "http://192.168.0.99:80/action",
+  "settings": {
+   "step": 18,
+   "min": 0,
+   "max": 180,
+   "invert": false
+  },
+  "index": 4,
+  "command": 3,
+  "angle": 90,
+  "speed": 50,
+  "easeType": 0
+ },
+ {
+  "title": "Servo-05",
+  "controlUrl": "http://192.168.0.99:80/action",
+  "settings": {
+   "step": 18,
+   "min": 0,
+   "max": 180,
+   "invert": false
+  },
+  "index": 5,
+  "command": 3,
+  "angle": 90,
+  "speed": 50,
+  "easeType": 0
+ },
+ {
+  "title": "Servo-06",
+  "controlUrl": "http://192.168.0.99:80/action",
+  "settings": {
+   "step": 18,
+   "min": 0,
+   "max": 180,
+   "invert": false
+  },
+  "index": 6,
+  "command": 3,
+  "angle": 90,
+  "speed": 50,
+  "easeType": 0
+ },
+ {
+  "title": "Servo-07",
+  "controlUrl": "http://192.168.0.99:80/action",
+  "settings": {
+   "step": 18,
+   "min": 0,
+   "max": 180,
+   "invert": false
+  },
+  "index": 7,
+  "command": 3,
+  "angle": 90,
+  "speed": 50,
+  "easeType": 0
+ },
+ {
+  "title": "Servo-08",
+  "controlUrl": "http://192.168.0.99:80/action",
+  "settings": {
+   "step": 18,
+   "min": 0,
+   "max": 180,
+   "invert": false
+  },
+  "index": 8,
+  "command": 3,
+  "angle": 90,
+  "speed": 50,
+  "easeType": 0
+ }
+]
