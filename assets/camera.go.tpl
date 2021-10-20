@@ -39,19 +39,30 @@
 
 {{define "pan-tilt"}}
 <div class="pantilt-container">
-{{template "servo-controls" .}}
+    {{template "servo-controls" .}}
 </div>
 {{end}}
 
 {{define "servo-controls"}}
 {{$ctls := .ServoControls 20}}
-{{range $index, $ctl := $ctls}}
-    <div class="w3-ripple servo-control"  style="color:#90EE90;"
-        onclick="applyPanTilt({{$ctl.ID}},{{$ctl.PanStep}},{{$ctl.TiltStep}},{{$ctl.Speed}})"
-        ondblclick="applyPanTilt({{$ctl.ID}},{{$ctl.PanMax}},{{$ctl.TiltMax}},{{$ctl.Speed}})">
-        <i class="bi {{$ctl.Icon}} iservo" style="color:inherit"></i>
-    </div>
-{{end}}
+    {{range $index, $ctl := $ctls}}
+        <div class="w3-ripple servo-control"
+            onmousedown="panTiltDown({{$ctl.ID}},{{$ctl.PanStep}},{{$ctl.TiltStep}},{{$ctl.Speed}})"
+            onmouseup="panTiltUp()"
+            ontouchstart="panTiltDown({{$ctl.ID}},{{$ctl.PanStep}},{{$ctl.TiltStep}},{{$ctl.Speed}})"
+             ontouchend="panTiltUp()">
+            <i class="bi {{$ctl.Icon}} iservo"></i>
+        </div>
+    {{end}}
+    {{$len := len .Servos}}
+    {{if ge $len 1}}
+        {{$svo := index .Servos 0}}
+        <input id="{{.ID}}-{{$svo.Index}}" class="hslide" type="range" min="0" max="180" value="90">
+    {{end}}
+    {{if ge $len 2}}
+        {{$svo := index .Servos 1}}
+        <input id="{{.ID}}-{{$svo.Index}}" class="vslide" type="range" min="0" max="180" value="90" orient="vertical">
+    {{end}}
 {{end}}
 
 

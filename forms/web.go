@@ -34,6 +34,14 @@ func WriteError(w http.ResponseWriter, err error) {
 	http.Error(w, err.Error(), 400)
 }
 
+func WriteResponse(w http.ResponseWriter, b []byte) {
+	_, err := w.Write(b)
+	if err != nil {
+		glog.Errorln(err)
+		http.Error(w, err.Error(), 400)
+	}
+}
+
 func Request(u string) (data []byte, err error) {
 	req, err := http.NewRequest("GET", u, nil)
 	if err != nil {

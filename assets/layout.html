@@ -125,15 +125,25 @@
         });
     }
 
-    var pt_cam,pt_pan,pt_tilt,pt_speed,pt_interval;
+    var panTilt = {};
+
+    function panTiltSpeedUp() {
+      panTilt.pan*=2;
+      panTilt.tilt*=2;
+    }
 
     function panTiltDown(cam,pan,tilt,speed) {
-      pt_cam,pt_pan,pt_tilt,pt_speed=cam,pan,tilt,speed;
-      pt_interval=setInterval(applyPanTilt, 100);
+      panTilt.cam=cam;
+      panTilt.pan=pan;
+      panTilt.tilt=tilt;
+      panTilt.speed=speed;
+      panTilt.count = 0;
+      panTilt.interval=setInterval(panTiltSpeedUp, 250);
     }
 
     function panTiltUp() {
-      clearInterval(pt_interval);
+      clearInterval(panTilt.interval);
+      applyPanTilt(); 
     }
 
     function applyPanTilt() {
@@ -144,9 +154,21 @@
         },
         credentials: "include",
       };
-      let path = "/"+pt_cam+"/pan-tilt/"+pt_pan+"/"+pt_tilt+"/"+pt_speed+"/";
-      console.log(path);
-      fetch(path);
+      let path = "/"+panTilt.cam+"/pan-tilt/"+panTilt.pan+"/"+panTilt.tilt+"/"+panTilt.speed+"/";
+      fetch(path)
+        .then((response) => response.text())
+        .then((text) => {
+          let svos = JSON.parse(text);
+          if (svos) {
+            for (let i = 0; i < svos.length; i++) {
+              svo = svos[i];
+              let elem = document.getElementById(panTilt.cam+"-"+svo.index);
+              if (elem) {
+                elem.value = svo.angle;
+              }
+            }
+          }
+        });
     }
 
     function applyServo() {
@@ -560,22 +582,22 @@
     }
   
     i {
-      font-size: 1.5rem;
+      font-size: 1.75rem;
       color: var(--w3);
     }
 
     .iservo {
-      font-size: 1rem;
+      font-size: 1.25rem;
       font-weight: 900;
       color: #fff;
       text-shadow: 1px 1px 3px #000, -1px -1px 4px #000;
-      padding: .5rem;
+      padding: .25rem;
     }
 
     .pantilt-container {
       display: grid;
-      grid-template-columns: 2rem 2rem 2rem;
-      grid-template-rows: 2rem 2rem 2rem;
+      grid-template-columns: 2rem 2rem 2rem 2rem;
+      grid-template-rows: 2rem 2rem 2rem 2rem;
       position: absolute;
       top: 1.5rem;
       left: 1.5rem;
@@ -586,7 +608,6 @@
     }
 
     .vslide, .hslide {
-      color: black;
     }
 
     .vslide {

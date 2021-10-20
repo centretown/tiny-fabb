@@ -68,10 +68,12 @@ func (svo *Servo) Apply(w http.ResponseWriter) {
 		forms.WriteError(w, err)
 		return
 	}
-	_, err = forms.Request(b.String())
+	var data []byte
+	data, err = forms.Request(b.String())
 	if err != nil {
 		forms.WriteError(w, err)
 	}
+	forms.WriteResponse(w, data)
 }
 
 func (svo *Servo) Home(w http.ResponseWriter, r *http.Request) {

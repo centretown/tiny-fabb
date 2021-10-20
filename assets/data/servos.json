@@ -11,7 +11,7 @@
   "index": 0,
   "command": 3,
   "angle": 90,
-  "speed": 50,
+  "speed": 66,
   "easeType": 0
  },
  {
@@ -26,7 +26,7 @@
   "index": 1,
   "command": 3,
   "angle": 90,
-  "speed": 50,
+  "speed": 66,
   "easeType": 0
  },
  {
@@ -41,7 +41,7 @@
   "index": 2,
   "command": 3,
   "angle": 90,
-  "speed": 50,
+  "speed": 66,
   "easeType": 0
  },
  {
@@ -56,7 +56,7 @@
   "index": 3,
   "command": 3,
   "angle": 90,
-  "speed": 50,
+  "speed": 66,
   "easeType": 0
  },
  {
@@ -71,7 +71,7 @@
   "index": 4,
   "command": 3,
   "angle": 90,
-  "speed": 50,
+  "speed": 66,
   "easeType": 0
  },
  {
@@ -86,7 +86,7 @@
   "index": 5,
   "command": 3,
   "angle": 90,
-  "speed": 50,
+  "speed": 66,
   "easeType": 0
  },
  {
@@ -101,7 +101,7 @@
   "index": 6,
   "command": 3,
   "angle": 90,
-  "speed": 50,
+  "speed": 66,
   "easeType": 0
  },
  {
@@ -116,7 +116,7 @@
   "index": 7,
   "command": 3,
   "angle": 90,
-  "speed": 50,
+  "speed": 66,
   "easeType": 0
  },
  {
@@ -131,7 +131,7 @@
   "index": 8,
   "command": 3,
   "angle": 90,
-  "speed": 50,
+  "speed": 66,
   "easeType": 0
  }
 ]

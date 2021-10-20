@@ -152,7 +152,8 @@ func (cam *Camera) move(w http.ResponseWriter,
 }
 
 func (cam *Camera) PanTilt(w http.ResponseWriter, r *http.Request) {
-	if len(cam.Servos) < 1 {
+	servoCount := len(cam.Servos)
+	if servoCount < 1 {
 		return
 	}
 
@@ -161,18 +162,26 @@ func (cam *Camera) PanTilt(w http.ResponseWriter, r *http.Request) {
 		speed = 50
 	}
 
-	change := forms.GetRequestInt(r, "pan")
-	if change != 0 {
+	w.Write([]byte("["))
+
+	pan := forms.GetRequestInt(r, "pan")
+	tilt := forms.GetRequestInt(r, "tilt")
+
+	if pan != 0 {
 		svo := cam.Servos[0]
-		cam.move(w, svo, int(svo.Angle)+change, speed)
+		cam.move(w, svo, int(svo.Angle)+pan, speed)
 	}
 
-	if len(cam.Servos) < 2 {
+	if tilt == 0 || servoCount < 2 {
+		w.Write([]byte("]"))
 		return
 	}
-	change = forms.GetRequestInt(r, "tilt")
-	if change != 0 {
-		svo := cam.Servos[1]
-		cam.move(w, svo, int(svo.Angle)+change, speed)
+
+	if pan != 0 {
+		w.Write([]byte(","))
 	}
+
+	svo := cam.Servos[1]
+	cam.move(w, svo, int(svo.Angle)+tilt, speed)
+	w.Write([]byte("]"))
 }
