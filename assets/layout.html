@@ -127,18 +127,28 @@
 
     var panTilt = {};
 
-    function panTiltSpeedUp() {
-      panTilt.pan*=2;
-      panTilt.tilt*=2;
+    function panTiltIncrement() {
+      panTilt.count++;
+      let skipSpeed = panTilt.count / 10 + 1;
+      if (panTilt.panElem) {
+        let panValue=skipSpeed*panTilt.pan+panTilt.panElem.valueAsNumber;
+        panTilt.panElem.value = panValue;
+      }
+      if (panTilt.tiltElem) {
+        let tiltValue=skipSpeed*panTilt.tilt+panTilt.tiltElem.valueAsNumber;
+        panTilt.tiltElem.value = tiltValue;
+      }
     }
 
-    function panTiltDown(cam,pan,tilt,speed) {
+    function panTiltDown(cam,pan,tilt,speed,panid,tiltid) {
       panTilt.cam=cam;
       panTilt.pan=pan;
       panTilt.tilt=tilt;
       panTilt.speed=speed;
-      panTilt.count = 0;
-      panTilt.interval=setInterval(panTiltSpeedUp, 250);
+      panTilt.count=0;
+      panTilt.panElem=document.getElementById(panid);
+      panTilt.tiltElem=document.getElementById(tiltid);
+      panTilt.interval=setInterval(panTiltIncrement, 25);
     }
 
     function panTiltUp() {
@@ -154,21 +164,26 @@
         },
         credentials: "include",
       };
-      let path = "/"+panTilt.cam+"/pan-tilt/"+panTilt.pan+"/"+panTilt.tilt+"/"+panTilt.speed+"/";
+      let panValue = (panTilt.panElem)?panTilt.panElem.value:0;
+      let tiltValue = (panTilt.tiltElem)?panTilt.tiltElem.value:0;
+      let path = "/"+panTilt.cam+"/pan-tilt/"+panValue+"/"+tiltValue+"/"+panTilt.speed+"/";
       fetch(path)
-        .then((response) => response.text())
-        .then((text) => {
-          let svos = JSON.parse(text);
-          if (svos) {
-            for (let i = 0; i < svos.length; i++) {
-              svo = svos[i];
-              let elem = document.getElementById(panTilt.cam+"-"+svo.index);
-              if (elem) {
-                elem.value = svo.angle;
-              }
+      .then((response) => response.text())
+      .then((text) => {
+        let svos = JSON.parse(text);
+        if (svos) {
+          for (let i = 0; i < svos.length; i++) {
+            svo = svos[i];
+            let elem = document.getElementById(panTilt.cam+"-"+svo.index);
+            if (elem) {
+              elem.value = svo.angle;
             }
           }
-        });
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
     }
 
     function applyServo() {
@@ -618,7 +633,6 @@
 
     .hslide {
       grid-column: 1 / span 3;
-      grid-row: 4 / span 1;
     }
 
     .full{

@@ -3,6 +3,7 @@
 package camera
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/centretown/tiny-fabb/forms"
@@ -10,12 +11,11 @@ import (
 )
 
 type ServoControl struct {
-	ID       string
 	Icon     string
 	Speed    uint
-	PanMax   int
+	PanID    string
 	PanStep  int
-	TiltMax  int
+	TiltID   string
 	TiltStep int
 }
 
@@ -54,10 +54,12 @@ func (cam *Camera) ServoControls(nSteps int) (ctls []*ServoControl) {
 		start, end      uint = 0, 0
 		pan, tilt       *servo.Servo
 		panPos, tiltPos *servo.Position
+		panID, tiltID   string
 	)
 
 	pan = cam.Servos[0]
 	panPos = pan.Settings.Calc(nSteps)
+	panID = fmt.Sprintf("%s-%d", cam.ID, pan.Index)
 
 	if count < 2 {
 		start = servoLeft
@@ -65,70 +67,54 @@ func (cam *Camera) ServoControls(nSteps int) (ctls []*ServoControl) {
 	} else {
 		tilt = cam.Servos[1]
 		tiltPos = tilt.Settings.Calc(nSteps)
+		tiltID = fmt.Sprintf("%s-%d", cam.ID, tilt.Index)
 		end = servoDownRight
 	}
 
 	for i := start; i <= end; i++ {
 
 		ctl := &ServoControl{
-			ID:   cam.ID,
-			Icon: servoIcons[i],
+			Icon:   servoIcons[i],
+			PanID:  panID,
+			TiltID: tiltID,
 		}
 
 		switch i {
 		case servoUpLeft:
 			ctl.Speed = (tilt.Speed + pan.Speed) / 2
-			ctl.PanMax = -panPos.Max
 			ctl.PanStep = -panPos.Step
-			ctl.TiltMax = tiltPos.Max
 			ctl.TiltStep = tiltPos.Step
 		case servoUp:
 			ctl.Speed = tilt.Speed
-			ctl.PanMax = 0
 			ctl.PanStep = 0
-			ctl.TiltMax = tiltPos.Max
 			ctl.TiltStep = tiltPos.Step
 		case servoUpRight:
 			ctl.Speed = (tilt.Speed + pan.Speed) / 2
-			ctl.PanMax = panPos.Max
 			ctl.PanStep = panPos.Step
-			ctl.TiltMax = tiltPos.Max
 			ctl.TiltStep = tiltPos.Step
 		case servoLeft:
 			ctl.Speed = pan.Speed
-			ctl.PanMax = -panPos.Max
 			ctl.PanStep = -panPos.Step
-			ctl.TiltMax = 0
 			ctl.TiltStep = 0
 		case servoMiddle:
 			ctl.Speed = 0
-			ctl.PanMax = 0
 			ctl.PanStep = 0
-			ctl.TiltMax = 0
 			ctl.TiltStep = 0
 		case servoRight:
 			ctl.Speed = pan.Speed
-			ctl.PanMax = panPos.Max
 			ctl.PanStep = panPos.Step
-			ctl.TiltMax = 0
 			ctl.TiltStep = 0
 		case servoDownLeft:
 			ctl.Speed = (tilt.Speed + pan.Speed) / 2
-			ctl.PanMax = -panPos.Max
 			ctl.PanStep = -panPos.Step
-			ctl.TiltMax = -tiltPos.Max
 			ctl.TiltStep = -tiltPos.Step
 		case servoDown:
 			ctl.Speed = tilt.Speed
-			ctl.PanMax = 0
 			ctl.PanStep = 0
-			ctl.TiltMax = -tiltPos.Max
 			ctl.TiltStep = -tiltPos.Step
 		case servoDownRight:
 			ctl.Speed = (tilt.Speed + pan.Speed) / 2
-			ctl.PanMax = panPos.Max
 			ctl.PanStep = panPos.Step
-			ctl.TiltMax = -tiltPos.Max
 			ctl.TiltStep = -tiltPos.Step
 		}
 		ctls = append(ctls, ctl)
@@ -164,24 +150,28 @@ func (cam *Camera) PanTilt(w http.ResponseWriter, r *http.Request) {
 
 	w.Write([]byte("["))
 
-	pan := forms.GetRequestInt(r, "pan")
-	tilt := forms.GetRequestInt(r, "tilt")
+	pan := forms.GetRequestUint(r, "pan")
+	tilt := forms.GetRequestUint(r, "tilt")
 
-	if pan != 0 {
-		svo := cam.Servos[0]
-		cam.move(w, svo, int(svo.Angle)+pan, speed)
+	svo := cam.Servos[0]
+	movePan := svo.Angle != pan
+	if movePan {
+		cam.move(w, svo, int(pan), speed)
 	}
 
-	if tilt == 0 || servoCount < 2 {
+	if servoCount > 1 {
+		svo = cam.Servos[1]
+	}
+	moveTilt := servoCount > 1 && svo.Angle != tilt
+	if !moveTilt {
 		w.Write([]byte("]"))
 		return
 	}
 
-	if pan != 0 {
+	if movePan {
 		w.Write([]byte(","))
 	}
 
-	svo := cam.Servos[1]
-	cam.move(w, svo, int(svo.Angle)+tilt, speed)
+	cam.move(w, svo, int(tilt), speed)
 	w.Write([]byte("]"))
 }

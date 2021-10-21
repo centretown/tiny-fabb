@@ -44,12 +44,13 @@
 {{end}}
 
 {{define "servo-controls"}}
-{{$ctls := .ServoControls 20}}
+{{$cam:=.}}
+{{$ctls := .ServoControls 180}}
     {{range $index, $ctl := $ctls}}
         <div class="w3-ripple servo-control"
-            onmousedown="panTiltDown({{$ctl.ID}},{{$ctl.PanStep}},{{$ctl.TiltStep}},{{$ctl.Speed}})"
+            onmousedown="panTiltDown({{$cam.ID}},{{$ctl.PanStep}},{{$ctl.TiltStep}},{{$ctl.Speed}},{{$ctl.PanID}},{{$ctl.TiltID}})"
             onmouseup="panTiltUp()"
-            ontouchstart="panTiltDown({{$ctl.ID}},{{$ctl.PanStep}},{{$ctl.TiltStep}},{{$ctl.Speed}})"
+            ontouchstart="panTiltDown({{$cam.ID}},{{$ctl.PanStep}},{{$ctl.TiltStep}},{{$ctl.Speed}},{{$ctl.PanID}},{{$ctl.TiltID}})"
              ontouchend="panTiltUp()">
             <i class="bi {{$ctl.Icon}} iservo"></i>
         </div>
@@ -57,11 +58,13 @@
     {{$len := len .Servos}}
     {{if ge $len 1}}
         {{$svo := index .Servos 0}}
-        <input id="{{.ID}}-{{$svo.Index}}" class="hslide" type="range" min="0" max="180" value="90">
+        <input id="{{.ID}}-{{$svo.Index}}" class="hslide" 
+            type="range" min="0" max="180" value="90">
     {{end}}
     {{if ge $len 2}}
         {{$svo := index .Servos 1}}
-        <input id="{{.ID}}-{{$svo.Index}}" class="vslide" type="range" min="0" max="180" value="90" orient="vertical">
+        <input id="{{.ID}}-{{$svo.Index}}" class="vslide" 
+            type="range" min="0" max="180" value="90" orient="vertical">
     {{end}}
 {{end}}
 
