@@ -110,8 +110,15 @@
     }
 
     function openServoSettings(camera) {
-      getSection("/"+camera+"/servo-settings/", "dialog");
-      dialog.style.display = "block";
+      let el = document.getElementById(camera + "-pantilt");
+      if (el) {
+        let display = el.style.display;
+        if (display == "none") {
+          el.style.display = "grid";
+        } else {
+          el.style.display = "none";
+        }
+      }
     }
 
     function getSection(section, id) {
@@ -129,7 +136,7 @@
 
     function panTiltIncrement() {
       panTilt.count++;
-      let skipSpeed = panTilt.count / 10 + 1;
+      let skipSpeed = panTilt.count / 15 + 1;
       if (panTilt.panElem) {
         let panValue=skipSpeed*panTilt.pan+panTilt.panElem.valueAsNumber;
         panTilt.panElem.value = panValue;
@@ -148,11 +155,18 @@
       panTilt.count=0;
       panTilt.panElem=document.getElementById(panid);
       panTilt.tiltElem=document.getElementById(tiltid);
-      panTilt.interval=setInterval(panTiltIncrement, 25);
+      panTilt.interval=setInterval(panTiltIncrement, 20);
     }
 
-    function panTiltUp() {
-      clearInterval(panTilt.interval);
+    function panTiltClear() {
+      if (panTilt.interval) {
+        clearInterval(panTilt.interval);
+        panTilt.interval=null;
+      }
+    }
+
+    function panTiltUp() { 
+      panTiltClear();
       applyPanTilt(); 
     }
 
@@ -602,24 +616,21 @@
     }
 
     .iservo {
-      font-size: 1.25rem;
-      font-weight: 900;
       color: #fff;
       text-shadow: 1px 1px 3px #000, -1px -1px 4px #000;
-      padding: .25rem;
+      align-self: center;
     }
 
     .pantilt-container {
       display: grid;
-      grid-template-columns: 2rem 2rem 2rem 2rem;
-      grid-template-rows: 2rem 2rem 2rem 2rem;
+      grid-template-columns: 3rem 3rem 3rem 3rem;
+      grid-template-rows: 3rem 3rem 3rem 3rem;
       position: absolute;
       top: 1.5rem;
       left: 1.5rem;
     }
 
     .servo-control {
-      width: 2rem;
     }
 
     .vslide, .hslide {

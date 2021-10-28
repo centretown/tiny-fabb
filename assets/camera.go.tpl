@@ -1,7 +1,7 @@
 {{define "camera-bar"}}
-<div class="pic-group w3-theme-d1">
+<div class="pic-group">
     {{range $index, $camera := .}}
-        <div class="pic-item w3-animate-opacity">
+        <div class="pic-item">
             {{template "camera-servo" $camera}}
             <div class="w3-bar">
                 <label class="w3-bar-item">
@@ -10,7 +10,7 @@
                 <span class="w3-button w3-bar-item"
                     title="Servos"
                     onclick="openServoSettings({{$index}})">
-                    <i class="bi bi-gear-wide-connected"></i>
+                    <i class="bi bi-arrows-move"></i>
                 </span>
                 <span class="w3-button w3-bar-item" 
                     title="Configure"
@@ -38,7 +38,7 @@
 {{end}}
 
 {{define "pan-tilt"}}
-<div class="pantilt-container">
+<div id="{{.ID}}-pantilt" class="pantilt-container" style="display:none;">
     {{template "servo-controls" .}}
 </div>
 {{end}}
@@ -50,8 +50,9 @@
         <div class="w3-ripple servo-control"
             onmousedown="panTiltDown({{$cam.ID}},{{$ctl.PanStep}},{{$ctl.TiltStep}},{{$ctl.Speed}},{{$ctl.PanID}},{{$ctl.TiltID}})"
             onmouseup="panTiltUp()"
+            onmouseleave="panTiltClear()"
             ontouchstart="panTiltDown({{$cam.ID}},{{$ctl.PanStep}},{{$ctl.TiltStep}},{{$ctl.Speed}},{{$ctl.PanID}},{{$ctl.TiltID}})"
-             ontouchend="panTiltUp()">
+            ontouchend="panTiltUp()">
             <i class="bi {{$ctl.Icon}} iservo"></i>
         </div>
     {{end}}

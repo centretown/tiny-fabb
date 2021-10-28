@@ -1,12 +1,7 @@
 package camera
 
 import (
-	"context"
-	"encoding/json"
-	"fmt"
-	"net/http"
-	"os"
-	"os/signal"
+	"html/template"
 	"testing"
 	"time"
 
@@ -51,34 +46,26 @@ var (
 </html>`
 )
 
+func getLayout(assetsPath string) (layout *template.Template) {
+	layout = template.Must(
+		layout.ParseFiles(
+			assetsPath+"/layout.html",
+			assetsPath+"/layout.go.tpl",
+			assetsPath+"/entry.go.tpl",
+			assetsPath+"/camera.go.tpl",
+			assetsPath+"/servo.go.tpl"))
+	return
+}
+
 func TestCamera(t *testing.T) {
-
 	router := mux.NewRouter()
-	cams := make(Cameras)
-	// cams.Start(router, interval, "http://192.168.0.44",
-	// 	"http://192.168.0.175", "http://192.168.0.99")
-	cams.Start(router, interval, "http://192.168.0.44",
-		"http://192.168.0.175")
-	// cams.Start(router, interval, "http://192.168.0.44")
+	dataSource := "../assets/data/"
+	layout := getLayout("../assets")
+	servoController := "http://192.168.0.99:80/action"
 
-	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "text/html")
-		// w.Write([]byte(`<img src="/mjpeg" />`))
-		w.Write([]byte(webpage))
-	})
-
-	server := &http.Server{Addr: addr, Handler: router}
-	sc := make(chan os.Signal, 1)
-	signal.Notify(sc, os.Interrupt)
-	go func() {
-		<-sc
-		server.Shutdown(context.Background())
-	}()
-	server.ListenAndServe()
-
-	t.Log("stopping...")
-	cams.Stop()
-	t.Log("stopped")
+	camConn := NewConnector(dataSource, layout, 200)
+	camConn.Start(router, servoController,
+		"/dev/video0", "http://192.168.0.99")
 }
 
 const json_test = `{ "framesize":7,
@@ -109,15 +96,15 @@ const json_test = `{ "framesize":7,
 
 const json_test_flat = `{"framesize":7,"quality":10,"brightness":0,"contrast":0,"saturation":0,"sharpness":0,"special_effect":0,"wb_mode":0,"awb":1,"awb_gain":1,"aec":1,"aec2":0,"ae_level":0,"aec_value":168,"agc":1,"agc_gain":0,"gainceiling":0,"bpc":0,"wpc":1,"raw_gma":1,"lenc":1,"vflip":0,"hmirror":0,"dcw":1,"colorbar":0}`
 
-func testJson(t *testing.T) {
-	var cam Camera
-	err := json.Unmarshal([]byte(json_test), &cam.Settings)
-	if err != nil {
-		fmt.Println(err)
-	}
-	err = json.Unmarshal([]byte(json_test_flat), &cam.Settings)
-	if err != nil {
-		fmt.Println(err)
-	}
-	fmt.Println(cam.Settings)
-}
+// func testJson(t *testing.T) {
+// 	var cam Camera
+// 	err := json.Unmarshal([]byte(json_test), &cam.Settings)
+// 	if err != nil {
+// 		fmt.Println(err)
+// 	}
+// 	err = json.Unmarshal([]byte(json_test_flat), &cam.Settings)
+// 	if err != nil {
+// 		fmt.Println(err)
+// 	}
+// 	fmt.Println(cam.Settings)
+// }

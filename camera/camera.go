@@ -3,13 +3,9 @@
 package camera
 
 import (
-	"bytes"
 	"fmt"
 	"html/template"
-	"image"
-	"image/jpeg"
 	"net/http"
-	"strings"
 	"sync"
 	"time"
 
@@ -18,33 +14,29 @@ import (
 	"github.com/golang/glog"
 	"github.com/gorilla/mux"
 	"github.com/mattn/go-mjpeg"
-	"gocv.io/x/gocv"
 )
 
 type Camera struct {
-	ID           string         `json:"id"`
-	Url          string         `json:"url"`
-	Title        string         `json:"title"`
-	Active       bool           `json:"active"`
-	Settings     CameraStatus   `json:"settings"`
-	ControlUrl   string         `json:"controlUrl"`
-	StreamUrl    string         `json:"streamUrl"`
-	StatusUrl    string         `json:"statusUrl"`
-	CaptureUrl   string         `json:"captureUrl"`
-	Interval     time.Duration  `json:"interval"`
-	ServoIndeces []uint         `json:"servoIndeces"`
-	Forms        forms.Forms    `json:"-"`
-	Servos       []*servo.Servo `json:"-"`
-	layout       *template.Template
-	wg           *sync.WaitGroup
-	stream       *mjpeg.Stream
+	ID           string        `json:"id"`
+	Url          string        `json:"url"`
+	Title        string        `json:"title"`
+	Active       bool          `json:"active"`
+	Interval     time.Duration `json:"interval"`
+	ServoIndeces []uint        `json:"servoIndeces"`
+	Streamer     Streamer      `json:"streamer"`
+
+	Forms  forms.Forms    `json:"-"`
+	Servos []*servo.Servo `json:"-"`
+
+	layout *template.Template
+	wg     *sync.WaitGroup
+	stream *mjpeg.Stream
 }
 
 type Cameras map[string]*Camera
 
 func (cam *Camera) Setup(router *mux.Router, servos *servo.Connector) {
-	cam.bindSettings()
-	// go cam.proxy(cam.ShowWindow())
+	cam.Forms = cam.Streamer.BindProperties()
 	prefix := "/" + cam.ID + "/"
 	router.HandleFunc(prefix+"apply/{id}/{val}/",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -90,6 +82,7 @@ func (cam *Camera) Setup(router *mux.Router, servos *servo.Connector) {
 			}
 			tmpl.Execute(w, cam)
 		})
+
 	cam.Start()
 	router.HandleFunc(prefix+"jpeg",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -103,7 +96,7 @@ func (cam *Camera) Start() {
 	cam.wg = &sync.WaitGroup{}
 	cam.wg.Add(1)
 	cam.stream = mjpeg.NewStreamWithInterval(cam.Interval)
-	go cam.proxy(nil)
+	go cam.poll()
 }
 
 func (cam *Camera) Stop() {
@@ -111,71 +104,74 @@ func (cam *Camera) Stop() {
 	cam.wg.Wait()
 }
 
-func (cam *Camera) ShowWindow() func(img image.Image) {
-	resized := false
-	resize := func(window *gocv.Window, img image.Image) {
-		b := img.Bounds()
-		window.ResizeWindow(b.Max.X-b.Min.X, b.Max.Y-b.Min.Y)
-		resized = true
-	}
-	window := gocv.NewWindow(cam.StreamUrl)
+func (cam *Camera) poll() {
+	defer cam.wg.Done()
+	var (
+		err               error
+		repeat, threshold uint
+	)
+	threshold = 10
 
-	return func(img image.Image) {
-		if !resized {
-			resize(window, img)
-		}
-		mat, err := gocv.ImageToMatRGB(img)
+	var buf []byte
+	for !cam.stream.Closed() {
+		buf, err = cam.Streamer.Read()
 		if err != nil {
-			glog.Infoln(err)
-			return
+			repeat++
+			glog.Infoln(cam.ID, err, repeat)
+			if repeat > threshold {
+				break
+			}
+			continue
 		}
-		if mat.Empty() {
-			glog.Infoln("matrix empty")
-			return
+		err = cam.stream.Update(buf)
+		if err != nil {
+			glog.Infoln(cam.ID, err)
+			continue
 		}
-		window.IMShow(mat)
-		window.WaitKey(1)
 	}
 }
 
-func (cam *Camera) proxy(viewer func(img image.Image)) {
-	defer cam.wg.Done()
-
-	dec, err := mjpeg.NewDecoderFromURL(cam.StreamUrl)
+func (cam *Camera) Apply(w http.ResponseWriter, r *http.Request) (err error) {
+	id := forms.GetRequestString(r, "id")
+	val := forms.GetRequestString(r, "val")
+	err = cam.Set(id, val)
 	if err != nil {
-		fmt.Println(err)
+		forms.WriteError(w, err)
+		return
+	}
+	return
+}
+
+func (cam *Camera) Get(id string) (val string, err error) {
+	webid := forms.ToWebId(id)
+	frm, ok := cam.Forms[webid]
+	if !ok {
+		err = fmt.Errorf("id '%s' not found", id)
+		return
+	}
+	val = fmt.Sprint(frm.Value)
+	return
+}
+
+func (cam *Camera) Set(id string, val string) (err error) {
+	webid := forms.ToWebId(id)
+	frm, ok := cam.Forms[webid]
+	if !ok {
+		err = fmt.Errorf("id '%s' not found", id)
 		return
 	}
 
-	var buf bytes.Buffer
-	for !cam.stream.Closed() {
-
-		img, err := dec.Decode()
-		if err != nil {
-			msg := err.Error()
-			if strings.Contains(msg, "connection reset by peer") ||
-				strings.Contains(msg, "connection timed out") {
-				glog.Error(err)
-				return
-			}
-			glog.Info(cam.ID, err)
-			continue
-		}
-
-		if viewer != nil {
-			viewer(img)
-		}
-
-		buf.Reset()
-		err = jpeg.Encode(&buf, img, nil)
-		if err != nil {
-			glog.Infoln(cam.ID, err)
-			continue
-		}
-		err = cam.stream.Update(buf.Bytes())
-		if err != nil {
-			glog.Infoln(cam.ID, err)
-			continue
-		}
+	ent := frm.Entries[0]
+	if !ent.InBounds(val) {
+		err = fmt.Errorf("%s: %s out of range", id, val)
+		return
 	}
+
+	err = ent.ScanInput(val, frm.Value)
+	if err != nil {
+		return
+	}
+
+	err = cam.Streamer.SetProperty(ent, val)
+	return
 }

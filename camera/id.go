@@ -31,3 +31,21 @@ const (
 	idDcw
 	idColorbar
 )
+
+const (
+	idFrameWidth forms.WebId = iota + 5100
+	idFrameHeight
+	idFrameRate
+	idFormat
+	idMode
+	// idBrightness
+	// idContrast
+	// idSaturation
+	idHue
+	idGain
+	idMonochrome
+	// idSharpness
+	idAutoExposure
+	idGamma
+	idTemperature
+)

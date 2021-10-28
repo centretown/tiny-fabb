@@ -248,3 +248,126 @@ var settingsEntries = map[forms.WebId]forms.Entries{
 		},
 	},
 }
+
+var webCamSettings = map[forms.WebId]forms.Entries{
+	idFrameWidth: {
+		{
+			ID:    idFrameWidth.String(),
+			Code:  "frameWidth",
+			Label: "Frame Width",
+			Type:  "number",
+		},
+	},
+	idFrameHeight: {
+		{
+			ID:    idFrameHeight.String(),
+			Code:  "frameHeight",
+			Label: "Frame Height",
+			Type:  "number",
+		},
+	},
+	idFrameRate: {
+		{
+			ID:    idFrameRate.String(),
+			Code:  "frameRate",
+			Label: "Frame Rate",
+			Type:  "number",
+		},
+	},
+	idFormat: {
+		{
+			ID:    idFormat.String(),
+			Code:  "format",
+			Label: "Format",
+			Type:  "number",
+		},
+	},
+	idMode: {
+		{
+			ID:    idMode.String(),
+			Code:  "mode",
+			Label: "Mode",
+			Type:  "number",
+		},
+	},
+	idBrightness: {
+		{
+			ID:    idBrightness.String(),
+			Code:  "brightness",
+			Label: "Brightness",
+			Type:  "number",
+		},
+	},
+	idContrast: {
+		{
+			ID:    idContrast.String(),
+			Code:  "contrast",
+			Label: "Contrast",
+			Type:  "number",
+		},
+	},
+	idSaturation: {
+		{
+			ID:    idSaturation.String(),
+			Code:  "saturation",
+			Label: "Saturation",
+			Type:  "number",
+		},
+	},
+	idHue: {
+		{
+			ID:    idHue.String(),
+			Code:  "hue",
+			Label: "Hue",
+			Type:  "number",
+		},
+	},
+	idGain: {
+		{
+			ID:    idGain.String(),
+			Code:  "gain",
+			Label: "Gain",
+			Type:  "number",
+		},
+	},
+	idMonochrome: {
+		{
+			ID:    idMonochrome.String(),
+			Code:  "monochrome",
+			Label: "Monochrome",
+			Type:  "number",
+		},
+	},
+	idSharpness: {
+		{
+			ID:    idSharpness.String(),
+			Code:  "sharpness",
+			Label: "Sharpness",
+			Type:  "number",
+		},
+	},
+	idAutoExposure: {
+		{
+			ID:    idAutoExposure.String(),
+			Code:  "autoExposure",
+			Label: "Auto Exposure",
+			Type:  "number",
+		},
+	},
+	idGamma: {
+		{
+			ID:    idGamma.String(),
+			Code:  "gamma",
+			Label: "Gamma",
+			Type:  "number",
+		},
+	},
+	idTemperature: {
+		{
+			ID:    idTemperature.String(),
+			Code:  "temperature",
+			Label: "Temperature",
+			Type:  "number",
+		},
+	},
+}

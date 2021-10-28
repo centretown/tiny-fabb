@@ -21,9 +21,6 @@ type Connector struct {
 	interval   time.Duration
 }
 
-// LoadClassifier()
-// CloseClassifier()
-
 func NewConnector(dataSource string, layout *template.Template,
 	interval time.Duration) (conn *Connector) {
 	conn = &Connector{
@@ -53,36 +50,39 @@ func (conn *Connector) Start(router *mux.Router,
 	})
 
 	var (
-		cam *Camera
-		ok  bool
+		cam     *Camera
+		ok      bool
+		profile *Profile
+		err     error
 	)
 
 	for _, url := range urls {
-		i := strings.LastIndex(url, ".")
-		if i == -1 {
-			continue
-		}
-		suffix := url[i+1:]
-		id := fmt.Sprintf("camera%s", suffix)
-		cam, ok = conn.Cameras[id]
+		profile = conn.profile(url)
+		cam, ok = conn.Cameras[profile.ID]
 		if !ok {
 			cam = &Camera{
-				ID:           id,
+				ID:           profile.ID,
 				Url:          url,
-				Title:        fmt.Sprintf("Camera: %s", suffix),
-				ControlUrl:   url + ":80/action",
-				CaptureUrl:   url + ":80/capture",
-				StatusUrl:    url + ":80/status",
-				StreamUrl:    url + ":81/stream",
-				Interval:     conn.interval,
+				Title:        profile.Title,
 				ServoIndeces: []uint{0, 1},
 			}
 			conn.Cameras[cam.ID] = cam
 		}
+
 		cam.layout = layout
-		err := cam.GetStatus()
+		cam.Interval = conn.interval
+		cam.Streamer = profile.streamer
+		cam.Forms = cam.Streamer.BindProperties()
+
+		err = cam.Streamer.Open()
 		if err != nil {
-			glog.Warningf("failed to connect camera %s:%s -> %v\n", cam.ID, url, err)
+			glog.Warningf("failed to open camera %s:%s -> %v\n", cam.ID, url, err)
+			continue
+		}
+
+		err = cam.Streamer.UpdateProperties()
+		if err != nil {
+			glog.Warningf("failed to update camera %s:%s -> %v\n", cam.ID, url, err)
 			continue
 		}
 		cam.Active = true
@@ -115,4 +115,31 @@ func (conn *Connector) Stop() {
 	for _, cam := range conn.Cameras {
 		cam.Stop()
 	}
+}
+
+func (conn *Connector) profile(url string) (profile *Profile) {
+	var i int
+	profile = &Profile{
+		Url: url,
+	}
+	if strings.HasPrefix(url, "http") {
+		i = strings.LastIndex(url, ".")
+		suffix := url[i+1:]
+		profile.ID = fmt.Sprintf("camera%s", suffix)
+		profile.Title = fmt.Sprintf("Camera: %s", suffix)
+		st := &EspCam{}
+		st.ControlUrl = url + ":80/action"
+		st.CaptureUrl = url + ":80/capture"
+		st.StatusUrl = url + ":80/status"
+		st.StreamUrl = url + ":81/stream"
+		profile.streamer = st
+	} else {
+		i := strings.LastIndex(url, "/")
+		profile.ID = url[i+1:]
+		profile.Title = strings.Title(profile.ID)
+		st := &LocalCam{}
+		st.StreamUrl = url
+		profile.streamer = st
+	}
+	return
 }

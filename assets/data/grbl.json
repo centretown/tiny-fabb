@@ -73,7 +73,7 @@
       "version": "1.3a.20210424",
       "options": "PHBSW",
       "axisCount": 6,
-      "ip": "192.168.0.72",
+      "ip": "192.168.0.102",
       "status": "Connected"
     },
     "active": false,
@@ -194,7 +194,8 @@
     },
     "camera-ids": [
       "camera175",
-      "camera99"
+      "camera99",
+      "video0"
     ]
   }
 }

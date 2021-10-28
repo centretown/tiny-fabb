@@ -36,7 +36,7 @@ var servoIcons = []string{
 	"bi-arrow-up",
 	"bi-arrow-up-right",
 	"bi-arrow-left",
-	"bi-arrow-repeat",
+	"bi-arrows-move",
 	"bi-arrow-right",
 	"bi-arrow-down-left",
 	"bi-arrow-down",
