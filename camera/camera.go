@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
-	"sync"
 	"time"
 
 	"github.com/centretown/tiny-fabb/forms"
@@ -29,7 +28,6 @@ type Camera struct {
 	Servos []*servo.Servo `json:"-"`
 
 	layout *template.Template
-	wg     *sync.WaitGroup
 	stream *mjpeg.Stream
 }
 
@@ -93,41 +91,42 @@ func (cam *Camera) Setup(router *mux.Router, servos *servo.Connector) {
 }
 
 func (cam *Camera) Start() {
-	cam.wg = &sync.WaitGroup{}
-	cam.wg.Add(1)
 	cam.stream = mjpeg.NewStreamWithInterval(cam.Interval)
 	go cam.poll()
 }
 
 func (cam *Camera) Stop() {
-	cam.stream.Close()
-	cam.wg.Wait()
+	glog.Infoln("closing... ", cam.ID)
+	if !cam.stream.Closed() {
+		cam.stream.Close()
+	}
+	if cam.Active {
+		cam.Streamer.Close()
+		cam.Active = false
+	}
 }
 
 func (cam *Camera) poll() {
-	defer cam.wg.Done()
 	var (
-		err               error
-		repeat, threshold uint
+		err                     error
+		errRepeat, errThreshold uint = 0, 10
+		buf                     []byte
 	)
-	threshold = 10
 
-	var buf []byte
 	for !cam.stream.Closed() {
 		buf, err = cam.Streamer.Read()
+		if err == nil {
+			err = cam.stream.Update(buf)
+		}
+
 		if err != nil {
-			repeat++
-			glog.Infoln(cam.ID, err, repeat)
-			if repeat > threshold {
-				break
+			errRepeat++
+			glog.Infoln(cam.ID, err, errRepeat)
+			if errRepeat > errThreshold {
+				cam.Stop()
 			}
-			continue
 		}
-		err = cam.stream.Update(buf)
-		if err != nil {
-			glog.Infoln(cam.ID, err)
-			continue
-		}
+		time.Sleep(time.Millisecond)
 	}
 }
 
