@@ -85,7 +85,6 @@ func (conn *Connector) Start(router *mux.Router,
 			glog.Warningf("failed to update camera %s:%s -> %v\n", cam.ID, url, err)
 			continue
 		}
-		cam.Active = true
 		cam.Setup(router, servos)
 	}
 	conn.Save(conn.dataSource)

@@ -93,13 +93,16 @@ func (cam *Camera) Setup(router *mux.Router, servos *servo.Connector) {
 
 func (cam *Camera) Start() {
 	cam.stream = mjpeg.NewStreamWithInterval(cam.Interval)
+	cam.Active = true
 	go cam.poll()
 }
 
 func (cam *Camera) Stop() {
 	glog.Infoln("closing... ", cam.ID)
-	if !cam.stream.Closed() {
-		cam.stream.Close()
+	if cam.stream != nil {
+		if !cam.stream.Closed() {
+			cam.stream.Close()
+		}
 	}
 	if cam.Active {
 		cam.Streamer.Close()
