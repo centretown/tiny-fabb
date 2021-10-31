@@ -3,6 +3,7 @@
 package camera
 
 import (
+	"bytes"
 	"fmt"
 	"html/template"
 	"net/http"
@@ -110,13 +111,14 @@ func (cam *Camera) poll() {
 	var (
 		err                     error
 		errRepeat, errThreshold uint = 0, 10
-		buf                     []byte
+		buf                     bytes.Buffer
 	)
 
 	for !cam.stream.Closed() {
-		buf, err = cam.Streamer.Read()
+		buf.Reset()
+		err = cam.Streamer.Read(&buf)
 		if err == nil {
-			err = cam.stream.Update(buf)
+			err = cam.stream.Update(buf.Bytes())
 		}
 
 		if err != nil {

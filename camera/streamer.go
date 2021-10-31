@@ -1,6 +1,10 @@
 package camera
 
-import "github.com/centretown/tiny-fabb/forms"
+import (
+	"bytes"
+
+	"github.com/centretown/tiny-fabb/forms"
+)
 
 type Streamer interface {
 	// Get(id string) (string, error)
@@ -10,6 +14,6 @@ type Streamer interface {
 	SetProperty(ent *forms.Entry, val string) error
 
 	Open() error
-	Read() ([]byte, error)
+	Read(*bytes.Buffer) error
 	Close() error
 }

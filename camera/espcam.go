@@ -1,8 +1,11 @@
 package camera
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
+	"image"
+	"image/jpeg"
 
 	"github.com/centretown/tiny-fabb/forms"
 	"github.com/mattn/go-mjpeg"
@@ -51,8 +54,12 @@ func (ncam *EspCam) Open() (err error) {
 	return
 }
 
-func (ncam *EspCam) Read() (buf []byte, err error) {
-	buf, err = ncam.dec.DecodeRaw()
+func (ncam *EspCam) Read(buf *bytes.Buffer) (err error) {
+	var img image.Image
+	img, err = ncam.dec.Decode()
+	if err == nil {
+		err = jpeg.Encode(buf, img, nil)
+	}
 	return
 }
 

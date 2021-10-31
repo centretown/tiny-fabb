@@ -1,7 +1,10 @@
 package camera
 
 import (
+	"bytes"
+
 	"github.com/centretown/tiny-fabb/forms"
+	"github.com/golang/glog"
 	"github.com/mattn/go-mjpeg"
 	"gocv.io/x/gocv"
 )
@@ -35,13 +38,16 @@ type LocalCam struct {
 
 func (lcam *LocalCam) Open() (err error) {
 	lcam.vc, err = gocv.OpenVideoCapture(lcam.StreamUrl)
+	if err != nil {
+		glog.Infoln(err)
+	}
 	lcam.mat = gocv.NewMat()
 	lcam.vc.Set(gocv.VideoCaptureFrameWidth, 1920)
 	lcam.vc.Set(gocv.VideoCaptureFrameHeight, 1080)
 	return
 }
 
-func (lcam *LocalCam) Read() (buf []byte, err error) {
+func (lcam *LocalCam) Read(buf *bytes.Buffer) (err error) {
 	if ok := lcam.vc.Read(&lcam.mat); !ok {
 		return
 	}
@@ -49,7 +55,8 @@ func (lcam *LocalCam) Read() (buf []byte, err error) {
 	if err != nil {
 		return
 	}
-	buf = nbuf.GetBytes()
+	defer nbuf.Close()
+	_, err = buf.Write(nbuf.GetBytes())
 	return
 }
 
