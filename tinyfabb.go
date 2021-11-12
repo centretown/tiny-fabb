@@ -15,6 +15,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
+// comment for its own sake
 func main() {
 	flag.Parse()
 
